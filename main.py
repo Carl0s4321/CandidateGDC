@@ -1,6 +1,21 @@
 answerYes = ["Yes", "Y", "yes", "y"]
 answerNo = ["No", "N", "no", "n"]
 
+class Country:
+    def __init__(self, population, education, reputation, infrastructure, economy, environment, publicWelfare, lawEnforcement):
+        self.population = population
+        self.education = education
+        self.reputation = reputation
+        self.infrastructure = infrastructure
+        self.economy = economy
+        self.environment = environment
+        self.publicWelfare = publicWelfare
+        self.lawEnforcement = lawEnforcement
+
+def initialize_country():
+    country = Country(10000, 50, 50, 50, 50, 50, 50, 50)
+    return country
+
 class Candidate:
     wins = 0
     #name (string), story (list of strings), portrait (list of strings), stats (dictionary)
@@ -178,13 +193,24 @@ def display_candidates(candidate1, candidate2, candidate3):
 
 
 def main():
+    print('''-----------------------------------------------------------------------                                                                                      
+  .g8"""bgd `7MMF'MMP""MM""YMM `7MMF'MMM"""AMV `7MM"""YMM  `7MN.   `7MF'
+.dP'     `M   MM  P'   MM   `7   MM  M'   AMV    MM    `7    MMN.    M
+dM'       `   MM       MM        MM  '   AMV     MM   d      M YMb   M
+MM            MM       MM        MM     AMV      MMmmMM      M  `MN. M
+MM.           MM       MM        MM    AMV   ,   MM   Y  ,   M   `MM.M
+`Mb.     ,'   MM       MM        MM   AMV   ,M   MM     ,M   M     YMM
+  `"bmmmd'  .JMML.   .JMML.    .JMML.AMVmmmmMM .JMMmmmmMMM .JML.    YM
+-----------------.....Carlos Sujanto and Jimmy .....-------------------''')
+
     candidate_list = initialize_candidates()
     display_candidates(candidate_list[0], candidate_list[1], candidate_list[0])
+
+
 main()
 
-
 while True:
-    userInput = input(">>")
+    userInput = input("Who do you want to vote?\n>>")
     if userInput in answerYes:
         print("YES!")
         break
@@ -192,4 +218,4 @@ while True:
         print("NO!")
         break
 
-
+country = initialize_country()
