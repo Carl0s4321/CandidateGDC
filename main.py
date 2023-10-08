@@ -1,6 +1,10 @@
 answerYes = ["Yes", "Y", "yes", "y"]
 answerNo = ["No", "N", "no", "n"]
 
+# CONSTANTS
+STATS_BASE_VALUE = 50
+POPULATION = 10000
+
 class Country:
     def __init__(self, population, education, reputation, infrastructure, economy, environment, publicWelfare, lawEnforcement):
         self.population = population
@@ -13,7 +17,7 @@ class Country:
         self.lawEnforcement = lawEnforcement
 
 def initialize_country():
-    country = Country(10000, 50, 50, 50, 50, 50, 50, 50)
+    country = Country(POPULATION, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE)
     return country
 
 class Candidate:
@@ -30,7 +34,9 @@ def initialize_candidates():
 
     candidate_list = []
 
-    candidate_list.append( 
+
+
+    candidate_list.append(
         Candidate(
             "Empty",
             [
@@ -177,7 +183,7 @@ def display_candidates(candidate1, candidate2, candidate3):
 
     display_text += "-------------------------|-------------------------|-------------------------|\n"
 
-    stat_names = ["Education:", "Reputation:", "Infrastructure:", "Economy:", "Environment:", "Public Health:", "Law Enforcement:"]
+    stat_names = ["Education:", "Reputation:", "Infrastructure:", "Economy:", "Environment:", "Public Welfare:", "Law Enforcement:"]
     #add lines based on the amount of stats
     for j in range(0, 7):
         display_text += "{:<25}|{:<25}|{:<25}|\n"
@@ -201,7 +207,7 @@ MM            MM       MM        MM     AMV      MMmmMM      M  `MN. M
 MM.           MM       MM        MM    AMV   ,   MM   Y  ,   M   `MM.M
 `Mb.     ,'   MM       MM        MM   AMV   ,M   MM     ,M   M     YMM
   `"bmmmd'  .JMML.   .JMML.    .JMML.AMVmmmmMM .JMMmmmmMMM .JML.    YM
------------------.....Carlos Sujanto and Jimmy .....-------------------''')
+----------------...Carlos Sujanto and Jimmy Xu...----------------------''')
 
     candidate_list = initialize_candidates()
     display_candidates(candidate_list[0], candidate_list[1], candidate_list[0])
