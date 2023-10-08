@@ -1,7 +1,11 @@
 answerYes = ["Yes", "Y", "yes", "y"]
 answerNo = ["No", "N", "no", "n"]
 
+import random
+
 class Country:
+    #id of candidate found in the initial list
+    current_candidate = 0
     def __init__(self, population, education, reputation, infrastructure, economy, environment, publicWelfare, lawEnforcement):
         self.population = population
         self.education = education
@@ -18,6 +22,7 @@ def initialize_country():
 
 class Candidate:
     wins = 0
+    times_appeared = 0
     #name (string), story (list of strings), portrait (list of strings), stats (dictionary)
     def __init__(self, name, story, portrait, stats):
         self.name = name
@@ -48,25 +53,20 @@ def initialize_candidates():
             ],
             {
                 "education_value":0,
-                "education_text":"0",
-
                 "reputation_value":0,
-                "reputation_text":"0",
-
                 "infrastructure_value":0,
-                "infrastructure_text":"0",
-
                 "economy_value":0,
-                "economy_text":"0",
-
                 "environment_value": 0,
-                "environment_text":"0",
-
-                "health_value":0,
-                "health_text":"0",
-
+                "welfare_value":0,
                 "law_value":0,
-                "law_text":"?",            
+
+                "education_text":"0",
+                "reputation_text":"0",
+                "infrastructure_text":"0",
+                "economy_text":"0",
+                "environment_text":"0",
+                "welfare_text":"0",
+                "law_text":"0",         
             }
         )
     )
@@ -92,24 +92,19 @@ def initialize_candidates():
             ],
             {
                 "education_value":0,
-                "education_text":"0",
-
                 "reputation_value":5,
-                "reputation_text":"5",
-
                 "infrastructure_value":15,
-                "infrastructure_text":"15",
-
                 "economy_value":5,
-                "economy_text":"5",
-
                 "environment_value": 50,
-                "environment_text":"50",
-
-                "health_value":5,
-                "health_text":"5",
-
+                "welfare_value":5,
                 "law_value":0,
+
+                "education_text":"0",
+                "reputation_text":"5",
+                "infrastructure_text":"15",
+                "economy_text":"5",
+                "environment_text":"50",
+                "welfare_text":"5",
                 "law_text":"0",            
             }
         )
@@ -179,18 +174,35 @@ def display_candidates(candidate1, candidate2, candidate3):
 
     stat_names = ["Education:", "Reputation:", "Infrastructure:", "Economy:", "Environment:", "Public Health:", "Law Enforcement:"]
     #add lines based on the amount of stats
-    for j in range(0, 7):
+    for j in range(7, 14):
         display_text += "{:<25}|{:<25}|{:<25}|\n"
         display_text = display_text.format(
-            stat_names[j] + str(tuple(candidate1.stats.values())[j]), 
-            stat_names[j] + str(tuple(candidate2.stats.values())[j]),
-            stat_names[j] + str(tuple(candidate3.stats.values())[j]),
+            stat_names[j%7] + str(tuple(candidate1.stats.values())[j]), 
+            stat_names[j%7] + str(tuple(candidate2.stats.values())[j]),
+            stat_names[j%7] + str(tuple(candidate3.stats.values())[j]),
             )
 
     display_text += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
 
     print(display_text)
 
+#returns three candidates that appeared less than others
+#(later) always show the candidate that is rerunning
+# def get_semi_random_candidates():
+
+#     running_candidates = []
+#     return running_candidates
+
+# def candidate_vote(candidate1, candidate2, candidate3):
+
+#     while True:
+#         userInput = input("How many votes for ")
+#         if userInput in answerYes:
+#             print("YES!")
+#             break
+#         elif userInput in answerNo:
+#             print("NO!")
+#             break
 
 def main():
     print('''-----------------------------------------------------------------------                                                                                      
@@ -209,13 +221,6 @@ MM.           MM       MM        MM    AMV   ,   MM   Y  ,   M   `MM.M
 
 main()
 
-while True:
-    userInput = input("Who do you want to vote?\n>>")
-    if userInput in answerYes:
-        print("YES!")
-        break
-    elif userInput in answerNo:
-        print("NO!")
-        break
+
 
 country = initialize_country()
