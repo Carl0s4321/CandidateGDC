@@ -4,6 +4,7 @@ answerNo = ["No", "N", "no", "n"]
 # CONSTANTS
 STATS_BASE_VALUE = 50
 POPULATION = 10000
+CANDIDATE_STAT_BASE_VALUE = 2
 
 import random
 
@@ -41,36 +42,196 @@ def initialize_candidates():
 
     candidate_list.append(
         Candidate(
-            "Empty",
+            "Antonino",
             [
-                "                        ",
+                "   The Business Tycoon   ",
+                "Focused on job creation, ",
+                "infrastructure, reducing ",
+                "crime rate for a safer,  ",
+                "prosperous community     ",
             ],
             [
-                r"                 ",
-                r"                 ",
-                r"                 ",
-                r"                 ",
-                r"                 ",
-                r"                 ",
-                r"                 ",
-                r"                 ",
+                r"     _-----_     ",
+                r"    / \ \ \ \    ",
+                r"   |  ^   ^  |   ",
+                r"  (   O   O   )  ",
+                r"  $|    >    |$  ",
+                r"    \ ~~_~~ /    ",
+                r"     \_____/     ",
+                r"    /  ($)  \    ",
             ],
             {
-                "education_value":0,
+                "education_value": CANDIDATE_STAT_BASE_VALUE*(-3),
                 "reputation_value":0,
-                "infrastructure_value":0,
-                "economy_value":0,
-                "environment_value": 0,
-                "welfare_value":0,
-                "law_value":0,
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE,
+                "economy_value": CANDIDATE_STAT_BASE_VALUE*4,
+                "environment_value": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "law_value": CANDIDATE_STAT_BASE_VALUE*2,
 
-                "education_text":"0",
-                "reputation_text":"0",
-                "infrastructure_text":"0",
-                "economy_text":"0",
-                "environment_text":"0",
-                "welfare_text":"0",
-                "law_text":"0",
+                "education_text": CANDIDATE_STAT_BASE_VALUE*(-3),
+                "reputation_text":0,
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE,
+                "economy_text":CANDIDATE_STAT_BASE_VALUE*4,
+                "environment_text":CANDIDATE_STAT_BASE_VALUE*(-2),
+                "welfare_text":CANDIDATE_STAT_BASE_VALUE*(-1),
+                "law_text": CANDIDATE_STAT_BASE_VALUE*2,
+            }
+        )
+    )
+    candidate_list.append(
+        Candidate(
+            "Markos",
+            [
+                "      The Innovator      ",
+                "Pioneering technology    ",
+                "smart cities, and STEM   ",
+                "education, fostering     ",
+                "innovation and knowledge ",
+            ],
+            [
+                r"    __-===-__    ",
+                r"   ////   \\\\   ",
+                r"   |  -   -  |   ",
+                r"  (''(0)=(0)'')  ",
+                r"   |    \    |   ",
+                r"    \  ___  /    ",
+                r"     \_____/     ",
+                r"    /  \=/  \    ",
+            ],
+            {
+                "education_value": CANDIDATE_STAT_BASE_VALUE*2,
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(3),
+                "economy_value": CANDIDATE_STAT_BASE_VALUE,
+                "environment_value": CANDIDATE_STAT_BASE_VALUE*(-3),
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "law_value": 0,
+
+                "education_text": CANDIDATE_STAT_BASE_VALUE*2,
+                "reputation_text": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*(3),
+                "economy_text": CANDIDATE_STAT_BASE_VALUE,
+                "environment_text": CANDIDATE_STAT_BASE_VALUE*(-3),
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "law_text": 0,
+            }
+        )
+    )
+    candidate_list.append(
+        Candidate(
+            "Sparky",
+            [
+                "      The Good Boy       ",
+                "Bark bark!               ",
+                "                         ",
+                "                         ",
+                "                         ",
+            ],
+            [
+                r"   __-------__   ",
+                r"  / /       \ \  ",
+                r" | /  o   o  | | ",
+                r" | |   ___   | | ",
+                r" '='\ / Y \ /'=' ",
+                r"     |  U  |     ",
+                r"     /\___/\     ",
+                r"    /       \    ",
+            ],
+            {
+                "education_value": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE*4,
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "economy_value": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "environment_value": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE,
+                "law_value": CANDIDATE_STAT_BASE_VALUE*2,
+
+                "education_text": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "reputation_text": CANDIDATE_STAT_BASE_VALUE*4,
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "economy_text": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "environment_text": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE,
+                "law_text": CANDIDATE_STAT_BASE_VALUE*2,
+            }
+        )
+    )
+    candidate_list.append(
+        Candidate(
+            "Connie",
+            [
+                "       The Educator      ",
+                "Prioritizing education,  ",
+                "healthcare, and social   ",
+                "programs to improve      ",
+                "citizen's well-being     "
+            ],
+            [
+                r"     _______     ",
+                r"  __/)))))))\    ",
+                r" ///         \   ",
+                r" \_(=(^)=(^)=)   ",
+                r"   #    >    #   ",
+                r"    \ \___/ /    ",
+                r"     \_____/     ",
+                r"      /   \      ",
+            ],
+            {
+                "education_value": CANDIDATE_STAT_BASE_VALUE*4,
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE,
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "economy_value": CANDIDATE_STAT_BASE_VALUE*(-3),
+                "environment_value": 0,
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE*2,
+                "law_value": -CANDIDATE_STAT_BASE_VALUE,
+
+                "education_text": CANDIDATE_STAT_BASE_VALUE*4,
+                "reputation_text": CANDIDATE_STAT_BASE_VALUE,
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "economy_text": CANDIDATE_STAT_BASE_VALUE*(-3),
+                "environment_text": 0,
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE*2,
+                "law_text": -CANDIDATE_STAT_BASE_VALUE,
+            }
+        )
+    )
+    candidate_list.append(
+        Candidate(
+            "Biben",
+            [
+                " Law and Order Advocate  ",
+                "Tough on crime policies, ",
+                "securing the country,    ",
+                "prioritizing security    ",
+                "focused infrastructure   "
+            ],
+            [
+                r"    __-===-__    ",
+                r"   /”`     `”\   ",
+                r"   | /// /// |   ",
+                r"  [   O   O   ]  ",
+                r"   |    L    |   ",
+                r"    \ mmmmm /    ",
+                r"     \_____/     ",
+                r"    /   | * \    ",
+            ],
+            {
+                "education_value": CANDIDATE_STAT_BASE_VALUE,
+                "reputation_value": -CANDIDATE_STAT_BASE_VALUE,
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*2,
+                "economy_value": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "environment_value": -CANDIDATE_STAT_BASE_VALUE,
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE*(-3),
+                "law_value": CANDIDATE_STAT_BASE_VALUE*4,
+
+                "education_text":CANDIDATE_STAT_BASE_VALUE,
+                "reputation_text":"?",
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*2,
+                "economy_text": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "environment_text": -CANDIDATE_STAT_BASE_VALUE,
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE*(-3),
+                "law_text": CANDIDATE_STAT_BASE_VALUE*4,
             }
         )
     )
@@ -78,7 +239,7 @@ def initialize_candidates():
         Candidate(
             "Dianna",
             [
-                "Avid environmentalist    ",
+                "  Avid Environmentalist  ",
                 "Leader of the Pine Party ",
                 "Proposes to install      ",
                 "solar panels on every    ",
@@ -95,25 +256,63 @@ def initialize_candidates():
                 r"  ||| /   \ |||  ",
             ],
             {
-                "education_value":0,
-                "reputation_value":5,
-                "infrastructure_value":15,
-                "economy_value":5,
-                "environment_value": 50,
-                "welfare_value":5,
-                "law_value":0,
+                "education_value": CANDIDATE_STAT_BASE_VALUE,
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*2,
+                "economy_value": CANDIDATE_STAT_BASE_VALUE*(-3),
+                "environment_value": CANDIDATE_STAT_BASE_VALUE*4,
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE,
+                "law_value": -CANDIDATE_STAT_BASE_VALUE,
 
-                "education_text":"0",
-                "reputation_text":"5",
-                "infrastructure_text":"15",
-                "economy_text":"5",
-                "environment_text":"50",
-                "welfare_text":"5",
-                "law_text":"0",
+                "education_text": CANDIDATE_STAT_BASE_VALUE,
+                "reputation_text": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*2,
+                "economy_text": CANDIDATE_STAT_BASE_VALUE*(-3),
+                "environment_text": CANDIDATE_STAT_BASE_VALUE*4,
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE,
+                "law_text": -CANDIDATE_STAT_BASE_VALUE,
             }
         )
     )
-    
+    candidate_list.append(
+        Candidate(
+            "Schwarz",
+            [
+                "       The Dictator      ",
+                "Rules through propaganda ",
+                "and military might,      ",
+                "enforcing full control,  ",
+                "in pursuit of dominance  ",
+            ],
+            [
+                r"   .#########.   ",
+                r"   |  x      |   ",
+                r"   | \__ __/ |   ",
+                r"  [   O   O   ]  ",
+                r"   \\   V   //   ",
+                r"    \\==_==//    ",
+                r" _-==\_____/==-_ ",
+                r"|   /***|***\   |",
+            ],
+            {
+                "education_value": CANDIDATE_STAT_BASE_VALUE,
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE*(-8),
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*2,
+                "economy_value": CANDIDATE_STAT_BASE_VALUE*2,
+                "environment_value": CANDIDATE_STAT_BASE_VALUE*(-6),
+                "welfare_value": -CANDIDATE_STAT_BASE_VALUE,
+                "law_value": CANDIDATE_STAT_BASE_VALUE*10,
+
+                "education_text": CANDIDATE_STAT_BASE_VALUE,
+                "reputation_text": CANDIDATE_STAT_BASE_VALUE*(-8),
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*2,
+                "economy_text": CANDIDATE_STAT_BASE_VALUE*2,
+                "environment_text": CANDIDATE_STAT_BASE_VALUE*(-6),
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "law_text": CANDIDATE_STAT_BASE_VALUE*10,
+            }
+        )
+    )
 
     return candidate_list
 
@@ -220,7 +419,9 @@ MM.           MM       MM        MM    AMV   ,   MM   Y  ,   M   `MM.M
 ----------------...Carlos Sujanto and Jimmy Xu...----------------------''')
 
     candidate_list = initialize_candidates()
-    display_candidates(candidate_list[0], candidate_list[1], candidate_list[0])
+
+    display_candidates(candidate_list[0], candidate_list[1], candidate_list[2])
+    display_candidates(candidate_list[3], candidate_list[4], candidate_list[6])
 
 
 main()
