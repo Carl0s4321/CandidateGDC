@@ -3,8 +3,11 @@ answerNo = ["No", "N", "no", "n"]
 
 # CONSTANTS
 STATS_BASE_VALUE = 50
-POPULATION = 10000
 CANDIDATE_STAT_BASE_VALUE = 2
+
+# GLOBAL VARIABLES
+year = 0
+population = 10000
 
 import random
 
@@ -22,7 +25,7 @@ class Country:
         self.lawEnforcement = lawEnforcement
 
 def initialize_country():
-    country = Country(POPULATION, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE)
+    country = Country(population, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE)
     return country
 
 class Candidate:
@@ -416,13 +419,22 @@ MM            MM       MM        MM     AMV      MMmmMM      M  `MN. M
 MM.           MM       MM        MM    AMV   ,   MM   Y  ,   M   `MM.M
 `Mb.     ,'   MM       MM        MM   AMV   ,M   MM     ,M   M     YMM
   `"bmmmd'  .JMML.   .JMML.    .JMML.AMVmmmmMM .JMMmmmmMMM .JML.    YM
-----------------...Carlos Sujanto and Jimmy Xu...----------------------''')
+----------------...Carlos Sujanto and Jimmy Xu...----------------------\n''')
+
+    print('''In a distant land, ''' + str(population) + ''' souls set forth to build a new nation.  As homes 
+rose and hopes soared, the need for a leader became clear. You, one among 
+them, faced a pivotal choice: embrace a visionary for progress or a firm 
+hand for security. 
+
+        The nation's destiny hinged on your decision.\n''')
 
     candidate_list = initialize_candidates()
 
-    display_candidates(candidate_list[0], candidate_list[1], candidate_list[2])
-    display_candidates(candidate_list[3], candidate_list[4], candidate_list[6])
+    # display_candidates(candidate_list[0], candidate_list[1], candidate_list[2])
+    # display_candidates(candidate_list[3], candidate_list[4], candidate_list[6])
 
+def election():
+    print("*********************** VOTE YOUR LEADER *******************************")
 
 main()
 
