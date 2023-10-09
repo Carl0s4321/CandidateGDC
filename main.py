@@ -42,6 +42,7 @@ def initialize_country():
 
 class Candidate:
     id = 0
+    rulingYear = 0
     progress = 0
     times_appeared = 0
     goals = []
@@ -54,6 +55,98 @@ class Candidate:
         self.portrait = portrait
         self.stats = stats
         self.id = id
+
+    def updateStory(self):
+        # BUSINESS TYCOON
+        if self.id == 0:
+            if self.rulingYear == 1:
+                print(''' ''')
+        # TECH INNOVATOR
+        elif self.id == 1:
+            pass
+        # GOOD BOY
+        elif self.id == 2:
+            pass
+        # EDUCATOR ELITE
+        elif self.id == 3:
+            pass
+        # LAW AND ORDER ADVOCATE
+        elif self.id == 4:
+            pass
+        # ENVIRONMENTALIST
+        elif self.id == 5:
+            if self.rulingYear == 1:
+                print('''With the Environmentalist elected as the leader, the nation 
+embarks on a journey toward sustainability. The first year sees sweeping 
+changes, with strict regulations to reduce carbon emissions and promote 
+renewable energy. Challenges arise as some citizens in energy-dependent 
+industries face job losses, leading to protests and economic concerns. 
+[Economy -6, Public Welfare -3, Environment +4]''')
+
+            elif self.rulingYear == 2:
+                print('''As the economy adapts to renewable energy and green technology, 
+new jobs are created, but economic disparities persist. The Environmentalist 
+faces the challenge of bridging the gap between the growing green sector and 
+those affected by declining traditional industries. Meanwhile, opposition to 
+the rapid changes intensifies, with some calling for a rollback of policies. 
+[Economy +4, Public Welfare -3, Environment +3]''')
+                self.stats.get("economy")
+
+            elif self.rulingYear == 3:
+                print('''The Environmentalist introduces policies to protect natural 
+habitats and wildlife. Conservation efforts gain traction, but confrontations 
+arise with industries seeking to exploit natural resources. Balancing 
+environmental protection with economic interests becomes a major challenge. 
+Protests both for and against environmental policies escalate, leading to 
+tensions within the nation. 
+[Environment +6, Economy -2, Law Enforcement -4]''')
+
+            elif self.rulingYear == 4:
+                print('''Despite economic growth, the nation faces fiscal pressures due 
+to heavy investments in green infrastructure. Citizens express concerns about 
+rising taxes and government spending. The Environmentalist must navigate 
+a delicate balance between maintaining economic stability and continuing 
+to fund environmental initiatives. Opposition parties grow stronger, 
+demanding fiscal responsibility. 
+[Economy -5, Country's Reputation -3, Public Welfare -2]''')
+
+            elif self.rulingYear == 5:
+                print('''The nation's commitment to sustainability gains international 
+recognition, but it comes with expectations of global leadership in environmental
+matters. Balancing international obligations with domestic priorities becomes 
+a challenge. The Environmentalist faces pressure to allocate resources to global 
+initiatives, which sparks debate and dissent at home. 
+[Country's Reputation +5, Economy -3, Public Welfare -2]''')
+
+            elif self.rulingYear == 6:
+                print('''As the Environmentalist leader reaches the midpoint of their term, 
+she reflects on her achievements and challenges. The nation stands as a symbol of 
+sustainability, but the journey is far from over. The Environmentalist must continue 
+to navigate the complexities of the policies and prepare for a smooth transition 
+of power in two years. Choosing a successor who shares her vision while 
+addressing the concerns of the opposition becomes a critical decision. 
+[Country's Reputation +3, Economy +2, Public Welfare +1]''')
+
+            elif self.rulingYear == 7:
+                print('''With the Environmentalist leader's term now in its seventh year, 
+the nation faces ongoing challenges. While the transition of power is not imminent, 
+the leader must continue to build on the legacy and address unresolved issues. 
+Economic stability improves, but public welfare concerns linger. Protests and political
+polarization intensify as the nation looks ahead to the upcoming election year. 
+[Economy +2, Public Welfare -1, Law Enforcement -2]''')
+
+            elif self.rulingYear == 8:
+                print('''As the Environmentalist leader's term reaches its eighth year, 
+the nation stands as a symbol of sustainability. The leader's policies have left a 
+lasting impact, with a more sustainable economy and environment. Renewable energy 
+is now a cornerstone of the nation's power supply, and conservation efforts have 
+preserved natural habitats. However, economic disparities persist, and the 
+nation's reputation on the international stage remains a subject of debate. 
+The nation looks ahead to its future. 
+[Country's Reputation +1, Economy +1, Public Welfare +1]''')
+        # DICTATOR
+        else:
+            pass
 
     #amount (int)
     def move_to_goal(self, amount):
@@ -543,30 +636,6 @@ def doElection(candidate_list):
             return candidate
 
 
-def updateStory(leader_id):
-    # BUSINESS TYCOON
-    if leader_id == 0:
-        if year == 1:
-            print('''The Environmentalist initiates sweeping changes. They implement strict 
-regulations to reduce carbon emissions and promote renewable energy. 
-The city's skyline begins to change as solar panels and wind turbines 
-become a common sight. Environmental education is integrated into 
-schools, raising awareness about sustainability.''')
-
-# # TECH INNOVATOR
-# elif leaderID == 1:
-# # GOOD BOY
-# elif leaderID == 2:
-# # EDUCATOR ELITE
-# elif leaderID == 3:
-# # LAW AND ORDER ADVOCATE
-# elif leaderID == 4:
-# # ENVIRONMENTALIST
-# elif leaderID == 5:
-# # DICTATOR
-# else:
-
-
 def main():
     print('''-----------------------------------------------------------------------                                                                                      
   .g8"""bgd `7MMF'MMP""MM""YMM `7MMF'MMM"""AMV `7MM"""YMM  `7MN.   `7MF'
@@ -589,7 +658,8 @@ heart of this moment: choosing a leader.
     country = initialize_country()
     leader = doElection(candidate_list)
     country.updateCountryFromLeaderStat(leader.stats)
-
+    leader.updateStory()
+    # INC RULING YEARS
     # while game_start:
     #     print("[YEAR:", year, "]")
     #     updateStory(leader.ID)
