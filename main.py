@@ -38,15 +38,38 @@ class Candidate:
     id = 0
     progress = 0
     times_appeared = 0
+    goals = []
+    events = []
 
     # name (string), story (list of strings), portrait (list of strings), stats (dictionary), goals(function)
-    def __init__(self, name, story, portrait, stats, id, goals):
+    def __init__(self, name, story, portrait, stats, id):
         self.name = name
         self.story = story
         self.portrait = portrait
         self.stats = stats
         self.id = id
-        self.goals = goals
+
+    #amount (int)
+    def move_to_goal(self, amount):
+        self.progress += amount
+        goal = self.goals[0]
+        if(self.progress > goal.progress_needed):
+            print(goal.story_on_completion)
+            self.goals.pop(0)
+            self.progress -= goal.progress_needed
+
+            if(len(self.goals) == 0):
+                #provide an ending to game
+                pass
+
+
+class Goal:
+    progress_needed = 0
+    story_on_completion = ""
+    def __init__(self, progress_needed, story):
+        self.progress_needed = progress_needed
+        self.story_on_completion = story
+
 
 
 # returns a list of Candidates
@@ -336,7 +359,8 @@ def initialize_candidates():
 
     return candidate_list
 
-
+def general_events():
+    pass
 
 def special_events():
     #pandemic
