@@ -51,10 +51,6 @@ class Candidate:
     rulingYear = 0
     progress = 0
     times_appeared = 0
-    story_on_rule = []
-    goals = []
-    all_events = []
-    events = []
 
     # name (string), story (list of strings), portrait (list of strings), stats (dictionary)
     # story_on_rule (list of strings), goals( list of goals), all_events (list of events)
@@ -140,10 +136,10 @@ class Event:
                 break
 
 
-                
 
 
-            
+
+
 
 
 
@@ -216,7 +212,7 @@ services are up for competition and the economy is booming!
             #           dict{progress:int, stat1:int, ... , statx:int} ]})
             [
                 Event('''There is competition in the waste management sector, workers are
-being layed off and there is no profits to be made and nothing to sell!  
+being laid off and there is no profits to be made and nothing to sell!  
               ''',
                     {
                         "1": [
@@ -530,21 +526,6 @@ a challenge. The Environmentalist faces pressure to allocate resources to global
 initiatives, which sparks debate and dissent at home. 
 [Country's Reputation +5, Economy -3, Public Welfare -2]''', #year 5
 
-'''As the Environmentalist leader reaches the midpoint of their term, 
-she reflects on her achievements and challenges. The nation stands as a symbol of 
-sustainability, but the journey is far from over. The Environmentalist must continue 
-to navigate the complexities of the policies and prepare for a smooth transition 
-of power in two years. Choosing a successor who shares her vision while 
-addressing the concerns of the opposition becomes a critical decision. 
-[Country's Reputation +3, Economy +2, Public Welfare +1]''', #year 6
-
-'''With the Environmentalist leader's term now in its seventh year, 
-the nation faces ongoing challenges. While the transition of power is not imminent, 
-the leader must continue to build on the legacy and address unresolved issues. 
-Economic stability improves, but public welfare concerns linger. Protests and political
-polarization intensify as the nation looks ahead to the upcoming election year. 
-[Economy +2, Public Welfare -1, Law Enforcement -2]''', #year 7
-
 '''As the Environmentalist leader's term reaches its eighth year, 
 the nation stands as a symbol of sustainability. The leader's policies have left a 
 lasting impact, with a more sustainable economy and environment. Renewable energy 
@@ -811,7 +792,6 @@ heart of this moment: choosing a leader.
     country = initialize_country()
     leader = doElection(candidate_list)
     country.updateCountryFromLeaderStat(leader.stats)
-    
     leader.updateStory()
     leader.rulingYear += 1
     leader.play_event(country)
