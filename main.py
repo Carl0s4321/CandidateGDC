@@ -6,6 +6,7 @@ STATS_BASE_VALUE = 50
 CANDIDATE_STAT_BASE_VALUE = 2
 
 # GLOBAL VARIABLES
+game_start = True
 year = 0
 population = 10000
 
@@ -27,6 +28,11 @@ class Country:
         self.publicWelfare = publicWelfare
         self.lawEnforcement = lawEnforcement
 
+    def updateCountryFromLeaderStat(self, added_stat):
+        stats = ["education", "reputation", "infrastructure", "economy", "environment", "publicWelfare", "lawEnforcement"]
+        for stat in stats:
+            setattr(self, stat, getattr(self, stat) + added_stat.get(f"{stat}_value"))
+
 
 def initialize_country():
     country = Country(population, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE,
@@ -40,13 +46,12 @@ class Candidate:
     times_appeared = 0
 
     # name (string), story (list of strings), portrait (list of strings), stats (dictionary), goals(function)
-    def __init__(self, name, story, portrait, stats, id, goals):
+    def __init__(self, name, story, portrait, stats, id):
         self.name = name
         self.story = story
         self.portrait = portrait
         self.stats = stats
         self.id = id
-        self.goals = goals
 
 
 # returns a list of Candidates
@@ -74,21 +79,21 @@ def initialize_candidates():
                 r"    /  ($)  \    ",
             ],
             {
-                "education_value":      CANDIDATE_STAT_BASE_VALUE*(-3),
-                "reputation_value":     0,
+                "education_value": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "reputation_value": 0,
                 "infrastructure_value": CANDIDATE_STAT_BASE_VALUE,
-                "economy_value":        CANDIDATE_STAT_BASE_VALUE*(4),
-                "environment_value":    CANDIDATE_STAT_BASE_VALUE*(-2),
-                "welfare_value":        CANDIDATE_STAT_BASE_VALUE*(-1),
-                "law_value":            CANDIDATE_STAT_BASE_VALUE*(2),
+                "economy_value": CANDIDATE_STAT_BASE_VALUE * (4),
+                "environment_value": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "law_value": CANDIDATE_STAT_BASE_VALUE * (2),
 
-                "education_text":       CANDIDATE_STAT_BASE_VALUE*(-3),
-                "reputation_text":      0,
-                "infrastructure_text":  CANDIDATE_STAT_BASE_VALUE,
-                "economy_text":         CANDIDATE_STAT_BASE_VALUE*(4),
-                "environment_text":     CANDIDATE_STAT_BASE_VALUE*(-2),
-                "welfare_text":         CANDIDATE_STAT_BASE_VALUE*(-1),
-                "law_text":             CANDIDATE_STAT_BASE_VALUE*(2),
+                "education_text": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "reputation_text": 0,
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE,
+                "economy_text": CANDIDATE_STAT_BASE_VALUE * (4),
+                "environment_text": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "law_text": CANDIDATE_STAT_BASE_VALUE * (2),
             },
             0
         )
@@ -114,21 +119,21 @@ def initialize_candidates():
                 r"    /  \=/  \    ",
             ],
             {
-                "education_value":      CANDIDATE_STAT_BASE_VALUE*2,
-                "reputation_value":     CANDIDATE_STAT_BASE_VALUE*(-2),
-                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(4),
-                "economy_value":        CANDIDATE_STAT_BASE_VALUE,
-                "environment_value":    CANDIDATE_STAT_BASE_VALUE*(-3),
-                "welfare_value":        CANDIDATE_STAT_BASE_VALUE*(-1),
-                "law_value":            0,
+                "education_value": CANDIDATE_STAT_BASE_VALUE * 2,
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE * (4),
+                "economy_value": CANDIDATE_STAT_BASE_VALUE,
+                "environment_value": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "law_value": 0,
 
-                "education_text":      CANDIDATE_STAT_BASE_VALUE*2,
-                "reputation_text":     CANDIDATE_STAT_BASE_VALUE*(-2),
-                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*(4),
-                "economy_text":        CANDIDATE_STAT_BASE_VALUE,
-                "environment_text":    CANDIDATE_STAT_BASE_VALUE*(-3),
-                "welfare_text":        CANDIDATE_STAT_BASE_VALUE*(-1),
-                "law_text":            0,
+                "education_text": CANDIDATE_STAT_BASE_VALUE * 2,
+                "reputation_text": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE * (4),
+                "economy_text": CANDIDATE_STAT_BASE_VALUE,
+                "environment_text": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "law_text": 0,
             },
             1
         )
@@ -154,21 +159,21 @@ def initialize_candidates():
                 r"    /       \    ",
             ],
             {
-                "education_value":      CANDIDATE_STAT_BASE_VALUE*(-2),
-                "reputation_value":     CANDIDATE_STAT_BASE_VALUE*4,
-                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(-1),
-                "economy_value":        CANDIDATE_STAT_BASE_VALUE*(-1),
-                "environment_value":    CANDIDATE_STAT_BASE_VALUE*(-1),
-                "welfare_value":        CANDIDATE_STAT_BASE_VALUE,
-                "law_value":            CANDIDATE_STAT_BASE_VALUE*2,
+                "education_value": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE * 4,
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "economy_value": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "environment_value": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE,
+                "law_value": CANDIDATE_STAT_BASE_VALUE * 2,
 
-                "education_text":       CANDIDATE_STAT_BASE_VALUE*(-2),
-                "reputation_text":      CANDIDATE_STAT_BASE_VALUE*4,
-                "infrastructure_text":  CANDIDATE_STAT_BASE_VALUE*(-1),
-                "economy_text":         CANDIDATE_STAT_BASE_VALUE*(-1),
-                "environment_text":     CANDIDATE_STAT_BASE_VALUE*(-1),
-                "welfare_text":         CANDIDATE_STAT_BASE_VALUE,
-                "law_text":             CANDIDATE_STAT_BASE_VALUE*2,
+                "education_text": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "reputation_text": CANDIDATE_STAT_BASE_VALUE * 4,
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "economy_text": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "environment_text": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE,
+                "law_text": CANDIDATE_STAT_BASE_VALUE * 2,
             },
             2
         )
@@ -194,21 +199,21 @@ def initialize_candidates():
                 r"      /   \      ",
             ],
             {
-                "education_value":      CANDIDATE_STAT_BASE_VALUE*4,
-                "reputation_value":     CANDIDATE_STAT_BASE_VALUE,
-                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(-2),
-                "economy_value":        CANDIDATE_STAT_BASE_VALUE*(-3),
-                "environment_value":    0,
-                "welfare_value":        CANDIDATE_STAT_BASE_VALUE*2,
-                "law_value":            CANDIDATE_STAT_BASE_VALUE*(-1),
+                "education_value": CANDIDATE_STAT_BASE_VALUE * 4,
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE,
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "economy_value": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "environment_value": 0,
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE * 2,
+                "law_value": CANDIDATE_STAT_BASE_VALUE * (-1),
 
-                "education_text":       CANDIDATE_STAT_BASE_VALUE*4,
-                "reputation_text":      CANDIDATE_STAT_BASE_VALUE,
-                "infrastructure_text":  CANDIDATE_STAT_BASE_VALUE*(-2),
-                "economy_text":         CANDIDATE_STAT_BASE_VALUE*(-3),
-                "environment_text":     0,
-                "welfare_text":         CANDIDATE_STAT_BASE_VALUE*2,
-                "law_text":             CANDIDATE_STAT_BASE_VALUE*(-1),
+                "education_text": CANDIDATE_STAT_BASE_VALUE * 4,
+                "reputation_text": CANDIDATE_STAT_BASE_VALUE,
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "economy_text": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "environment_text": 0,
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE * 2,
+                "law_text": CANDIDATE_STAT_BASE_VALUE * (-1),
             },
             3
         )
@@ -234,21 +239,21 @@ def initialize_candidates():
                 r"    /   | * \    ",
             ],
             {
-                "education_value":      CANDIDATE_STAT_BASE_VALUE,
-                "reputation_value":     CANDIDATE_STAT_BASE_VALUE*(-1),
-                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*2,
-                "economy_value":        CANDIDATE_STAT_BASE_VALUE*(-2),
-                "environment_value": -  CANDIDATE_STAT_BASE_VALUE*(-1),
-                "welfare_value":        CANDIDATE_STAT_BASE_VALUE*(-3),
-                "law_value":            CANDIDATE_STAT_BASE_VALUE*4,
+                "education_value": CANDIDATE_STAT_BASE_VALUE,
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE * 2,
+                "economy_value": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "environment_value": -  CANDIDATE_STAT_BASE_VALUE * (-1),
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "law_value": CANDIDATE_STAT_BASE_VALUE * 4,
 
-                "education_text":       CANDIDATE_STAT_BASE_VALUE,
-                "reputation_text":      "?",
-                "infrastructure_text":  CANDIDATE_STAT_BASE_VALUE*2,
-                "economy_text":         CANDIDATE_STAT_BASE_VALUE*(-2),
-                "environment_text":     CANDIDATE_STAT_BASE_VALUE*(-1),
-                "welfare_text":         CANDIDATE_STAT_BASE_VALUE*(-3),
-                "law_text":             CANDIDATE_STAT_BASE_VALUE*4,
+                "education_text": CANDIDATE_STAT_BASE_VALUE,
+                "reputation_text": "?",
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE * 2,
+                "economy_text": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "environment_text": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "law_text": CANDIDATE_STAT_BASE_VALUE * 4,
             },
             4
         )
@@ -274,21 +279,21 @@ def initialize_candidates():
                 r"  ||| /   \ |||  ",
             ],
             {
-                "education_value":      CANDIDATE_STAT_BASE_VALUE,
-                "reputation_value":     CANDIDATE_STAT_BASE_VALUE*(-2),
-                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*2,
-                "economy_value":        CANDIDATE_STAT_BASE_VALUE*(-3),
-                "environment_value":    CANDIDATE_STAT_BASE_VALUE*4,
-                "welfare_value":        CANDIDATE_STAT_BASE_VALUE,
-                "law_value":            CANDIDATE_STAT_BASE_VALUE*(-1),
+                "education_value": CANDIDATE_STAT_BASE_VALUE,
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE * 2,
+                "economy_value": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "environment_value": CANDIDATE_STAT_BASE_VALUE * 4,
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE,
+                "law_value": CANDIDATE_STAT_BASE_VALUE * (-1),
 
-                "education_text":       CANDIDATE_STAT_BASE_VALUE,
-                "reputation_text":      CANDIDATE_STAT_BASE_VALUE*(-2),
-                "infrastructure_text":  CANDIDATE_STAT_BASE_VALUE*2,
-                "economy_text":         CANDIDATE_STAT_BASE_VALUE*(-3),
-                "environment_text":     CANDIDATE_STAT_BASE_VALUE*4,
-                "welfare_text":         CANDIDATE_STAT_BASE_VALUE,
-                "law_text":             CANDIDATE_STAT_BASE_VALUE*(-1),
+                "education_text": CANDIDATE_STAT_BASE_VALUE,
+                "reputation_text": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE * 2,
+                "economy_text": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "environment_text": CANDIDATE_STAT_BASE_VALUE * 4,
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE,
+                "law_text": CANDIDATE_STAT_BASE_VALUE * (-1),
             },
             5
         )
@@ -314,21 +319,21 @@ def initialize_candidates():
                 r"|   /***|***\   |",
             ],
             {
-                "education_value":      CANDIDATE_STAT_BASE_VALUE,
-                "reputation_value":     CANDIDATE_STAT_BASE_VALUE*(-8),
-                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*2,
-                "economy_value":        CANDIDATE_STAT_BASE_VALUE*2,
-                "environment_value":    CANDIDATE_STAT_BASE_VALUE*(-6),
-                "welfare_value":        CANDIDATE_STAT_BASE_VALUE*(-1),
-                "law_value":            CANDIDATE_STAT_BASE_VALUE*10,
+                "education_value": CANDIDATE_STAT_BASE_VALUE,
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE * (-8),
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE * 2,
+                "economy_value": CANDIDATE_STAT_BASE_VALUE * 2,
+                "environment_value": CANDIDATE_STAT_BASE_VALUE * (-6),
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "law_value": CANDIDATE_STAT_BASE_VALUE * 10,
 
-                "education_text":       CANDIDATE_STAT_BASE_VALUE,
-                "reputation_text":      "?",
-                "infrastructure_text":  CANDIDATE_STAT_BASE_VALUE*2,
-                "economy_text":         CANDIDATE_STAT_BASE_VALUE*2,
-                "environment_text":     "?",
-                "welfare_text":         CANDIDATE_STAT_BASE_VALUE*(-1),
-                "law_text":             CANDIDATE_STAT_BASE_VALUE*10,
+                "education_text": CANDIDATE_STAT_BASE_VALUE,
+                "reputation_text": "?",
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE * 2,
+                "economy_text": CANDIDATE_STAT_BASE_VALUE * 2,
+                "environment_text": "?",
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "law_text": CANDIDATE_STAT_BASE_VALUE * 10,
             },
             6
         )
@@ -337,18 +342,15 @@ def initialize_candidates():
     return candidate_list
 
 
-
 def special_events():
-    #pandemic
-    #conspiracy / misinformation
-    #climate change
-    #space activity
-    #mafia/terrorist activity
-    #war
-    #economic depression
+    # pandemic
+    # conspiracy / misinformation
+    # climate change
+    # space activity
+    # mafia/terrorist activity
+    # war
+    # economic depression
     pass
-    
-
 
 
 # prints out the candidates horizontally
@@ -502,17 +504,40 @@ def candidate_vote(*candidates):
 
     return votes
 
-def printElectionResult(votes):
-    for candidate, vote_count in votes.items():
-        if vote_count == max(votes.values()):
-            print(f"{candidate.name} has won the election with {vote_count} votes!")
 
 def doElection(candidate_list):
     print("*************************** VOTE YOUR LEADER *****************************")
     display_list = get_three_random_candidates(candidate_list)
     display_candidates(display_list[0], display_list[1], display_list[2])
     votes = candidate_vote(display_list[0], display_list[1], display_list[2])
-    printElectionResult(votes)
+    for candidate, vote_count in votes.items():
+        if vote_count == max(votes.values()):
+            print(f"{candidate.name} has won the election with {vote_count} votes!")
+            return candidate
+
+
+def updateStory(leader_id):
+    # BUSINESS TYCOON
+    if leader_id == 0:
+        if year == 1:
+            print('''The Environmentalist initiates sweeping changes. They implement strict 
+regulations to reduce carbon emissions and promote renewable energy. 
+The city's skyline begins to change as solar panels and wind turbines 
+become a common sight. Environmental education is integrated into 
+schools, raising awareness about sustainability.''')
+
+# # TECH INNOVATOR
+# elif leaderID == 1:
+# # GOOD BOY
+# elif leaderID == 2:
+# # EDUCATOR ELITE
+# elif leaderID == 3:
+# # LAW AND ORDER ADVOCATE
+# elif leaderID == 4:
+# # ENVIRONMENTALIST
+# elif leaderID == 5:
+# # DICTATOR
+# else:
 
 
 def main():
@@ -535,10 +560,12 @@ heart of this moment: choosing a leader.
 
     candidate_list = initialize_candidates()
     country = initialize_country()
-    doElection(candidate_list)
+    leader = doElection(candidate_list)
+    country.updateCountryFromLeaderStat(leader.stats)
 
+    # while game_start:
+    #     print("[YEAR:", year, "]")
+    #     updateStory(leader.ID)
 
 
 main()
-
-
