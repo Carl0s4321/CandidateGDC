@@ -65,8 +65,125 @@ def initialize_candidates():
             {
                 "education_value": CANDIDATE_STAT_BASE_VALUE*(-3),
                 "reputation_value":0,
-                "infrastructure_value":0,
-                "economy_value":0,
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE,
+                "economy_value": CANDIDATE_STAT_BASE_VALUE*4,
+                "environment_value": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "law_value": CANDIDATE_STAT_BASE_VALUE*2,
+
+                "education_text": CANDIDATE_STAT_BASE_VALUE*(-3),
+                "reputation_text":0,
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE,
+                "economy_text":CANDIDATE_STAT_BASE_VALUE*4,
+                "environment_text":CANDIDATE_STAT_BASE_VALUE*(-2),
+                "welfare_text":CANDIDATE_STAT_BASE_VALUE*(-1),
+                "law_text": CANDIDATE_STAT_BASE_VALUE*2,
+            }
+        )
+    )
+    candidate_list.append(
+        Candidate(
+            "Markos",
+            [
+                "      The Innovator      ",
+                "Pioneering technology    ",
+                "smart cities, and STEM   ",
+                "education, fostering     ",
+                "innovation and knowledge ",
+            ],
+            [
+                r"    __-===-__    ",
+                r"   ////   \\\\   ",
+                r"   |  -   -  |   ",
+                r"  (''(0)=(0)'')  ",
+                r"   |    \    |   ",
+                r"    \  ___  /    ",
+                r"     \_____/     ",
+                r"    /  \=/  \    ",
+            ],
+            {
+                "education_value": CANDIDATE_STAT_BASE_VALUE*2,
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(3),
+                "economy_value": CANDIDATE_STAT_BASE_VALUE,
+                "environment_value": CANDIDATE_STAT_BASE_VALUE*(-3),
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "law_value": 0,
+
+                "education_text": CANDIDATE_STAT_BASE_VALUE*2,
+                "reputation_text": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*(3),
+                "economy_text": CANDIDATE_STAT_BASE_VALUE,
+                "environment_text": CANDIDATE_STAT_BASE_VALUE*(-3),
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "law_text": 0,
+            }
+        )
+    )
+    candidate_list.append(
+        Candidate(
+            "Sparky",
+            [
+                "      The Good Boy       ",
+                "Bark bark!               ",
+                "                         ",
+                "                         ",
+                "                         ",
+            ],
+            [
+                r"   __-------__   ",
+                r"  / /       \ \  ",
+                r" | /  o   o  | | ",
+                r" | |   ___   | | ",
+                r" '='\ / Y \ /'=' ",
+                r"     |  U  |     ",
+                r"     /\___/\     ",
+                r"    /       \    ",
+            ],
+            {
+                "education_value": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE*4,
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "economy_value": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "environment_value": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE,
+                "law_value": CANDIDATE_STAT_BASE_VALUE*2,
+
+                "education_text": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "reputation_text": CANDIDATE_STAT_BASE_VALUE*4,
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "economy_text": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "environment_text": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE,
+                "law_text": CANDIDATE_STAT_BASE_VALUE*2,
+            }
+        )
+    )
+    candidate_list.append(
+        Candidate(
+            "Connie",
+            [
+                "       The Educator      ",
+                "Prioritizing education,  ",
+                "healthcare, and social   ",
+                "programs to improve      ",
+                "citizen's well-being     "
+            ],
+            [
+                r"     _______     ",
+                r"  __/)))))))\    ",
+                r" ///         \   ",
+                r" \_(=(^)=(^)=)   ",
+                r"   #    >    #   ",
+                r"    \ \___/ /    ",
+                r"     \_____/     ",
+                r"      /   \      ",
+            ],
+            {
+                "education_value": CANDIDATE_STAT_BASE_VALUE*4,
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE,
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "economy_value": CANDIDATE_STAT_BASE_VALUE*(-3),
                 "environment_value": 0,
                 "welfare_value": CANDIDATE_STAT_BASE_VALUE*2,
                 "law_value": -CANDIDATE_STAT_BASE_VALUE,
@@ -125,10 +242,10 @@ def initialize_candidates():
             "Dianna",
             [
                 "  Avid Environmentalist  ",
-                "Leader of the Pine Party ",
-                "Proposes to install      ",
-                "solar panels on every    ",
-                "building in the country  ",
+                "Proposes to eradicate    ",
+                "climate change through   ",
+                "practical technological  ",
+                "solutions.               ",
             ],
             [
                 r"    _--===--_    ",
