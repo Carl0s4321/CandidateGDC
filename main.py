@@ -11,10 +11,13 @@ population = 10000
 
 import random
 
+
 class Country:
-    #id of candidate found in the initial list
+    # id of candidate found in the initial list
     current_candidate = 0
-    def __init__(self, population, education, reputation, infrastructure, economy, environment, publicWelfare, lawEnforcement):
+
+    def __init__(self, population, education, reputation, infrastructure, economy, environment, publicWelfare,
+                 lawEnforcement):
         self.population = population
         self.education = education
         self.reputation = reputation
@@ -24,15 +27,19 @@ class Country:
         self.publicWelfare = publicWelfare
         self.lawEnforcement = lawEnforcement
 
+
 def initialize_country():
-    country = Country(population, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE)
+    country = Country(population, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE,
+                      STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE)
     return country
+
 
 class Candidate:
     id = 0
     wins = 0
     times_appeared = 0
-    #name (string), story (list of strings), portrait (list of strings), stats (dictionary)
+
+    # name (string), story (list of strings), portrait (list of strings), stats (dictionary)
     def __init__(self, name, story, portrait, stats, id):
         self.name = name
         self.story = story
@@ -40,9 +47,9 @@ class Candidate:
         self.stats = stats
         self.id = id
 
-#returns a list of Candidates
-def initialize_candidates():
 
+# returns a list of Candidates
+def initialize_candidates():
     candidate_list = []
 
     candidate_list.append(
@@ -66,21 +73,21 @@ def initialize_candidates():
                 r"    /  ($)  \    ",
             ],
             {
-                "education_value": CANDIDATE_STAT_BASE_VALUE*(-3),
-                "reputation_value":0,
+                "education_value": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "reputation_value": 0,
                 "infrastructure_value": CANDIDATE_STAT_BASE_VALUE,
-                "economy_value": CANDIDATE_STAT_BASE_VALUE*4,
-                "environment_value": CANDIDATE_STAT_BASE_VALUE*(-2),
-                "welfare_value": CANDIDATE_STAT_BASE_VALUE*(-1),
-                "law_value": CANDIDATE_STAT_BASE_VALUE*2,
+                "economy_value": CANDIDATE_STAT_BASE_VALUE * 4,
+                "environment_value": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "law_value": CANDIDATE_STAT_BASE_VALUE * 2,
 
-                "education_text": CANDIDATE_STAT_BASE_VALUE*(-3),
-                "reputation_text":0,
+                "education_text": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "reputation_text": 0,
                 "infrastructure_text": CANDIDATE_STAT_BASE_VALUE,
-                "economy_text":CANDIDATE_STAT_BASE_VALUE*4,
-                "environment_text":CANDIDATE_STAT_BASE_VALUE*(-2),
-                "welfare_text":CANDIDATE_STAT_BASE_VALUE*(-1),
-                "law_text": CANDIDATE_STAT_BASE_VALUE*2,
+                "economy_text": CANDIDATE_STAT_BASE_VALUE * 4,
+                "environment_text": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "law_text": CANDIDATE_STAT_BASE_VALUE * 2,
             },
             0
         )
@@ -106,20 +113,20 @@ def initialize_candidates():
                 r"    /  \=/  \    ",
             ],
             {
-                "education_value": CANDIDATE_STAT_BASE_VALUE*2,
-                "reputation_value": CANDIDATE_STAT_BASE_VALUE*(-2),
-                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(3),
+                "education_value": CANDIDATE_STAT_BASE_VALUE * 2,
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE * (3),
                 "economy_value": CANDIDATE_STAT_BASE_VALUE,
-                "environment_value": CANDIDATE_STAT_BASE_VALUE*(-3),
-                "welfare_value": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "environment_value": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE * (-1),
                 "law_value": 0,
 
-                "education_text": CANDIDATE_STAT_BASE_VALUE*2,
-                "reputation_text": CANDIDATE_STAT_BASE_VALUE*(-2),
-                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*(3),
+                "education_text": CANDIDATE_STAT_BASE_VALUE * 2,
+                "reputation_text": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE * (3),
                 "economy_text": CANDIDATE_STAT_BASE_VALUE,
-                "environment_text": CANDIDATE_STAT_BASE_VALUE*(-3),
-                "welfare_text": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "environment_text": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE * (-1),
                 "law_text": 0,
             },
             1
@@ -146,21 +153,21 @@ def initialize_candidates():
                 r"    /       \    ",
             ],
             {
-                "education_value": CANDIDATE_STAT_BASE_VALUE*(-2),
-                "reputation_value": CANDIDATE_STAT_BASE_VALUE*4,
-                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(-1),
-                "economy_value": CANDIDATE_STAT_BASE_VALUE*(-1),
-                "environment_value": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "education_value": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE * 4,
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "economy_value": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "environment_value": CANDIDATE_STAT_BASE_VALUE * (-1),
                 "welfare_value": CANDIDATE_STAT_BASE_VALUE,
-                "law_value": CANDIDATE_STAT_BASE_VALUE*2,
+                "law_value": CANDIDATE_STAT_BASE_VALUE * 2,
 
-                "education_text": CANDIDATE_STAT_BASE_VALUE*(-2),
-                "reputation_text": CANDIDATE_STAT_BASE_VALUE*4,
-                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*(-1),
-                "economy_text": CANDIDATE_STAT_BASE_VALUE*(-1),
-                "environment_text": CANDIDATE_STAT_BASE_VALUE*(-1),
+                "education_text": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "reputation_text": CANDIDATE_STAT_BASE_VALUE * 4,
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "economy_text": CANDIDATE_STAT_BASE_VALUE * (-1),
+                "environment_text": CANDIDATE_STAT_BASE_VALUE * (-1),
                 "welfare_text": CANDIDATE_STAT_BASE_VALUE,
-                "law_text": CANDIDATE_STAT_BASE_VALUE*2,
+                "law_text": CANDIDATE_STAT_BASE_VALUE * 2,
             },
             2
         )
@@ -186,20 +193,20 @@ def initialize_candidates():
                 r"      /   \      ",
             ],
             {
-                "education_value": CANDIDATE_STAT_BASE_VALUE*4,
+                "education_value": CANDIDATE_STAT_BASE_VALUE * 4,
                 "reputation_value": CANDIDATE_STAT_BASE_VALUE,
-                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(-2),
-                "economy_value": CANDIDATE_STAT_BASE_VALUE*(-3),
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "economy_value": CANDIDATE_STAT_BASE_VALUE * (-3),
                 "environment_value": 0,
-                "welfare_value": CANDIDATE_STAT_BASE_VALUE*2,
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE * 2,
                 "law_value": -CANDIDATE_STAT_BASE_VALUE,
 
-                "education_text": CANDIDATE_STAT_BASE_VALUE*4,
+                "education_text": CANDIDATE_STAT_BASE_VALUE * 4,
                 "reputation_text": CANDIDATE_STAT_BASE_VALUE,
-                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*(-2),
-                "economy_text": CANDIDATE_STAT_BASE_VALUE*(-3),
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "economy_text": CANDIDATE_STAT_BASE_VALUE * (-3),
                 "environment_text": 0,
-                "welfare_text": CANDIDATE_STAT_BASE_VALUE*2,
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE * 2,
                 "law_text": -CANDIDATE_STAT_BASE_VALUE,
             },
             3
@@ -228,24 +235,24 @@ def initialize_candidates():
             {
                 "education_value": CANDIDATE_STAT_BASE_VALUE,
                 "reputation_value": -CANDIDATE_STAT_BASE_VALUE,
-                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*2,
-                "economy_value": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE * 2,
+                "economy_value": CANDIDATE_STAT_BASE_VALUE * (-2),
                 "environment_value": -CANDIDATE_STAT_BASE_VALUE,
-                "welfare_value": CANDIDATE_STAT_BASE_VALUE*(-3),
-                "law_value": CANDIDATE_STAT_BASE_VALUE*4,
+                "welfare_value": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "law_value": CANDIDATE_STAT_BASE_VALUE * 4,
 
-                "education_text":CANDIDATE_STAT_BASE_VALUE,
-                "reputation_text":"?",
-                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*2,
-                "economy_text": CANDIDATE_STAT_BASE_VALUE*(-2),
+                "education_text": CANDIDATE_STAT_BASE_VALUE,
+                "reputation_text": "?",
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE * 2,
+                "economy_text": CANDIDATE_STAT_BASE_VALUE * (-2),
                 "environment_text": -CANDIDATE_STAT_BASE_VALUE,
-                "welfare_text": CANDIDATE_STAT_BASE_VALUE*(-3),
-                "law_text": CANDIDATE_STAT_BASE_VALUE*4,
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "law_text": CANDIDATE_STAT_BASE_VALUE * 4,
             },
             4
         )
     )
-    candidate_list.append( 
+    candidate_list.append(
         Candidate(
             "Dianna",
             [
@@ -267,18 +274,18 @@ def initialize_candidates():
             ],
             {
                 "education_value": CANDIDATE_STAT_BASE_VALUE,
-                "reputation_value": CANDIDATE_STAT_BASE_VALUE*(-2),
-                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*2,
-                "economy_value": CANDIDATE_STAT_BASE_VALUE*(-3),
-                "environment_value": CANDIDATE_STAT_BASE_VALUE*4,
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE * 2,
+                "economy_value": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "environment_value": CANDIDATE_STAT_BASE_VALUE * 4,
                 "welfare_value": CANDIDATE_STAT_BASE_VALUE,
                 "law_value": -CANDIDATE_STAT_BASE_VALUE,
 
                 "education_text": CANDIDATE_STAT_BASE_VALUE,
-                "reputation_text": CANDIDATE_STAT_BASE_VALUE*(-2),
-                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*2,
-                "economy_text": CANDIDATE_STAT_BASE_VALUE*(-3),
-                "environment_text": CANDIDATE_STAT_BASE_VALUE*4,
+                "reputation_text": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE * 2,
+                "economy_text": CANDIDATE_STAT_BASE_VALUE * (-3),
+                "environment_text": CANDIDATE_STAT_BASE_VALUE * 4,
                 "welfare_text": CANDIDATE_STAT_BASE_VALUE,
                 "law_text": -CANDIDATE_STAT_BASE_VALUE,
             },
@@ -307,20 +314,20 @@ def initialize_candidates():
             ],
             {
                 "education_value": CANDIDATE_STAT_BASE_VALUE,
-                "reputation_value": CANDIDATE_STAT_BASE_VALUE*(-8),
-                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*2,
-                "economy_value": CANDIDATE_STAT_BASE_VALUE*2,
-                "environment_value": CANDIDATE_STAT_BASE_VALUE*(-6),
+                "reputation_value": CANDIDATE_STAT_BASE_VALUE * (-8),
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE * 2,
+                "economy_value": CANDIDATE_STAT_BASE_VALUE * 2,
+                "environment_value": CANDIDATE_STAT_BASE_VALUE * (-6),
                 "welfare_value": -CANDIDATE_STAT_BASE_VALUE,
-                "law_value": CANDIDATE_STAT_BASE_VALUE*10,
+                "law_value": CANDIDATE_STAT_BASE_VALUE * 10,
 
                 "education_text": CANDIDATE_STAT_BASE_VALUE,
-                "reputation_text": CANDIDATE_STAT_BASE_VALUE*(-8),
-                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*2,
-                "economy_text": CANDIDATE_STAT_BASE_VALUE*2,
-                "environment_text": CANDIDATE_STAT_BASE_VALUE*(-6),
-                "welfare_text": CANDIDATE_STAT_BASE_VALUE*(-2),
-                "law_text": CANDIDATE_STAT_BASE_VALUE*10,
+                "reputation_text": CANDIDATE_STAT_BASE_VALUE * (-8),
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE * 2,
+                "economy_text": CANDIDATE_STAT_BASE_VALUE * 2,
+                "environment_text": CANDIDATE_STAT_BASE_VALUE * (-6),
+                "welfare_text": CANDIDATE_STAT_BASE_VALUE * (-2),
+                "law_text": CANDIDATE_STAT_BASE_VALUE * 10,
             },
             6
         )
@@ -328,13 +335,13 @@ def initialize_candidates():
 
     return candidate_list
 
-#prints out the candidates horizontally
-def display_candidates(candidate1, candidate2, candidate3):
 
-    longest_background = max(len(candidate1.story), 
-                             len(candidate2.story), 
+# prints out the candidates horizontally
+def display_candidates(candidate1, candidate2, candidate3):
+    longest_background = max(len(candidate1.story),
+                             len(candidate2.story),
                              len(candidate3.story))
-    
+
     display_text = """
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 {:^25}|{:^25}|{:^25}|
@@ -350,22 +357,22 @@ def display_candidates(candidate1, candidate2, candidate3):
   ||{}||  |  ||{}||  |  ||{}||  |
   []=================[]  |  []=================[]  |  []=================[]  |
 -------------------------|-------------------------|-------------------------|\n"""
-    #insert the text
+    # insert the text
     display_text = display_text.format(
-        #there looks like this could be solved this with a for loop but the format function
-        #requires all parameters to be filled
+        # there looks like this could be solved this with a for loop but the format function
+        # requires all parameters to be filled
         candidate1.name, candidate2.name, candidate3.name,
-        candidate1.portrait[0], candidate2.portrait[0], candidate3.portrait[0],  
-        candidate1.portrait[1], candidate2.portrait[1], candidate3.portrait[1],  
-        candidate1.portrait[2], candidate2.portrait[2], candidate3.portrait[2],  
-        candidate1.portrait[3], candidate2.portrait[3], candidate3.portrait[3],  
-        candidate1.portrait[4], candidate2.portrait[4], candidate3.portrait[4],  
-        candidate1.portrait[5], candidate2.portrait[5], candidate3.portrait[5],  
-        candidate1.portrait[6], candidate2.portrait[6], candidate3.portrait[6],  
-        candidate1.portrait[7], candidate2.portrait[7], candidate3.portrait[7],  
+        candidate1.portrait[0], candidate2.portrait[0], candidate3.portrait[0],
+        candidate1.portrait[1], candidate2.portrait[1], candidate3.portrait[1],
+        candidate1.portrait[2], candidate2.portrait[2], candidate3.portrait[2],
+        candidate1.portrait[3], candidate2.portrait[3], candidate3.portrait[3],
+        candidate1.portrait[4], candidate2.portrait[4], candidate3.portrait[4],
+        candidate1.portrait[5], candidate2.portrait[5], candidate3.portrait[5],
+        candidate1.portrait[6], candidate2.portrait[6], candidate3.portrait[6],
+        candidate1.portrait[7], candidate2.portrait[7], candidate3.portrait[7],
     )
 
-    #add more lines to account for the longest story
+    # add more lines to account for the longest story
     for i in range(0, longest_background):
         display_text += "{:<25}|{:<25}|{:<25}|\n"
 
@@ -387,25 +394,27 @@ def display_candidates(candidate1, candidate2, candidate3):
 
     display_text += "-------------------------|-------------------------|-------------------------|\n"
 
-    stat_names = ["Education:", "Reputation:", "Infrastructure:", "Economy:", "Environment:", "Public Welfare:", "Law Enforcement:"]
-    #add lines based on the amount of stats
+    stat_names = ["Education:", "Reputation:", "Infrastructure:", "Economy:", "Environment:", "Public Welfare:",
+                  "Law Enforcement:"]
+    # add lines based on the amount of stats
     for j in range(7, 14):
         display_text += "{:<25}|{:<25}|{:<25}|\n"
         display_text = display_text.format(
-            stat_names[j%7] + str(tuple(candidate1.stats.values())[j]),
-            stat_names[j%7] + str(tuple(candidate2.stats.values())[j]),
-            stat_names[j%7] + str(tuple(candidate3.stats.values())[j]),
-            )
+            stat_names[j % 7] + str(tuple(candidate1.stats.values())[j]),
+            stat_names[j % 7] + str(tuple(candidate2.stats.values())[j]),
+            stat_names[j % 7] + str(tuple(candidate3.stats.values())[j]),
+        )
 
     display_text += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
 
     print(display_text)
 
-#used at the start of the game
+
+# used at the start of the game
 def get_three_random_candidates(candidate_list):
     running_ids = set()
-    while(len(running_ids) < 3):
-        running_ids.add(random.randint(0, len(candidate_list)-1))
+    while (len(running_ids) < 3):
+        running_ids.add(random.randint(0, len(candidate_list) - 1))
 
     running_candidates = []
     for id in running_ids:
@@ -414,60 +423,64 @@ def get_three_random_candidates(candidate_list):
     return running_candidates
 
 
-#returns three candidates that appeared less than others
-#always show the current candidate that is rerunning
+# returns three candidates that appeared less than others
+# always show the current candidate that is rerunning
 def get_semi_random_candidates(current_candidate, candidate_list):
-
     highest_appearance = -1
-    #amount of appearances, index of candidate
+    # amount of appearances, index of candidate
     first_lowest_appearance = [1000, -1]
     second_lowest_appearance = [1000, -1]
 
     for i in range(0, len(candidate_list)):
         highest_appearance = max(highest_appearance, candidate_list[i].times_appeared)
 
-        #initialize
-        if(first_lowest_appearance[1] == -1):
+        # initialize
+        if (first_lowest_appearance[1] == -1):
             first_lowest_appearance[0] = candidate_list[i].times_appeared
             first_lowest_appearance[1] = i
-        elif(second_lowest_appearance[1] == -1):
+        elif (second_lowest_appearance[1] == -1):
             second_lowest_appearance[0] = candidate_list[i].times_appeared
             second_lowest_appearance[1] = i
 
-        #check if appeared less
-        elif(candidate_list[i].times_appeared < first_lowest_appearance[0]):
+        # check if appeared less
+        elif (candidate_list[i].times_appeared < first_lowest_appearance[0]):
             first_lowest_appearance[0] = candidate_list[i].times_appeared
             first_lowest_appearance[1] = i
-        elif(candidate_list[i].times_appeared < second_lowest_appearance[0]):
+        elif (candidate_list[i].times_appeared < second_lowest_appearance[0]):
             second_lowest_appearance[0] = candidate_list[i].times_appeared
             second_lowest_appearance[1] = i
 
-    #increase appearance
+    # increase appearance
     current_candidate.times_appeared = highest_appearance
     candidate_list[first_lowest_appearance[1]].times_appeared += 1
     candidate_list[second_lowest_appearance[1]].times_appeared += 1
 
     list_of_ids = [current_candidate.id, first_lowest_appearance[1], second_lowest_appearance[2]]
     running_candidates = []
-    #randomize order
+    # randomize order
     while len(list_of_ids) > 0:
-        index = random.randint(0, len(list_of_ids)-1)
+        index = random.randint(0, len(list_of_ids) - 1)
         id = list_of_ids[index]
         running_candidates.append[candidate_list[id]]
         list_of_ids.pop(index)
 
     return running_candidates
 
-def candidate_vote(candidate1, candidate2, candidate3):
 
-    while True:
-        userInput = input("How many votes for ")
-        if userInput in answerYes:
-            print("YES!")
-            break
-        elif userInput in answerNo:
-            print("NO!")
-            break
+def candidate_vote(*candidates):
+    votes = {}
+
+    for candidate in candidates:
+        while True:
+            user_input = input(f"How many votes for {candidate.name}?\n>> ")
+            if user_input.isdigit():
+                votes[candidate] = int(user_input)
+                break
+            else:
+                print("Invalid input. Please enter a valid number of votes.")
+
+    return votes
+
 
 def main():
     print('''-----------------------------------------------------------------------                                                                                      
@@ -485,18 +498,24 @@ rose and hopes soared, the need for a leader became clear. You, one among
 them, faced a pivotal choice: embrace a visionary for progress or a firm 
 hand for security. 
 
-        The nation's destiny hinged on your decision.\n''')
+              The nation's destiny hinged on your decision.\n\n''')
 
     candidate_list = initialize_candidates()
     country = initialize_country()
+    return candidate_list
+
+def printElectionResult(votes):
+    print("Vote counts:")
+    for candidate, vote_count in votes.items():
+        print(f"{candidate.name}: {vote_count} votes")
+
+def doElection(candidate_list):
+    print("*************************** VOTE YOUR LEADER *****************************")
     display_list = get_three_random_candidates(candidate_list)
     display_candidates(display_list[0], display_list[1], display_list[2])
+    votes = candidate_vote(display_list[0], display_list[1], display_list[2])
+    printElectionResult(votes)
 
-def election():
-    print("*********************** VOTE YOUR LEADER *******************************")
-
-main()
-
-
-
+candidate_list = main()
+doElection(candidate_list)
 
