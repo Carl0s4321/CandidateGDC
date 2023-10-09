@@ -78,7 +78,8 @@ def initialize_candidates():
                 "environment_text":CANDIDATE_STAT_BASE_VALUE*(-2),
                 "welfare_text":CANDIDATE_STAT_BASE_VALUE*(-1),
                 "law_text": CANDIDATE_STAT_BASE_VALUE*2,
-            }
+            }, 
+            0
         )
     )
     candidate_list.append(
@@ -117,7 +118,8 @@ def initialize_candidates():
                 "environment_text": CANDIDATE_STAT_BASE_VALUE*(-3),
                 "welfare_text": CANDIDATE_STAT_BASE_VALUE*(-1),
                 "law_text": 0,
-            }
+            },
+            1
         )
     )
     candidate_list.append(
@@ -156,7 +158,8 @@ def initialize_candidates():
                 "environment_text": CANDIDATE_STAT_BASE_VALUE*(-1),
                 "welfare_text": CANDIDATE_STAT_BASE_VALUE,
                 "law_text": CANDIDATE_STAT_BASE_VALUE*2,
-            }
+            },
+            2
         )
     )
     candidate_list.append(
@@ -195,7 +198,8 @@ def initialize_candidates():
                 "environment_text": 0,
                 "welfare_text": CANDIDATE_STAT_BASE_VALUE*2,
                 "law_text": -CANDIDATE_STAT_BASE_VALUE,
-            }
+            },
+            3
         )
     )
     candidate_list.append(
@@ -234,7 +238,8 @@ def initialize_candidates():
                 "environment_text": -CANDIDATE_STAT_BASE_VALUE,
                 "welfare_text": CANDIDATE_STAT_BASE_VALUE*(-3),
                 "law_text": CANDIDATE_STAT_BASE_VALUE*4,
-            }
+            },
+            4
         )
     )
     candidate_list.append( 
@@ -273,7 +278,8 @@ def initialize_candidates():
                 "environment_text": CANDIDATE_STAT_BASE_VALUE*4,
                 "welfare_text": CANDIDATE_STAT_BASE_VALUE,
                 "law_text": -CANDIDATE_STAT_BASE_VALUE,
-            }
+            },
+            5
         )
     )
     candidate_list.append(
@@ -312,7 +318,8 @@ def initialize_candidates():
                 "environment_text": CANDIDATE_STAT_BASE_VALUE*(-6),
                 "welfare_text": CANDIDATE_STAT_BASE_VALUE*(-2),
                 "law_text": CANDIDATE_STAT_BASE_VALUE*10,
-            }
+            },
+            6
         )
     )
 
@@ -395,7 +402,7 @@ def display_candidates(candidate1, candidate2, candidate3):
 def get_three_random_candidates(candidate_list):
     running_ids = set()
     while(len(running_ids) < 3):
-        running_ids.add(random.randint(1, len(candidate_list)-1))
+        running_ids.add(random.randint(0, len(candidate_list)-1))
     
     running_candidates = []
     for id in running_ids:
@@ -413,8 +420,7 @@ def get_semi_random_candidates(current_candidate, candidate_list):
     first_lowest_appearance = [1000, -1]
     second_lowest_appearance = [1000, -1]
 
-    #starts at 1 to exclude empty candidate
-    for i in range(1, len(candidate_list)):
+    for i in range(0, len(candidate_list)):
         highest_appearance = max(highest_appearance, candidate_list[i].times_appeared)
 
         #initialize
