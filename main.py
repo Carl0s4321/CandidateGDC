@@ -17,21 +17,27 @@ class Country:
     # id of candidate found in the initial list
     current_candidate = 0
 
-    def __init__(self, population, education, reputation, infrastructure, economy, environment, publicWelfare,
-                 lawEnforcement):
+    def __init__(self, population, education, reputation, infrastructure, economy, environment, welfare,
+                 law):
         self.population = population
         self.education = education
         self.reputation = reputation
         self.infrastructure = infrastructure
         self.economy = economy
         self.environment = environment
-        self.publicWelfare = publicWelfare
-        self.lawEnforcement = lawEnforcement
+        self.welfare = welfare
+        self.law = law
 
     def updateCountryFromLeaderStat(self, added_stat):
-        stats = ["education", "reputation", "infrastructure", "economy", "environment", "publicWelfare", "lawEnforcement"]
+        stats = ["education", "reputation", "infrastructure", "economy", "environment", "welfare", "law"]
         for stat in stats:
             setattr(self, stat, getattr(self, stat) + added_stat.get(f"{stat}_value"))
+
+    def updateCountryFromEvent(self, added_stat):
+        stats = ["education", "reputation", "infrastructure", "economy", "environment", "welfare", "law"]
+        for stat in stats:
+            if stat in added_stat:
+                setattr(self, stat, getattr(self, stat) + added_stat.get(stat))
 
 
 def initialize_country():
@@ -45,129 +51,99 @@ class Candidate:
     rulingYear = 0
     progress = 0
     times_appeared = 0
+    story_on_rule = []
     goals = []
+    all_events = []
     events = []
 
-    # name (string), story (list of strings), portrait (list of strings), stats (dictionary), goals(function)
-    def __init__(self, name, story, portrait, stats, id):
+    # name (string), story (list of strings), portrait (list of strings), stats (dictionary)
+    # story_on_rule (list of strings), goals( list of goals), all_events (list of events)
+    def __init__(self, id, name, story, portrait, stats, story_on_rule, goals, all_events):
         self.name = name
         self.story = story
         self.portrait = portrait
         self.stats = stats
         self.id = id
 
+        self.story_on_rule = story_on_rule
+        self.goals = goals
+        self.all_events = all_events
+        self.events = all_events
+
+    def play_event(self, country):
+        #make it somewhat random later
+        if(len(self.events) > 0):
+            self.events[0].display_event(self, country)
+
     def updateStory(self):
-        # BUSINESS TYCOON
-        if self.id == 0:
-            if self.rulingYear == 1:
-                print(''' ''')
-        # TECH INNOVATOR
-        elif self.id == 1:
-            pass
-        # GOOD BOY
-        elif self.id == 2:
-            pass
-        # EDUCATOR ELITE
-        elif self.id == 3:
-            pass
-        # LAW AND ORDER ADVOCATE
-        elif self.id == 4:
-            pass
-        # ENVIRONMENTALIST
-        elif self.id == 5:
-            if self.rulingYear == 1:
-                print('''With the Environmentalist elected as the leader, the nation 
-embarks on a journey toward sustainability. The first year sees sweeping 
-changes, with strict regulations to reduce carbon emissions and promote 
-renewable energy. Challenges arise as some citizens in energy-dependent 
-industries face job losses, leading to protests and economic concerns. 
-[Economy -6, Public Welfare -3, Environment +4]''')
-
-            elif self.rulingYear == 2:
-                print('''As the economy adapts to renewable energy and green technology, 
-new jobs are created, but economic disparities persist. The Environmentalist 
-faces the challenge of bridging the gap between the growing green sector and 
-those affected by declining traditional industries. Meanwhile, opposition to 
-the rapid changes intensifies, with some calling for a rollback of policies. 
-[Economy +4, Public Welfare -3, Environment +3]''')
-                self.stats.get("economy")
-
-            elif self.rulingYear == 3:
-                print('''The Environmentalist introduces policies to protect natural 
-habitats and wildlife. Conservation efforts gain traction, but confrontations 
-arise with industries seeking to exploit natural resources. Balancing 
-environmental protection with economic interests becomes a major challenge. 
-Protests both for and against environmental policies escalate, leading to 
-tensions within the nation. 
-[Environment +6, Economy -2, Law Enforcement -4]''')
-
-            elif self.rulingYear == 4:
-                print('''Despite economic growth, the nation faces fiscal pressures due 
-to heavy investments in green infrastructure. Citizens express concerns about 
-rising taxes and government spending. The Environmentalist must navigate 
-a delicate balance between maintaining economic stability and continuing 
-to fund environmental initiatives. Opposition parties grow stronger, 
-demanding fiscal responsibility. 
-[Economy -5, Country's Reputation -3, Public Welfare -2]''')
-
-            elif self.rulingYear == 5:
-                print('''The nation's commitment to sustainability gains international 
-recognition, but it comes with expectations of global leadership in environmental
-matters. Balancing international obligations with domestic priorities becomes 
-a challenge. The Environmentalist faces pressure to allocate resources to global 
-initiatives, which sparks debate and dissent at home. 
-[Country's Reputation +5, Economy -3, Public Welfare -2]''')
-
-            elif self.rulingYear == 6:
-                print('''As the Environmentalist leader reaches the midpoint of their term, 
-she reflects on her achievements and challenges. The nation stands as a symbol of 
-sustainability, but the journey is far from over. The Environmentalist must continue 
-to navigate the complexities of the policies and prepare for a smooth transition 
-of power in two years. Choosing a successor who shares her vision while 
-addressing the concerns of the opposition becomes a critical decision. 
-[Country's Reputation +3, Economy +2, Public Welfare +1]''')
-
-            elif self.rulingYear == 7:
-                print('''With the Environmentalist leader's term now in its seventh year, 
-the nation faces ongoing challenges. While the transition of power is not imminent, 
-the leader must continue to build on the legacy and address unresolved issues. 
-Economic stability improves, but public welfare concerns linger. Protests and political
-polarization intensify as the nation looks ahead to the upcoming election year. 
-[Economy +2, Public Welfare -1, Law Enforcement -2]''')
-
-            elif self.rulingYear == 8:
-                print('''As the Environmentalist leader's term reaches its eighth year, 
-the nation stands as a symbol of sustainability. The leader's policies have left a 
-lasting impact, with a more sustainable economy and environment. Renewable energy 
-is now a cornerstone of the nation's power supply, and conservation efforts have 
-preserved natural habitats. However, economic disparities persist, and the 
-nation's reputation on the international stage remains a subject of debate. 
-The nation looks ahead to its future. 
-[Country's Reputation +1, Economy +1, Public Welfare +1]''')
-        # DICTATOR
-        else:
-            pass
+        if(self.rulingYear < len(self.story_on_rule)):
+            print_separator()
+            print(self.story_on_rule[self.rulingYear])
+        
 
     #amount (int)
     def move_to_goal(self, amount):
         self.progress += amount
         goal = self.goals[0]
+
+        #if there is enough progresss for the goal
         if(self.progress > goal.progress_needed):
+            print_separator()
             print(goal.story_on_completion)
             self.goals.pop(0)
             self.progress -= goal.progress_needed
 
+            #once all goals are completed
             if(len(self.goals) == 0):
                 #provide an ending to game
                 pass
 
 
 class Goal:
-    progress_needed = 0
-    story_on_completion = ""
-    def __init__(self, progress_needed, story):
+
+    #                   (int)           (string)  (dict)
+    def __init__(self, progress_needed, story, stat_additions):
         self.progress_needed = progress_needed
         self.story_on_completion = story
+        self.stats = stat_additions
+
+    def add_to_country(self, country):
+        country.updateCountryFromEvent(self.stat_additions)
+
+
+class Event:
+    
+    #decisions (dict{id : list[story_initial, story_final, dict{progress:int, stat1:int, ... , statx:int} ]})
+    def __init__(self, story_initial, decisions):
+        self.story_initial = story_initial
+        self.decisions = decisions
+
+    def display_event(self, candidate, country):
+        print_separator()
+        print(self.story_initial)
+        for v in self.decisions.values():
+            print(v[0])
+        self.ask_for_input(candidate, country)
+
+    def ask_for_input(self, candidate, country):
+        while True:
+            choice = input(">> ")
+            if choice in self.decisions:
+                decision = self.decisions.get(choice)
+                
+                print_separator()
+                print(decision[1])
+
+                candidate.move_to_goal(decision[2].get("progress"))
+
+                country.updateCountryFromEvent(decision[2])
+                break
+
+
+                
+
+
+            
 
 
 
@@ -177,7 +153,7 @@ def initialize_candidates():
 
     candidate_list.append(
         Candidate(
-            "Antonino",
+            0, "Antonino",
             [
                 "   The Business Tycoon   ",
                 "Focused on job creation, ",
@@ -212,12 +188,94 @@ def initialize_candidates():
                 "welfare_text":         CANDIDATE_STAT_BASE_VALUE*(-1),
                 "law_text":             CANDIDATE_STAT_BASE_VALUE*(2),
             },
-            0
+            #story on rule
+            ['''As the Charismatic Businessman is elected, the country moves towards
+becoming an economic powerhouse through the power of capitalism. Antonino's
+deep pockets allowed him to flood the airwaves with advertisements and
+he allows the government to operate like a business. New challenges 
+sprout from privatizing certain city services and the increasing divide 
+between the rich and poor.
+'''],
+            #goals
+            [
+                Goal(1, '''The Businessman is able to successfully remove taxes entirely,
+this allows people to raise and work for as much capital as they like.
+The government on the other hand is forced to operate as a business,
+borrowing capital and trading stocks in order to fund projects. City
+services are up for competition and the economy is booming!
+[Economy + 10] [Law Enforcement - 8] [Environment - 2] ''',
+                {"economy":10, "law":-8, "environment":-2} ),
+                Goal(2, '''Test''',
+                     {"economy":1})
+            ],
+
+            #events
+            #story_initial, 
+            #decisions (dict{
+            #   id : list[story_initial, story_final, 
+            #           dict{progress:int, stat1:int, ... , statx:int} ]})
+            [
+                Event('''There is competition in the waste management sector, workers are
+being layed off and there is no profits to be made and nothing to sell!  
+              ''',
+                    {
+                        "1": [
+                            "1) Propose a solution", 
+                            '''A solution to the situation was made, people pay the waste management company
+similar to how people pay their electric and water bills. 
+[Economy + 5] [Public Welfare - 5] [Goal + 1]''',
+                            {"progress":1, "economy":5, "welfare":-5}
+                            ],
+
+                        "2": [
+                            "2) It is not my problem",
+                            '''Nothing was done, but competitors innovate to make waste management plausible.
+[Economy + 2] [Reputation - 2]''',
+                            {"progress":0, "economy":2, "reputation":-2}
+                            ],
+
+                        "3": [
+                            "3) Protest",
+                            '''Pressure was pushed onto the Businessman and innovated a subscription service
+similar to electricity and hydro bills. People found this acceptable.
+[Economy + 5] [Reputation + 2] [Public Welfare - 5] [Goal + 1]''',
+                            {"progress":1, "economy":5, "reputation":2, "welfare":-5}
+                            ],
+                    }
+                ),
+
+            Event('''You spot a police officer accepting bribes from a criminal!''',
+                    {
+                        "1": [
+                            "1) Report the transaction",
+                            '''The report was made to the government and was handled internally.
+[Law Enforcement - 1]''',
+                            {"progress":0, "law":-1},
+                            ],
+                        "2": [
+                            "2) Police officers need money too!",
+                            '''Yes, so why don't you become a police officer too?
+[Law Enforcement - 5] [Public Welfare - 2] [Economy + 3]''',
+                            {"progress":0, "law":-5, "welfare":-2, "economy":3},
+                            ],
+                        "3" : [
+                            "3) Spread on the internet and protest",
+                            '''The message spread like wildfire and people are becoming worried about the
+safety of the country. People protest to hold the government accountable.
+People are now wary of police actions and are taking safety in their own hands.
+[Law Enforcement + 1] [Public Welfare - 4]''',
+                            {"progress":0, "law":1, "welfare":-4},
+                            ]
+                    }
+                ),
+            ]
         )
     )
+
+
     candidate_list.append(
         Candidate(
-            "Markos",
+            1, "Markos",
             [
                 "      The Innovator      ",
                 "Pioneering technology    ",
@@ -252,12 +310,18 @@ def initialize_candidates():
                 "welfare_text":        CANDIDATE_STAT_BASE_VALUE*(-1),
                 "law_text":            0,
             },
-            1
+            #story on rule
+            [],
+            #goals
+            [],
+            #events
+            [],
+            
         )
     )
     candidate_list.append(
         Candidate(
-            "Sparky",
+            2, "Sparky",
             [
                 "      The Good Boy       ",
                 "Bark bark!               ",
@@ -292,12 +356,17 @@ def initialize_candidates():
                 "welfare_text":         CANDIDATE_STAT_BASE_VALUE,
                 "law_text":             CANDIDATE_STAT_BASE_VALUE*2,
             },
-            2
+            #story on rule
+            [],
+            #goals
+            [],
+            #events
+            [],
         )
     )
     candidate_list.append(
         Candidate(
-            "Connie",
+            3, "Connie",
             [
                 "      Educator Elite     ",
                 "Prioritizing education,  ",
@@ -332,12 +401,17 @@ def initialize_candidates():
                 "welfare_text":         CANDIDATE_STAT_BASE_VALUE*2,
                 "law_text":             CANDIDATE_STAT_BASE_VALUE*(-1),
             },
-            3
+            #story on rule
+            [],
+            #goals
+            [],
+            #events
+            [],
         )
     )
     candidate_list.append(
         Candidate(
-            "Biben",
+            4, "Biben",
             [
                 " Law and Order Advocate  ",
                 "Tough on crime policies, ",
@@ -372,12 +446,18 @@ def initialize_candidates():
                 "welfare_text":         CANDIDATE_STAT_BASE_VALUE*(-3),
                 "law_text":             CANDIDATE_STAT_BASE_VALUE*4,
             },
-            4
+            #story on rule
+            [],
+            #goals
+            [],
+            #events
+            [],
+            
         )
     )
     candidate_list.append(
         Candidate(
-            "Dianna",
+            5, "Dianna",
             [
                 "  Avid Environmentalist  ",
                 "Proposes to eradicate    ",
@@ -412,12 +492,77 @@ def initialize_candidates():
                 "welfare_text":         CANDIDATE_STAT_BASE_VALUE,
                 "law_text":             CANDIDATE_STAT_BASE_VALUE*(-1),
             },
-            5
+            #story on rule
+            ['''With the Environmentalist elected as the leader, the nation 
+embarks on a journey toward sustainability. The first year sees sweeping 
+changes, with strict regulations to reduce carbon emissions and promote 
+renewable energy. Challenges arise as some citizens in energy-dependent 
+industries face job losses, leading to protests and economic concerns. 
+[Economy -6, Public Welfare -3, Environment +4]''', #year 1
+
+            '''As the economy adapts to renewable energy and green technology, 
+new jobs are created, but economic disparities persist. The Environmentalist 
+faces the challenge of bridging the gap between the growing green sector and 
+those affected by declining traditional industries. Meanwhile, opposition to 
+the rapid changes intensifies, with some calling for a rollback of policies. 
+[Economy +4, Public Welfare -3, Environment +3]''', #year 2
+
+'''The Environmentalist introduces policies to protect natural 
+habitats and wildlife. Conservation efforts gain traction, but confrontations 
+arise with industries seeking to exploit natural resources. Balancing 
+environmental protection with economic interests becomes a major challenge. 
+Protests both for and against environmental policies escalate, leading to 
+tensions within the nation. 
+[Environment +6, Economy -2, Law Enforcement -4]''', #year 3
+
+    '''Despite economic growth, the nation faces fiscal pressures due 
+to heavy investments in green infrastructure. Citizens express concerns about 
+rising taxes and government spending. The Environmentalist must navigate 
+a delicate balance between maintaining economic stability and continuing 
+to fund environmental initiatives. Opposition parties grow stronger, 
+demanding fiscal responsibility. 
+[Economy -5, Country's Reputation -3, Public Welfare -2]''', #year 4
+
+'''The nation's commitment to sustainability gains international 
+recognition, but it comes with expectations of global leadership in environmental
+matters. Balancing international obligations with domestic priorities becomes 
+a challenge. The Environmentalist faces pressure to allocate resources to global 
+initiatives, which sparks debate and dissent at home. 
+[Country's Reputation +5, Economy -3, Public Welfare -2]''', #year 5
+
+'''As the Environmentalist leader reaches the midpoint of their term, 
+she reflects on her achievements and challenges. The nation stands as a symbol of 
+sustainability, but the journey is far from over. The Environmentalist must continue 
+to navigate the complexities of the policies and prepare for a smooth transition 
+of power in two years. Choosing a successor who shares her vision while 
+addressing the concerns of the opposition becomes a critical decision. 
+[Country's Reputation +3, Economy +2, Public Welfare +1]''', #year 6
+
+'''With the Environmentalist leader's term now in its seventh year, 
+the nation faces ongoing challenges. While the transition of power is not imminent, 
+the leader must continue to build on the legacy and address unresolved issues. 
+Economic stability improves, but public welfare concerns linger. Protests and political
+polarization intensify as the nation looks ahead to the upcoming election year. 
+[Economy +2, Public Welfare -1, Law Enforcement -2]''', #year 7
+
+'''As the Environmentalist leader's term reaches its eighth year, 
+the nation stands as a symbol of sustainability. The leader's policies have left a 
+lasting impact, with a more sustainable economy and environment. Renewable energy 
+is now a cornerstone of the nation's power supply, and conservation efforts have 
+preserved natural habitats. However, economic disparities persist, and the 
+nation's reputation on the international stage remains a subject of debate. 
+The nation looks ahead to its future. 
+[Country's Reputation +1, Economy +1, Public Welfare +1]'''], #year 8
+            #goals
+            [],
+            #events
+            [],
+            
         )
     )
     candidate_list.append(
         Candidate(
-            "Schwarz",
+            6, "Schwarz",
             [
                 "       The Dictator      ",
                 "Rules through propaganda ",
@@ -452,7 +597,13 @@ def initialize_candidates():
                 "welfare_text":         CANDIDATE_STAT_BASE_VALUE*(-1),
                 "law_text":             CANDIDATE_STAT_BASE_VALUE*10,
             },
-            6
+            #story on rule
+            [],
+            #goals
+            [],
+            #events
+            [],
+            
         )
     )
 
@@ -471,7 +622,9 @@ def special_events():
     # economic depression
     pass
     
-
+def print_separator():
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    
 
 # prints out the candidates horizontally
 def display_candidates(candidate1, candidate2, candidate3):
@@ -658,7 +811,12 @@ heart of this moment: choosing a leader.
     country = initialize_country()
     leader = doElection(candidate_list)
     country.updateCountryFromLeaderStat(leader.stats)
+    
     leader.updateStory()
+    leader.rulingYear += 1
+    leader.play_event(country)
+
+
     # INC RULING YEARS
     # while game_start:
     #     print("[YEAR:", year, "]")
