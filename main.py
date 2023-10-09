@@ -29,14 +29,16 @@ def initialize_country():
     return country
 
 class Candidate:
+    id = 0
     wins = 0
     times_appeared = 0
     #name (string), story (list of strings), portrait (list of strings), stats (dictionary)
-    def __init__(self, name, story, portrait, stats):
+    def __init__(self, name, story, portrait, stats, id):
         self.name = name
         self.story = story
         self.portrait = portrait
         self.stats = stats
+        self.id = id
 
 #returns a list of Candidates
 def initialize_candidates():
@@ -79,7 +81,8 @@ def initialize_candidates():
                 "environment_text":CANDIDATE_STAT_BASE_VALUE*(-2),
                 "welfare_text":CANDIDATE_STAT_BASE_VALUE*(-1),
                 "law_text": CANDIDATE_STAT_BASE_VALUE*2,
-            }
+            },
+            0
         )
     )
     candidate_list.append(
@@ -118,7 +121,8 @@ def initialize_candidates():
                 "environment_text": CANDIDATE_STAT_BASE_VALUE*(-3),
                 "welfare_text": CANDIDATE_STAT_BASE_VALUE*(-1),
                 "law_text": 0,
-            }
+            },
+            1
         )
     )
     candidate_list.append(
@@ -157,7 +161,8 @@ def initialize_candidates():
                 "environment_text": CANDIDATE_STAT_BASE_VALUE*(-1),
                 "welfare_text": CANDIDATE_STAT_BASE_VALUE,
                 "law_text": CANDIDATE_STAT_BASE_VALUE*2,
-            }
+            },
+            2
         )
     )
     candidate_list.append(
@@ -196,7 +201,8 @@ def initialize_candidates():
                 "environment_text": 0,
                 "welfare_text": CANDIDATE_STAT_BASE_VALUE*2,
                 "law_text": -CANDIDATE_STAT_BASE_VALUE,
-            }
+            },
+            3
         )
     )
     candidate_list.append(
@@ -235,7 +241,8 @@ def initialize_candidates():
                 "environment_text": -CANDIDATE_STAT_BASE_VALUE,
                 "welfare_text": CANDIDATE_STAT_BASE_VALUE*(-3),
                 "law_text": CANDIDATE_STAT_BASE_VALUE*4,
-            }
+            },
+            4
         )
     )
     candidate_list.append( 
@@ -243,10 +250,10 @@ def initialize_candidates():
             "Dianna",
             [
                 "  Avid Environmentalist  ",
-                "Leader of the Pine Party ",
-                "Proposes to install      ",
-                "solar panels on every    ",
-                "building in the country  ",
+                "Proposes to eradicate    ",
+                "climate change through   ",
+                "practical technological  ",
+                "solutions.               ",
             ],
             [
                 r"    _--===--_    ",
@@ -274,7 +281,8 @@ def initialize_candidates():
                 "environment_text": CANDIDATE_STAT_BASE_VALUE*4,
                 "welfare_text": CANDIDATE_STAT_BASE_VALUE,
                 "law_text": -CANDIDATE_STAT_BASE_VALUE,
-            }
+            },
+            5
         )
     )
     candidate_list.append(
@@ -313,7 +321,8 @@ def initialize_candidates():
                 "environment_text": CANDIDATE_STAT_BASE_VALUE*(-6),
                 "welfare_text": CANDIDATE_STAT_BASE_VALUE*(-2),
                 "law_text": CANDIDATE_STAT_BASE_VALUE*10,
-            }
+            },
+            6
         )
     )
 
@@ -370,7 +379,7 @@ def display_candidates(candidate1, candidate2, candidate3):
         if i < len(candidate2.story):
             story2 = candidate2.story[i]
 
-        if i < len(candidate1.story):
+        if i < len(candidate3.story):
             story3 = candidate3.story[i]
 
         display_text = display_text.format(
@@ -392,23 +401,73 @@ def display_candidates(candidate1, candidate2, candidate3):
 
     print(display_text)
 
+#used at the start of the game
+def get_three_random_candidates(candidate_list):
+    running_ids = set()
+    while(len(running_ids) < 3):
+        running_ids.add(random.randint(0, len(candidate_list)-1))
+
+    running_candidates = []
+    for id in running_ids:
+        running_candidates.append(candidate_list[id])
+
+    return running_candidates
+
+
 #returns three candidates that appeared less than others
-#(later) always show the candidate that is rerunning
-# def get_semi_random_candidates():
+#always show the current candidate that is rerunning
+def get_semi_random_candidates(current_candidate, candidate_list):
 
-#     running_candidates = []
-#     return running_candidates
+    highest_appearance = -1
+    #amount of appearances, index of candidate
+    first_lowest_appearance = [1000, -1]
+    second_lowest_appearance = [1000, -1]
 
-# def candidate_vote(candidate1, candidate2, candidate3):
+    for i in range(0, len(candidate_list)):
+        highest_appearance = max(highest_appearance, candidate_list[i].times_appeared)
 
-#     while True:
-#         userInput = input("How many votes for ")
-#         if userInput in answerYes:
-#             print("YES!")
-#             break
-#         elif userInput in answerNo:
-#             print("NO!")
-#             break
+        #initialize
+        if(first_lowest_appearance[1] == -1):
+            first_lowest_appearance[0] = candidate_list[i].times_appeared
+            first_lowest_appearance[1] = i
+        elif(second_lowest_appearance[1] == -1):
+            second_lowest_appearance[0] = candidate_list[i].times_appeared
+            second_lowest_appearance[1] = i
+
+        #check if appeared less
+        elif(candidate_list[i].times_appeared < first_lowest_appearance[0]):
+            first_lowest_appearance[0] = candidate_list[i].times_appeared
+            first_lowest_appearance[1] = i
+        elif(candidate_list[i].times_appeared < second_lowest_appearance[0]):
+            second_lowest_appearance[0] = candidate_list[i].times_appeared
+            second_lowest_appearance[1] = i
+
+    #increase appearance
+    current_candidate.times_appeared = highest_appearance
+    candidate_list[first_lowest_appearance[1]].times_appeared += 1
+    candidate_list[second_lowest_appearance[1]].times_appeared += 1
+
+    list_of_ids = [current_candidate.id, first_lowest_appearance[1], second_lowest_appearance[2]]
+    running_candidates = []
+    #randomize order
+    while len(list_of_ids) > 0:
+        index = random.randint(0, len(list_of_ids)-1)
+        id = list_of_ids[index]
+        running_candidates.append[candidate_list[id]]
+        list_of_ids.pop(index)
+
+    return running_candidates
+
+def candidate_vote(candidate1, candidate2, candidate3):
+
+    while True:
+        userInput = input("How many votes for ")
+        if userInput in answerYes:
+            print("YES!")
+            break
+        elif userInput in answerNo:
+            print("NO!")
+            break
 
 def main():
     print('''-----------------------------------------------------------------------                                                                                      
@@ -429,9 +488,9 @@ hand for security.
         The nation's destiny hinged on your decision.\n''')
 
     candidate_list = initialize_candidates()
-
-    # display_candidates(candidate_list[0], candidate_list[1], candidate_list[2])
-    # display_candidates(candidate_list[3], candidate_list[4], candidate_list[6])
+    country = initialize_country()
+    display_list = get_three_random_candidates(candidate_list)
+    display_candidates(display_list[0], display_list[1], display_list[2])
 
 def election():
     print("*********************** VOTE YOUR LEADER *******************************")
@@ -440,4 +499,4 @@ main()
 
 
 
-country = initialize_country()
+
