@@ -26,14 +26,16 @@ def initialize_country():
     return country
 
 class Candidate:
+    id = 0
     wins = 0
     times_appeared = 0
     #name (string), story (list of strings), portrait (list of strings), stats (dictionary)
-    def __init__(self, name, story, portrait, stats):
+    def __init__(self, name, story, portrait, stats, id):
         self.name = name
         self.story = story
         self.portrait = portrait
         self.stats = stats
+        self.id = id
 
 #returns a list of Candidates
 def initialize_candidates():
@@ -63,125 +65,8 @@ def initialize_candidates():
             {
                 "education_value": CANDIDATE_STAT_BASE_VALUE*(-3),
                 "reputation_value":0,
-                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE,
-                "economy_value": CANDIDATE_STAT_BASE_VALUE*4,
-                "environment_value": CANDIDATE_STAT_BASE_VALUE*(-2),
-                "welfare_value": CANDIDATE_STAT_BASE_VALUE*(-1),
-                "law_value": CANDIDATE_STAT_BASE_VALUE*2,
-
-                "education_text": CANDIDATE_STAT_BASE_VALUE*(-3),
-                "reputation_text":0,
-                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE,
-                "economy_text":CANDIDATE_STAT_BASE_VALUE*4,
-                "environment_text":CANDIDATE_STAT_BASE_VALUE*(-2),
-                "welfare_text":CANDIDATE_STAT_BASE_VALUE*(-1),
-                "law_text": CANDIDATE_STAT_BASE_VALUE*2,
-            }
-        )
-    )
-    candidate_list.append(
-        Candidate(
-            "Markos",
-            [
-                "      The Innovator      ",
-                "Pioneering technology    ",
-                "smart cities, and STEM   ",
-                "education, fostering     ",
-                "innovation and knowledge ",
-            ],
-            [
-                r"    __-===-__    ",
-                r"   ////   \\\\   ",
-                r"   |  -   -  |   ",
-                r"  (''(0)=(0)'')  ",
-                r"   |    \    |   ",
-                r"    \  ___  /    ",
-                r"     \_____/     ",
-                r"    /  \=/  \    ",
-            ],
-            {
-                "education_value": CANDIDATE_STAT_BASE_VALUE*2,
-                "reputation_value": CANDIDATE_STAT_BASE_VALUE*(-2),
-                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(3),
-                "economy_value": CANDIDATE_STAT_BASE_VALUE,
-                "environment_value": CANDIDATE_STAT_BASE_VALUE*(-3),
-                "welfare_value": CANDIDATE_STAT_BASE_VALUE*(-1),
-                "law_value": 0,
-
-                "education_text": CANDIDATE_STAT_BASE_VALUE*2,
-                "reputation_text": CANDIDATE_STAT_BASE_VALUE*(-2),
-                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*(3),
-                "economy_text": CANDIDATE_STAT_BASE_VALUE,
-                "environment_text": CANDIDATE_STAT_BASE_VALUE*(-3),
-                "welfare_text": CANDIDATE_STAT_BASE_VALUE*(-1),
-                "law_text": 0,
-            }
-        )
-    )
-    candidate_list.append(
-        Candidate(
-            "Sparky",
-            [
-                "      The Good Boy       ",
-                "Bark bark!               ",
-                "                         ",
-                "                         ",
-                "                         ",
-            ],
-            [
-                r"   __-------__   ",
-                r"  / /       \ \  ",
-                r" | /  o   o  | | ",
-                r" | |   ___   | | ",
-                r" '='\ / Y \ /'=' ",
-                r"     |  U  |     ",
-                r"     /\___/\     ",
-                r"    /       \    ",
-            ],
-            {
-                "education_value": CANDIDATE_STAT_BASE_VALUE*(-2),
-                "reputation_value": CANDIDATE_STAT_BASE_VALUE*4,
-                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(-1),
-                "economy_value": CANDIDATE_STAT_BASE_VALUE*(-1),
-                "environment_value": CANDIDATE_STAT_BASE_VALUE*(-1),
-                "welfare_value": CANDIDATE_STAT_BASE_VALUE,
-                "law_value": CANDIDATE_STAT_BASE_VALUE*2,
-
-                "education_text": CANDIDATE_STAT_BASE_VALUE*(-2),
-                "reputation_text": CANDIDATE_STAT_BASE_VALUE*4,
-                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*(-1),
-                "economy_text": CANDIDATE_STAT_BASE_VALUE*(-1),
-                "environment_text": CANDIDATE_STAT_BASE_VALUE*(-1),
-                "welfare_text": CANDIDATE_STAT_BASE_VALUE,
-                "law_text": CANDIDATE_STAT_BASE_VALUE*2,
-            }
-        )
-    )
-    candidate_list.append(
-        Candidate(
-            "Connie",
-            [
-                "       The Educator      ",
-                "Prioritizing education,  ",
-                "healthcare, and social   ",
-                "programs to improve      ",
-                "citizen's well-being     "
-            ],
-            [
-                r"     _______     ",
-                r"  __/)))))))\    ",
-                r" ///         \   ",
-                r" \_(=(^)=(^)=)   ",
-                r"   #    >    #   ",
-                r"    \ \___/ /    ",
-                r"     \_____/     ",
-                r"      /   \      ",
-            ],
-            {
-                "education_value": CANDIDATE_STAT_BASE_VALUE*4,
-                "reputation_value": CANDIDATE_STAT_BASE_VALUE,
-                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(-2),
-                "economy_value": CANDIDATE_STAT_BASE_VALUE*(-3),
+                "infrastructure_value":0,
+                "economy_value":0,
                 "environment_value": 0,
                 "welfare_value": CANDIDATE_STAT_BASE_VALUE*2,
                 "law_value": -CANDIDATE_STAT_BASE_VALUE,
@@ -367,7 +252,7 @@ def display_candidates(candidate1, candidate2, candidate3):
         if i < len(candidate2.story):
             story2 = candidate2.story[i]
 
-        if i < len(candidate1.story):
+        if i < len(candidate3.story):
             story3 = candidate3.story[i]
 
         display_text = display_text.format(
@@ -389,23 +274,74 @@ def display_candidates(candidate1, candidate2, candidate3):
 
     print(display_text)
 
+#used at the start of the game
+def get_three_random_candidates(candidate_list):
+    running_ids = set()
+    while(len(running_ids) < 3):
+        running_ids.add(random.randint(1, len(candidate_list)-1))
+    
+    running_candidates = []
+    for id in running_ids:
+        running_candidates.append(candidate_list[id])
+
+    return running_candidates
+
+
 #returns three candidates that appeared less than others
-#(later) always show the candidate that is rerunning
-# def get_semi_random_candidates():
+#always show the current candidate that is rerunning
+def get_semi_random_candidates(current_candidate, candidate_list):
 
-#     running_candidates = []
-#     return running_candidates
+    highest_appearance = -1
+    #amount of appearances, index of candidate
+    first_lowest_appearance = [1000, -1]
+    second_lowest_appearance = [1000, -1]
 
-# def candidate_vote(candidate1, candidate2, candidate3):
+    #starts at 1 to exclude empty candidate
+    for i in range(1, len(candidate_list)):
+        highest_appearance = max(highest_appearance, candidate_list[i].times_appeared)
 
-#     while True:
-#         userInput = input("How many votes for ")
-#         if userInput in answerYes:
-#             print("YES!")
-#             break
-#         elif userInput in answerNo:
-#             print("NO!")
-#             break
+        #initialize
+        if(first_lowest_appearance[1] == -1):
+            first_lowest_appearance[0] = candidate_list[i].times_appeared
+            first_lowest_appearance[1] = i
+        elif(second_lowest_appearance[1] == -1):
+            second_lowest_appearance[0] = candidate_list[i].times_appeared
+            second_lowest_appearance[1] = i
+
+        #check if appeared less
+        elif(candidate_list[i].times_appeared < first_lowest_appearance[0]):
+            first_lowest_appearance[0] = candidate_list[i].times_appeared
+            first_lowest_appearance[1] = i
+        elif(candidate_list[i].times_appeared < second_lowest_appearance[0]):
+            second_lowest_appearance[0] = candidate_list[i].times_appeared
+            second_lowest_appearance[1] = i
+
+    #increase appearance
+    current_candidate.times_appeared = highest_appearance
+    candidate_list[first_lowest_appearance[1]].times_appeared += 1
+    candidate_list[second_lowest_appearance[1]].times_appeared += 1
+
+    list_of_ids = [current_candidate.id, first_lowest_appearance[1], second_lowest_appearance[2]]
+    running_candidates = []
+    #randomize order
+    while len(list_of_ids) > 0:
+        index = random.randint(0, len(list_of_ids)-1)
+        id = list_of_ids[index]
+        running_candidates.append[candidate_list[id]]
+        list_of_ids.pop(index)
+
+    return running_candidates
+
+def candidate_vote(candidate1, candidate2, candidate3):
+
+    while True:
+        userInput = input("How many votes for ")
+        if userInput in answerYes:
+            print("YES!")
+            break
+        elif userInput in answerNo:
+            print("NO!")
+            break
 
 def main():
     print('''-----------------------------------------------------------------------                                                                                      
@@ -419,13 +355,13 @@ MM.           MM       MM        MM    AMV   ,   MM   Y  ,   M   `MM.M
 ----------------...Carlos Sujanto and Jimmy Xu...----------------------''')
 
     candidate_list = initialize_candidates()
-
-    display_candidates(candidate_list[0], candidate_list[1], candidate_list[2])
-    display_candidates(candidate_list[3], candidate_list[4], candidate_list[6])
+    country = initialize_country()
+    display_list = get_three_random_candidates(candidate_list)
+    display_candidates(display_list[0], display_list[1], display_list[2])
 
 
 main()
 
 
 
-country = initialize_country()
+
