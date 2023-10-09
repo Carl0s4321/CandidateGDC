@@ -502,7 +502,7 @@ hand for security.
 
     candidate_list = initialize_candidates()
     country = initialize_country()
-    return candidate_list
+    return candidate_list, country
 
 def printElectionResult(votes):
     print("Vote counts:")
