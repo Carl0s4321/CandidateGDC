@@ -36,16 +36,17 @@ def initialize_country():
 
 class Candidate:
     id = 0
-    wins = 0
+    progress = 0
     times_appeared = 0
 
-    # name (string), story (list of strings), portrait (list of strings), stats (dictionary)
-    def __init__(self, name, story, portrait, stats, id):
+    # name (string), story (list of strings), portrait (list of strings), stats (dictionary), goals(function)
+    def __init__(self, name, story, portrait, stats, id, goals):
         self.name = name
         self.story = story
         self.portrait = portrait
         self.stats = stats
         self.id = id
+        self.goals = goals
 
 
 # returns a list of Candidates
@@ -176,7 +177,7 @@ def initialize_candidates():
         Candidate(
             "Connie",
             [
-                "       The Educator      ",
+                "      Educator Elite     ",
                 "Prioritizing education,  ",
                 "healthcare, and social   ",
                 "programs to improve      ",
@@ -336,6 +337,20 @@ def initialize_candidates():
     return candidate_list
 
 
+
+def special_events():
+    #pandemic
+    #conspiracy / misinformation
+    #climate change
+    #space activity
+    #mafia/terrorist activity
+    #war
+    #economic depression
+    pass
+    
+
+
+
 # prints out the candidates horizontally
 def display_candidates(candidate1, candidate2, candidate3):
     longest_background = max(len(candidate1.story),
@@ -418,7 +433,9 @@ def get_three_random_candidates(candidate_list):
 
     running_candidates = []
     for id in running_ids:
-        running_candidates.append(candidate_list[id])
+        candidate = candidate_list[id]
+        candidate.times_appeared += 1
+        running_candidates.append(candidate)
 
     return running_candidates
 
