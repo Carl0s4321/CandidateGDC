@@ -75,10 +75,11 @@ class Candidate:
         if(len(self.events) > 0):
             self.events[0].display_event(self, country)
 
-    def updateStory(self):
+    def updateStory(self, country):
         if(self.rulingYear < len(self.story_on_rule)):
             print_separator()
-            print(self.story_on_rule[self.rulingYear])
+            print(self.story_on_rule[self.rulingYear][0])
+            country.updateCountryFromEvent(self.story_on_rule[self.rulingYear][1])
         
 
     #amount (int)
@@ -130,7 +131,7 @@ class Event:
             choice = input(">> ")
             if choice in self.decisions:
                 decision = self.decisions.get(choice)
-                
+
                 print_separator()
                 print(decision[1])
 
@@ -189,13 +190,16 @@ def initialize_candidates():
                 "law_text":             CANDIDATE_STAT_BASE_VALUE*(2),
             },
             #story on rule
-            ['''As the Charismatic Businessman is elected, the country moves towards
+            [['''As the Charismatic Businessman is elected, the country moves towards
 becoming an economic powerhouse through the power of capitalism. Antonino's
 deep pockets allowed him to flood the airwaves with advertisements and
 he allows the government to operate like a business. New challenges 
 sprout from privatizing certain city services and the increasing divide 
 between the rich and poor.
-'''],
+[Economy +5, Public Welfare -2, Infrastructure +2]
+''', {"economy":5, "welfare":-2, "infrastructure":2}],
+
+        ],
             #goals
             [
                 Goal(1, '''The Businessman is able to successfully remove taxes entirely,
@@ -493,66 +497,75 @@ People are now wary of police actions and are taking safety in their own hands.
                 "law_text":             CANDIDATE_STAT_BASE_VALUE*(-1),
             },
             #story on rule
-            ['''With the Environmentalist elected as the leader, the nation 
+            [['''With the Environmentalist elected as the leader, the nation 
 embarks on a journey toward sustainability. The first year sees sweeping 
 changes, with strict regulations to reduce carbon emissions and promote 
 renewable energy. Challenges arise as some citizens in energy-dependent 
 industries face job losses, leading to protests and economic concerns. 
-[Economy -6, Public Welfare -3, Environment +4]''', #year 1
+[Economy -6, Public Welfare -3, Environment +4]''',
+{"economy":-6,"welfare":-3,"environment":4}], #year 1
 
-            '''As the economy adapts to renewable energy and green technology, 
+           [ '''As the economy adapts to renewable energy and green technology, 
 new jobs are created, but economic disparities persist. The Environmentalist 
 faces the challenge of bridging the gap between the growing green sector and 
 those affected by declining traditional industries. Meanwhile, opposition to 
 the rapid changes intensifies, with some calling for a rollback of policies. 
-[Economy +4, Public Welfare -3, Environment +3]''', #year 2
+[Economy +4, Public Welfare -3, Environment +3]''',
+{"economy":4, "welfare":-3, "environment":3}], #year 2
 
-'''The Environmentalist introduces policies to protect natural 
+['''The Environmentalist introduces policies to protect natural 
 habitats and wildlife. Conservation efforts gain traction, but confrontations 
 arise with industries seeking to exploit natural resources. Balancing 
 environmental protection with economic interests becomes a major challenge. 
 Protests both for and against environmental policies escalate, leading to 
 tensions within the nation. 
-[Environment +6, Economy -2, Law Enforcement -4]''', #year 3
+[Environment +6, Economy -2, Law Enforcement -4]''',
+ {"environment":6, "economy":-2, "law":-4}], #year 3
 
-    '''Despite economic growth, the nation faces fiscal pressures due 
+    ['''Despite economic growth, the nation faces fiscal pressures due 
 to heavy investments in green infrastructure. Citizens express concerns about 
 rising taxes and government spending. The Environmentalist must navigate 
 a delicate balance between maintaining economic stability and continuing 
 to fund environmental initiatives. Opposition parties grow stronger, 
 demanding fiscal responsibility. 
-[Economy -5, Country's Reputation -3, Public Welfare -2]''', #year 4
+[Economy -5, Country's Reputation -3, Public Welfare -2]''',
+{"economy":-5, "reputation":-3, "welfare":-2}], #year 4
 
-'''The nation's commitment to sustainability gains international 
+['''The nation's commitment to sustainability gains international 
 recognition, but it comes with expectations of global leadership in environmental
 matters. Balancing international obligations with domestic priorities becomes 
 a challenge. The Environmentalist faces pressure to allocate resources to global 
 initiatives, which sparks debate and dissent at home. 
-[Country's Reputation +5, Economy -3, Public Welfare -2]''', #year 5
+[Country's Reputation +5, Economy -3, Public Welfare -2]''', 
+{"reputation":5, "economy":-3, "welfare":-2}], #year 5
 
-'''As the Environmentalist leader reaches the midpoint of their term, 
+['''As the Environmentalist leader reaches the midpoint of their term, 
 she reflects on her achievements and challenges. The nation stands as a symbol of 
 sustainability, but the journey is far from over. The Environmentalist must continue 
 to navigate the complexities of the policies and prepare for a smooth transition 
 of power in two years. Choosing a successor who shares her vision while 
 addressing the concerns of the opposition becomes a critical decision. 
-[Country's Reputation +3, Economy +2, Public Welfare +1]''', #year 6
+[Country's Reputation +3, Economy +2, Public Welfare +1]''',
+{"reputation":3, "economy":2, "welfare":1}], #year 6
 
-'''With the Environmentalist leader's term now in its seventh year, 
+['''With the Environmentalist leader's term now in its seventh year, 
 the nation faces ongoing challenges. While the transition of power is not imminent, 
 the leader must continue to build on the legacy and address unresolved issues. 
 Economic stability improves, but public welfare concerns linger. Protests and political
 polarization intensify as the nation looks ahead to the upcoming election year. 
-[Economy +2, Public Welfare -1, Law Enforcement -2]''', #year 7
+[Economy +2, Public Welfare -1, Law Enforcement -2]''',
+{"economy":2, "welfare":-1, "law":-2}], #year 7
 
-'''As the Environmentalist leader's term reaches its eighth year, 
+
+['''As the Environmentalist leader's term reaches its eighth year, 
 the nation stands as a symbol of sustainability. The leader's policies have left a 
 lasting impact, with a more sustainable economy and environment. Renewable energy 
 is now a cornerstone of the nation's power supply, and conservation efforts have 
 preserved natural habitats. However, economic disparities persist, and the 
 nation's reputation on the international stage remains a subject of debate. 
 The nation looks ahead to its future. 
-[Country's Reputation +1, Economy +1, Public Welfare +1]'''], #year 8
+[Country's Reputation +1, Economy +1, Public Welfare +1]''',
+{"reputation":1, "economy":1, "welfare":1}]], #year 8
             #goals
             [],
             #events
