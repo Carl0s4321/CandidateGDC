@@ -474,17 +474,21 @@ def candidate_vote(*candidates):
         while True:
             user_input = input(f"How many votes for {candidate.name}?\n>> ")
             if user_input.isdigit():
-                votes[candidate] = int(user_input)
-                break
+                user_input = int(user_input)
+                if user_input <= population:
+                    votes[candidate] = int(user_input)
+                    break
+                else:
+                    print("Invalid input. Please enter a valid number of votes.")
             else:
                 print("Invalid input. Please enter a valid number of votes.")
 
     return votes
 
 def printElectionResult(votes):
-    print("Vote counts:")
     for candidate, vote_count in votes.items():
-        print(f"{candidate.name}: {vote_count} votes")
+        if vote_count == max(votes.values()):
+            print(f"{candidate.name} has won the election with {vote_count} votes!")
 
 def doElection(candidate_list):
     print("*************************** VOTE YOUR LEADER *****************************")
@@ -506,9 +510,9 @@ MM.           MM       MM        MM    AMV   ,   MM   Y  ,   M   `MM.M
 ----------------...Carlos Sujanto and Jimmy Xu...----------------------\n''')
 
     print('''In a distant land, ''' + str(population) + ''' souls set forth to build a new nation.  As homes 
-rose and hopes soared, the need for a leader became clear. You, one among 
-them, faced a pivotal choice: embrace a visionary for progress or a firm 
-hand for security. 
+rose and hopes soared, the need for a leader became clear. You, a simple
+citizen and a population of like minded people, found yourself at the 
+heart of this moment: choosing a leader.
 
               The nation's destiny hinged on your decision.\n\n''')
 
