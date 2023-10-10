@@ -47,7 +47,6 @@ def initialize_country():
 
 
 class Candidate:
-    id = 0
     rulingYear = 0
     progress = 0
     times_appeared = 0
@@ -72,7 +71,7 @@ class Candidate:
             self.events[0].display_event(self, country)
 
     def updateStory(self, country):
-        if(self.rulingYear < len(self.story_on_rule)):
+        if self.rulingYear < len(self.story_on_rule):
             print_separator()
             print(self.story_on_rule[self.rulingYear][0])
             country.updateCountryFromEvent(self.story_on_rule[self.rulingYear][1])
@@ -192,10 +191,38 @@ deep pockets allowed him to flood the airwaves with advertisements and
 he allows the government to operate like a business. New challenges 
 sprout from privatizing certain city services and the increasing divide 
 between the rich and poor.
-[Economy +5, Public Welfare -2, Infrastructure +2]
-''', {"economy":5, "welfare":-2, "infrastructure":2}],
+[Economy +3, Public Welfare -2, Infrastructure +2]''',
+              {"economy":3, "welfare":-2, "infrastructure":2}], # year 1
 
-        ],
+             ['''Continuation of economic prosperity, with increased 
+job opportunities and GDP growth. Challenges emerge as labor unions 
+protest for workers' rights, seeking better wages and working conditions. 
+The leader must navigate labor disputes while maintaining economic stability. 
+[Economy +5, Public Welfare -3, Law Enforcement -3]''',
+              {"economy": 5, "welfare": -3, "law": -3}], # year 2
+
+             ['''The nation faces environmental backlash as pollution levels rise 
+and natural resources are exploited to the point where water becomes 
+scarce. Environmental activists organize protests, demanding stricter 
+regulations. The Business Tycoon must balance environmental concerns 
+with the desire for economic growth. 
+[Economy +4, Public Welfare -4, Environment -8, Reputation -4]''',
+              {"economy": 4, "welfare": -4, "environment": -8, "reputation": -4}], # year 3
+
+             ['''Economic challenges hit the nation in the fourth year as global 
+market fluctuations lead to a recession. Unemployment rises, and 
+protests against economic policies intensify. The Business Tycoon 
+faces public unrest while working to stabilize the economy and
+bringing water back. 
+[Economy -8, Public Welfare -3, Law Enforcement -3, Reputation -2, Environment -5]''',
+              {"economy": -8, "welfare": -3, "law": -3, "reputation": -2, "environment": -5}], # year 4
+
+             ['''The economy has seen growth, but economic disparities persist. 
+Environmental concerns remain, and the nation's reputation has 
+fluctuated. The leader must decide on their legacy and prepare 
+for a smooth transition of power. 
+[Economy +2, Public Welfare -2, Environment -3, Reputation +3]''',
+              {"economy": 2, "welfare": -2, "environment": -3, "reputation": 3}]], # year 5
             #goals
             [
                 Goal(1, '''The Businessman is able to successfully remove taxes entirely,
@@ -311,7 +338,51 @@ People are now wary of police actions and are taking safety in their own hands.
                 "law_text":            0,
             },
             #story on rule
-            [],
+            [['''With the Tech Innovator elected as the leader, the nation 
+anticipates a technological revolution. Year one witnesses the launch 
+of tech-focused initiatives, stimulating economic growth, improvisation
+of science subjects at school, and job creation in the tech sector. 
+However, concerns arise about privacy and data security as well as 
+a growing digital divide. 
+[Economy +2, Infrastructure +2, Public Welfare -1, Education 3]''',
+              {"economy":2, "welfare":-1, "infrastructure":2, "education": 3}], # year 1
+
+            ['''Significant technological advancements are made, 
+including the rollout of advanced smart city infrastructure. While the 
+tech sector thrives, privacy concerns escalate, with data breaches and 
+cyberattacks making headlines. Balancing technological progress with 
+cyber-security becomes a challenge. 
+[Education +3, Infrastructure +5, Public Welfare -2, Law Enforcement -3]''',
+             {"education": 3, "infrastructure": 5, "welfare": -2, "law": -3}], # year 2
+
+             ['''A massive data breach of citizens' personal 
+information comes to light, causing widespread security concerns and
+public outrage. The leader faces mounting pressure to address the 
+breach, protect citizens' data, and hold those responsible 
+accountable. Balancing cyber-security and privacy with national 
+security becomes a critical challenge. Stricter regulations are 
+demanded, and protests intensify. The leader must navigate the 
+fallout of the breach while ensuring the nation's security and 
+maintaining public trust. 
+[Law Enforcement +3, Public Welfare -5, Economy -3, Reputation -8]''',
+              {"economy": 3, "environment": -6, "welfare": -3, "reputation": -8}], # year 3
+
+             ['''Public trust in the government erodes further due 
+to the fallout from the previous year's data breach. 
+Widespread protests erupt, demanding greater transparency, 
+data protection, and accountability. Economic challenges 
+persist as global market fluctuations lead to a recession, 
+impacting the tech sector.
+[Economy -5, Law Enforcement -5, Public Welfare -4, Reputation -9]''',
+              {"economy": -5, "law": -5, "welfare": -4, "reputation": -9}], # year 4
+
+             ['''While technological progress has been made, 
+economic challenges and cyber-security concerns linger. The leader 
+must decide on their legacy and prepare for a smooth transition of power. 
+Challenges include addressing economic disparities and maintaining 
+technological innovation while leaving a lasting legacy. 
+[Economy -2, Law Enforcement -3, Public Welfare -2, Reputation -7, Education +3]''',
+              {"economy": -2, "law": -3, "welfare": -2, "reputation": -7, "education": 3}]], # year 5
             #goals
             [],
             #events
@@ -357,7 +428,25 @@ People are now wary of police actions and are taking safety in their own hands.
                 "law_text":             CANDIDATE_STAT_BASE_VALUE*2,
             },
             #story on rule
-            [],
+            [['''Woof woof! Woof! Woof woof woof!
+[Education -2, Public Welfare +6, Economy +3, Reputation +7]''',
+             {"education": -2, "welfare": 6, "economy": 6, "reputation": 7}], # year 1
+
+            ['''Bark bark bark!
+[Law enforcement -10, Environment +4, Education -3]''',
+             {"law": -10, "environment": 4, "education": -3}], # year 2
+
+            ['''Ruff!
+[Economy -4, Law enforcement -2, infrastructure -7]''',
+             {"economy": -4, "law": -2, "infrastructure": -7}], # year 3
+
+             ['''Arf arf! Bark!
+[Law enforcement +20, Reputation: +10''',
+              {"law": 20, "reputation": 10}], # year 4
+
+             ['''Woof woof! grr... bark!
+[Education -10, Economy +6, infrastructure +5, Reputation +10]''',
+              {"education": -10, "economy": 6, "infrastructure": 5, "reputation": 10}]], # year 5
             #goals
             [],
             #events
@@ -402,7 +491,49 @@ People are now wary of police actions and are taking safety in their own hands.
                 "law_text":             CANDIDATE_STAT_BASE_VALUE*(-1),
             },
             #story on rule
-            [],
+            [['''With the Education Leader elected as the head of the nation, 
+a new era of social progress begins. Year one witnesses the introduction
+of policies aimed at improving education, healthcare, and social 
+programs. The nation's education system and healthcare services 
+receive substantial investments, but concerns about budget 
+constraints arise. 
+[Education +8, Public Welfare +6, Economy -3, Infrastructure +1]''',
+              {"education": 8, "welfare": 6, "economy": -3, "infrastructure": 1}], # year 1
+
+             ['''The second year sees continued investments in education, 
+healthcare, and social programs, resulting in improved access 
+to quality services. However, managing the increased demand 
+for these programs becomes a challenge, leading to concerns 
+about efficiency and cost control. 
+[Education +7, Public Welfare +5, Economy -5, Infrastructure +1, Reputation: -2]''',
+              {"education": 7, "welfare": 5, "economy": -5, "infrastructure": 1, "reputation": -2}], # year 2
+
+             ['''In year three, the focus is on improving healthcare access 
+and funding. While healthcare services become more accessible, 
+the rising costs strain the budget. The leader must address 
+the healthcare funding crisis while maintaining support for
+education and social programs. 
+[Public Welfare +5, Economy -7, Infrastructure +1]''',
+             {"welfare": 5, "economy": -7, "infrastructure": 1}], #year 3
+
+             ['''A devastating pandemic outbreak strikes the nation, 
+straining the healthcare system and economy. Hospitals are 
+overwhelmed, and unemployment rises as businesses shut down to 
+mitigate the spread. Social programs are stretched thin,
+and economic challenges mount as a result of the pandemic's impact. 
+Balancing public health, economic stability, and social support becomes a complex and urgent challenge.
+[Economy -10, Public Welfare -4, Law Enforcement: -3, Reputation -3]''',
+              {"economy": -10, "welfare": -4, "reputation": -3, "law": -3}], # year 4
+
+             ['''As the Visionary Leader's term comes to an end in year five, 
+the nation reflects on their legacy. While education, healthcare, 
+and social programs have improved, the shadow of the recent 
+pandemic still looms. Economic challenges persist as the nation 
+focuses on recovering from the pandemic's impact.The leader 
+must secure a legacy that balances social progress with
+economic stability.
+[Education +2, Public Welfare +1, Economy -3, Infrastructure -1, Reputation +1]''',
+              {"education": 2, "welfare": 1, "economy": -3, "infrastructure": -1, "reputation": 1}]], # year 5
             #goals
             [],
             #events
@@ -447,7 +578,53 @@ People are now wary of police actions and are taking safety in their own hands.
                 "law_text":             CANDIDATE_STAT_BASE_VALUE*4,
             },
             #story on rule
-            [],
+            [['''With the Law and Order Advocate elected as the leader, the 
+nation anticipates tough crime policies and increased security. 
+Year one witnesses the implementation of strict crime measures, 
+resulting in a reduction in crime rates. However, concerns arise 
+about civil liberties and budget allocations for law enforcement. 
+Immigration levels rise, leading to debates about border security. 
+[Law Enforcement +7, Economy +1, Public Welfare -2, Education -2, Reputation +1]''',
+              {"law": 7, "economy": 1, "welfare": -2, "education": -2, "reputation": 1}], # year 1
+
+             ['''The second year sees a continued focus on security measures, 
+including security-focused infrastructure upgrades. Crime rates 
+remain low, but civil liberties concerns intensify. Balancing 
+security with personal freedoms becomes a challenge, leading to 
+protests and debates.
+[Law Enforcement +7, Infrastructure +3, Public Welfare -3, Economy +1, Education -1, Reputation -2]''',
+              {"law": 7, "infrastructure": 3, "welfare": -3, "economy": 1, "education": -1, "reputation": -2}], # year 2
+
+             ['''The nation is shaken by a devastating terrorist attack, 
+stemming from concerns about immigration and weak border control. 
+The attack leaves the country in shock, and citizens demand 
+answers from their government. Trust in leadership wanes, 
+and social tensions rise as some blame immigration policies.
+The leader must navigate a deeply divided nation, where
+security concerns compete with the need for unity.
+[Law Enforcement -10, Infrastructure -5, Public Welfare -5, Economy -3, Reputation -7]''',
+              {"law": -10, "infrastructure": -5, "welfare": -5, "economy": -3, "reputation": -7}], # year 3
+
+             ['''In the wake of the devastating terrorist attack,
+year five is marked by a collective effort to rebuild and heal. 
+The scars of the attack still linger, but the nation is determined 
+to move forward. Citizens come together to support the victims 
+and their families, and acts of unity become a symbol of resilience. 
+The leader, aware of the importance of fostering unity, 
+focuses on policies that promote social cohesion, 
+support for those affected by the attack, and rebuilding damaged 
+infrastructure. Challenges remain as economic disparities persist, 
+but the nation is committed to rebuilding stronger than ever. 
+[Infrastructure +4, Public Welfare +3, Economy -2, Law Enforcement +5, Reputation +15]''',
+              {"infrastructure": 4, "welfare": 3, "economy": -2, "law": 5, "reputation": 15}], # year 4
+
+             ['''The Leader's legacy is one of resilience and unity, 
+reminding the nation that, even in the face of adversity, they 
+can come together to overcome challenges. As the leader's term 
+concludes, the nation looks to the future with hope and a 
+renewed commitment to a better tomorrow.
+[Public Welfare +4, Economy +1, Infrastructure +3, Reputation +15, Law Enforcement +8]''',
+              {"welfare": 4, "economy": 1, "infrastructure": 3, "reputation": 15, "law": 8}]], # year 5
             #goals
             [],
             #events
@@ -499,7 +676,7 @@ changes, with strict regulations to reduce carbon emissions and promote
 renewable energy. Challenges arise as some citizens in energy-dependent 
 industries face job losses, leading to protests and economic concerns. 
 [Economy -6, Public Welfare -3, Environment +4]''',
-{"economy":-6,"welfare":-3,"environment":4}], #year 1
+{"economy":-6,"welfare":-3,"environment":4}], # year 1
 
            [ '''As the economy adapts to renewable energy and green technology, 
 new jobs are created, but economic disparities persist. The Environmentalist 
@@ -507,7 +684,7 @@ faces the challenge of bridging the gap between the growing green sector and
 those affected by declining traditional industries. Meanwhile, opposition to 
 the rapid changes intensifies, with some calling for a rollback of policies. 
 [Economy +4, Public Welfare -3, Environment +3]''',
-{"economy":4, "welfare":-3, "environment":3}], #year 2
+{"economy":4, "welfare":-3, "environment":3}], # year 2
 
 ['''The Environmentalist introduces policies to protect natural 
 habitats and wildlife. Conservation efforts gain traction, but confrontations 
@@ -516,7 +693,7 @@ environmental protection with economic interests becomes a major challenge.
 Protests both for and against environmental policies escalate, leading to 
 tensions within the nation. 
 [Environment +6, Economy -2, Law Enforcement -4]''',
- {"environment":6, "economy":-2, "law":-4}], #year 3
+ {"environment":6, "economy":-2, "law":-4}], # year 3
 
     ['''Despite economic growth, the nation faces fiscal pressures due 
 to heavy investments in green infrastructure. Citizens express concerns about 
@@ -524,29 +701,20 @@ rising taxes and government spending. The Environmentalist must navigate
 a delicate balance between maintaining economic stability and continuing 
 to fund environmental initiatives. Opposition parties grow stronger, 
 demanding fiscal responsibility. 
-[Economy -5, Country's Reputation -3, Public Welfare -2]''',
-{"economy":-5, "reputation":-3, "welfare":-2}], #year 4
+[Economy -5, Reputation -3, Public Welfare -2]''',
+{"economy":-5, "reputation":-3, "welfare":-2}], # year 4
 
 ['''The nation's commitment to sustainability gains international 
 recognition, but it comes with expectations of global leadership in environmental
 matters. Balancing international obligations with domestic priorities becomes 
 a challenge. The Environmentalist faces pressure to allocate resources to global 
 initiatives, which sparks debate and dissent at home. 
-[Country's Reputation +5, Economy -3, Public Welfare -2]''',
-{"reputation":5, "economy":-3, "welfare":-2}], #year 5
+[Reputation +5, Economy -3, Public Welfare -2]''',
+{"reputation":5, "economy":-3, "welfare":-2}]], # year 5
 
-['''As the Environmentalist leader's term reaches its eighth year, 
-the nation stands as a symbol of sustainability. The leader's policies have left a 
-lasting impact, with a more sustainable economy and environment. Renewable energy 
-is now a cornerstone of the nation's power supply, and conservation efforts have 
-preserved natural habitats. However, economic disparities persist, and the 
-nation's reputation on the international stage remains a subject of debate. 
-The nation looks ahead to its future. 
-[Country's Reputation +1, Economy +1, Public Welfare +1]''',
-{"reputation":1, "economy":1, "welfare":1}]], #year 8
-            #goals
+            # goals
             [],
-            #events
+            # events
             [],
             
         )
@@ -589,7 +757,59 @@ The nation looks ahead to its future.
                 "law_text":             CANDIDATE_STAT_BASE_VALUE*10,
             },
             #story on rule
-            [],
+            [['''As the dictator assumes power, the nation quickly witnesses 
+the consolidation of their control. Propaganda machines are put to 
+work, and military presence in the streets becomes a common sight.
+While crime rates plummet due to the iron-fisted rule, public trust 
+erodes, and civil liberties are curtailed. The leader's authoritarian 
+approach gains them a reputation for ruthlessness. 
+[Law Enforcement +15, Public Welfare -7, Economy +4, Education -2, Reputation -25]''',
+             {"law": 15, "welfare": -7, "economy": 4, "education": -2, "reputation": -25}], # year 1
+
+            ['''The dictator's regime faces resistance from citizens who 
+yearn for freedom. Protests and dissenting voices emerge, leading 
+to a harsh crackdown. Law enforcement and military are mobilized 
+to suppress opposition, resulting in a further deterioration of 
+civil liberties and an even worse reputation on the international 
+stage. The economy stagnates due to the stifling atmosphere. 
+[Law Enforcement +5, Public Welfare -4, Economy -1, Reputation -5, Infrastructure -6]''',
+             {"law": 5, "welfare": -4, "economy": -1, "reputation": -5, "infrastructure": -6}], # year 2
+
+            ['''The nation faces a new crisis as the dictator declares 
+war on a neighboring country, citing territorial disputes and 
+ideological differences as the cause. The declaration of war 
+brings international condemnation, further isolating the 
+nation. Military spending escalates, diverting resources 
+from essential services. The economy suffers due to the 
+strain of war and international sanctions, exacerbating 
+poverty and unemployment. Domestic protests persist, 
+despite the regime's heavy-handed tactics, as citizens 
+bear the burden of conflict. 
+[Law Enforcement +9, Public Welfare -5, Economy -7, Reputation -9, Infrastructure -3, Environment -3]''',
+             {"law": 9, "welfare": -5, "economy": -7, "reputation": -9, "infrastructure": -3, "environment": -3}], # year 3
+
+            ['''The nation bore witness to the profound and devastating 
+toll of armed conflict. Profound suffering inflicted on 
+the nation. Resources dwindled, the economy plummeted, 
+and a refugee crisis emerged. Environmental damage 
+from military activities became evident, and 
+international isolation deepened with stricter 
+sanctions. Protests against the war grew, as citizens 
+passionately called for peace.
+[Law Enforcement +9, Public Welfare -7, Economy -9, Reputation -5, Infrastructure -5, Environment -7]''',
+             {"law": 9, "welfare": -7, "economy": -9, "reputation": -5, "infrastructure": -5, "environment": -7}], # year 4
+
+             ['''The nation grappled with the enduring legacy of the 
+devastating conflict. The war had left economic ruins, 
+scarred the environment, and traumatized the population. 
+Eroded civil liberties fueled a longing for normalcy. 
+International relations reached an all-time low. 
+While the dictator clung to power, their legacy was 
+one of turmoil, isolation, and the profound toll of war, 
+casting a long shadow over the nation's future and the 
+daunting challenges of rebuilding and recovery ahead.
+[Law Enforcement +9, Public Welfare -9, Economy -10, Reputation -10, Infrastructure -7, Environment -7]''',
+              {"law": 9, "welfare": -9, "economy": -10, "reputation": -10, "infrastructure": -7, "environment": -7}]], # year 5
             #goals
             [],
             #events
@@ -803,7 +1023,7 @@ heart of this moment: choosing a leader.
     leader = doElection(candidate_list)
     country.updateCountryFromLeaderStat(leader.stats)
     
-    leader.updateStory()
+    leader.updateStory(country)
     leader.rulingYear += 1
     leader.play_event(country)
 
