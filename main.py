@@ -7,7 +7,7 @@ CANDIDATE_STAT_BASE_VALUE = 2
 
 # GLOBAL VARIABLES
 game_start = True
-year = 0
+year = 1
 population = 10000
 
 import random
@@ -38,6 +38,18 @@ class Country:
         for stat in stats:
             if stat in added_stat:
                 setattr(self, stat, getattr(self, stat) + added_stat.get(stat))
+
+    def printCountryStats(self):
+        print_separator()
+        print("[COUNTRY STATS]")
+        print("Population:", self.population)
+        print("Education:", self.education)
+        print("Reputation:", self.reputation)
+        print("Infrastructure:", self.infrastructure)
+        print("Economy:", self.economy)
+        print("Environment:", self.environment)
+        print("Public Welfare:", self.welfare)
+        print("Law Enforcement:", self.law)
 
 
 def initialize_country():
@@ -250,14 +262,14 @@ being laid off and there is no profits to be made and nothing to sell!
                             "1) Propose a solution", 
                             '''A solution to the situation was made, people pay the waste management company
 similar to how people pay their electric and water bills. 
-[Economy + 5] [Public Welfare - 5] [Goal + 1]''',
+[Economy + 5] [Public Welfare - 5] [Goal + 1]\n''',
                             {"progress":1, "economy":5, "welfare":-5}
                             ],
 
                         "2": [
                             "2) It is not my problem",
                             '''Nothing was done, but competitors innovate to make waste management plausible.
-[Economy + 2] [Reputation - 2]''',
+[Economy + 2] [Reputation - 2]\n''',
                             {"progress":0, "economy":2, "reputation":-2}
                             ],
 
@@ -265,7 +277,7 @@ similar to how people pay their electric and water bills.
                             "3) Protest",
                             '''Pressure was pushed onto the Businessman and innovated a subscription service
 similar to electricity and hydro bills. People found this acceptable.
-[Economy + 5] [Reputation + 2] [Public Welfare - 5] [Goal + 1]''',
+[Economy + 5] [Reputation + 2] [Public Welfare - 5] [Goal + 1]\n''',
                             {"progress":1, "economy":5, "reputation":2, "welfare":-5}
                             ],
                     }
@@ -996,11 +1008,11 @@ def doElection(candidate_list):
     votes = candidate_vote(display_list[0], display_list[1], display_list[2])
     for candidate, vote_count in votes.items():
         if vote_count == max(votes.values()):
-            print(f"{candidate.name} has won the election with {vote_count} votes!")
+            print(f"{candidate.name} has won the election with {vote_count} votes!\n")
             return candidate
 
-
 def main():
+    global year
     print('''-----------------------------------------------------------------------                                                                                      
   .g8"""bgd `7MMF'MMP""MM""YMM `7MMF'MMM"""AMV `7MM"""YMM  `7MN.   `7MF'
 .dP'     `M   MM  P'   MM   `7   MM  M'   AMV    MM    `7    MMN.    M
@@ -1020,18 +1032,18 @@ heart of this moment: choosing a leader.
 
     candidate_list = initialize_candidates()
     country = initialize_country()
-    leader = doElection(candidate_list)
-    country.updateCountryFromLeaderStat(leader.stats)
-    
-    leader.updateStory(country)
-    leader.rulingYear += 1
-    leader.play_event(country)
 
-
-    # INC RULING YEARS
-    # while game_start:
-    #     print("[YEAR:", year, "]")
-    #     updateStory(leader.ID)
+    while game_start:
+        if year % 3 == 1:
+            leader = doElection(candidate_list)
+            country.updateCountryFromLeaderStat(leader.stats)
+        else:
+            print("[YEAR:", year, "]")
+            leader.updateStory(country)
+            country.printCountryStats()
+            leader.play_event(country)
+        # INC YEAR
+        year += 1
 
 
 main()
