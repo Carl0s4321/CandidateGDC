@@ -98,8 +98,8 @@ class Candidate:
     def updateStory(self, country):
         if self.electionsWon < len(self.story_on_rule):
             print_separator()
-            print(self.story_on_rule[self.electionsWon][0])
-            country.updateCountryFromEvent(self.story_on_rule[self.electionsWon][1])
+            print(self.story_on_rule[self.electionsWon-1][0])
+            country.updateCountryFromEvent(self.story_on_rule[self.electionsWon-1][1])
         
 
     #amount (int)
@@ -696,10 +696,10 @@ renewed commitment to a better tomorrow.
             },
             #story on rule
             [['''With the Environmentalist elected as the leader, the nation 
-embarks on a journey toward sustainability. The first year sees sweeping 
-changes, with strict regulations to reduce carbon emissions and promote 
-renewable energy. Challenges arise as some citizens in energy-dependent 
-industries face job losses, leading to protests and economic concerns. 
+embarks on a journey toward sustainability.Strict regulations to reduce 
+carbon emissions and promote renewable energy. Challenges arise as some 
+citizens in energy-dependent industries face job losses, leading to 
+protests and economic concerns. 
 [Economy -6, Public Welfare -3, Environment +4]''',
 {"economy":-6,"welfare":-3,"environment":4}], # year 1
 
@@ -754,7 +754,7 @@ development.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Under the Environmentalist's lead, the country moves towards self sustaining
-propersity. The lost souls have found themselves living in clean air,
+prosperity. The lost souls have found themselves living in clean air,
 land and water. No longer will they have to fight over money, nor food
 take care of the land and the land will take of you. 
                      
@@ -1092,19 +1092,6 @@ daunting challenges of rebuilding and recovery ahead.
     )
 
     return candidate_list
-
-def general_events():
-    pass
-
-def special_events():
-    # pandemic
-    # conspiracy / misinformation
-    # climate change
-    # space activity
-    # mafia/terrorist activity
-    # war
-    # economic depression
-    pass
     
 def print_separator():
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -1275,10 +1262,12 @@ def doElection(current_candidate, candidate_list):
     for candidate, vote_count in votes.items():
         if vote_count == max(votes.values()):
             print(f"{candidate.name} has won the election with {vote_count} votes!\n")
+            candidate.electionsWon += 1
             return candidate
 
 def main():
     global year
+    global game_start
     print('''-----------------------------------------------------------------------                                                                                      
   .g8"""bgd `7MMF'MMP""MM""YMM `7MMF'MMM"""AMV `7MM"""YMM  `7MN.   `7MF'
 .dP'     `M   MM  P'   MM   `7   MM  M'   AMV    MM    `7    MMN.    M
@@ -1299,15 +1288,14 @@ heart of this moment: choosing a leader.
     candidate_list = initialize_candidates()
     country = initialize_country()
 
-    game_start = True
     while game_start:
         if year % 3 == 1:
             leader = doElection(country.current_candidate, candidate_list)
             country.current_candidate = leader
+            leader.updateStory(country)
             country.updateCountryFromLeaderStat(leader.stats)
         else:
             print("[YEAR:", year, "]")
-            leader.updateStory(country)
             country.printCountryStats()
             leader.play_event(country)
 
