@@ -10,12 +10,12 @@ game_start = True
 year = 1
 population = 10000
 
+
 import random
 
 
 class Country:
     # id of candidate found in the initial list
-    current_candidate = 0
 
     def __init__(self, population, education, reputation, infrastructure, economy, environment, welfare,
                  law):
@@ -27,6 +27,7 @@ class Country:
         self.environment = environment
         self.welfare = welfare
         self.law = law
+        self.current_candidate = -1
 
     def updateCountryFromLeaderStat(self, added_stat):
         stats = ["education", "reputation", "infrastructure", "economy", "environment", "welfare", "law"]
@@ -59,9 +60,7 @@ def initialize_country():
 
 
 class Candidate:
-    rulingYear = 0
-    progress = 0
-    times_appeared = 0
+
 
     # name (string), story (list of strings), portrait (list of strings), stats (dictionary)
     # story_on_rule (list of strings), goals( list of goals), all_events (list of events)
@@ -77,16 +76,30 @@ class Candidate:
         self.all_events = all_events
         self.events = all_events
 
+        self.progress = 0
+        self.times_appeared = 0
+        self.electionsWon = 0
+
     def play_event(self, country):
         #make it somewhat random later
         if(len(self.events) > 0):
-            self.events[0].display_event(self, country)
+            random_index = random.randint(0,len(self.events)-1) 
+            win = self.events[random_index].display_event(self, country)
+            if win:
+                return True
+
+            #prevent the event from playing twice until all have been seen
+            self.events.pop(random_index)
+            #copy the original into the new
+            if(len(self.events) == 0):
+                self.events = self.all_events.copy()
+        return False
 
     def updateStory(self, country):
-        if self.rulingYear < len(self.story_on_rule):
+        if self.electionsWon < len(self.story_on_rule):
             print_separator()
-            print(self.story_on_rule[self.rulingYear][0])
-            country.updateCountryFromEvent(self.story_on_rule[self.rulingYear][1])
+            print(self.story_on_rule[self.electionsWon][0])
+            country.updateCountryFromEvent(self.story_on_rule[self.electionsWon][1])
         
 
     #amount (int)
@@ -101,10 +114,12 @@ class Candidate:
             self.goals.pop(0)
             self.progress -= goal.progress_needed
 
-            #once all goals are completed
-            if(len(self.goals) == 0):
-                #provide an ending to game
-                pass
+
+    def check_goal(self):
+        if(len(self.goals) < 1):
+            return True
+        else:
+            return False
 
 
 class Goal:
@@ -128,7 +143,7 @@ class Event:
 
     def display_event(self, candidate, country):
         print_separator()
-        print(self.story_initial)
+        print(self.story_initial + "\n")
         for v in self.decisions.values():
             print(v[0])
         self.ask_for_input(candidate, country)
@@ -143,8 +158,6 @@ class Event:
                 print(decision[1])
 
                 candidate.move_to_goal(decision[2].get("progress"))
-
-                country.updateCountryFromEvent(decision[2])
                 break
 
 
@@ -721,13 +734,261 @@ recognition, but it comes with expectations of global leadership in environmenta
 matters. Balancing international obligations with domestic priorities becomes 
 a challenge. The Environmentalist faces pressure to allocate resources to global 
 initiatives, which sparks debate and dissent at home. 
-[Reputation +5, Economy -3, Public Welfare -2]''',
-{"reputation":5, "economy":-3, "welfare":-2}]], # year 5
+[Country's Reputation +5, Economy -3, Public Welfare -2]''', 
+{"reputation":5, "economy":-3, "welfare":-2}]], #year 5
+            #goals
+            [
+                Goal(4, '''The Environmentalist is able to install solar panels on every,
+single building, reducing electricity costs by more than half. Placing 
+planters on the sides of buidlings where solar panels cannot fit. The 
+summers are less hot and the winters aren't so cold anymore. Her ideals
+become reality and people are now seeing the value of the environment.
+[Economy + 7] [Environment + 7] [Reputation + 7] ''',
+                {"economy":7, "environment":7, "reputation":7} ),
+                Goal(4, '''The ambitious goal of redesigning all roads to be underground
+allowed significantly improved air quality, reduced noise pollution,
+improved aesthetic, increased safety (separating  pedestratrians and 
+vehicles), reduced road weathering and more space for vegatation or
+development.
+[Economy + 5] [Environment + 25] [Infrastructure + 15] [Welfare + 10]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-            # goals
-            [],
-            # events
-            [],
+Under the Environmentalist's lead, the country moves towards self sustaining
+propersity. The lost souls have found themselves living in clean air,
+land and water. No longer will they have to fight over money, nor food
+take care of the land and the land will take of you. 
+                     
+                        Defeated Climate Change
+                        [Ending 14 of 16]
+                     
+Restart for another ending?
+                     ''',
+                {"ending":1, "economy":-15, "environment":25, "infrastructure":15, "welfare":10} ),
+],
+            #events
+            [
+                Event('''A high carbon tax wanted to be implemented to develop the projects
+of the Environmentalist. This causes upset in people's lives who
+are trying to live normally.''',
+                    {
+                        "1": [
+                            "1) Accept the tax",
+                            '''People will be upset in the short run, but it will pay
+off in the long run.
+[Economy - 5] [Reputation - 7] [Environment + 2] [Goal + 2]''',
+                            {"progress":2, "economy":-5, "reputation":-5, "environment":2},
+                            ],
+                        "2": [
+                            "2) Criticize for a lower tax",
+                            '''Finding middle ground between the two parties, a lower
+carbon tax is implemented but for how long?
+[Economy - 2] [Reputation - 2] [Environment + 1] [Goal + 1]''',
+                            {"progress":1, "economy":-2, "reputation":-2, "environment":1},
+                            ],
+                        "3" : [
+                            "3) Protest for no carbon tax",
+                            '''The group protests for no carbon tax. The result 
+that was only carbon tax applyed to large businesses. The 
+people are satisfied, but businesses have to deal with it.
+[Environment + 1] [Reputation + 1] [Economy - 1]''',
+                            {"progress":0, "economy":-1, "reputation":1, "environment":1},
+                            ],
+                    }
+                ),
+                Event('''Garbage is being cleaned, sorted and recycled instead
+of being burned. This does not affect the existing blue 
+and green bins. There is now new jobs and training for 
+this area. And education is going out to help sort out
+individuals sort out their own garbage, which will make
+the jobs in waste management easier. Additionally sorting
+out landfills will slowly make them disappear.''',
+                    {
+                        "1": [
+                            "1) Be educated and sort your trash",
+                            '''You follow the initiative of the program and
+other people take notice and follow suit. 
+[Economy + 2] [Environment + 10] [Welfare - 7][Goal + 1]''',
+                            {"progress":1, "economy":2, "welfare":-7, "environment":10},
+                            ],
+                        "2": [
+                            "2) If they sort our trash then I don't have too",
+                            '''Some people are willing to support the program
+and some are not, surely not because trash is dirty.
+[Environment + 5] [Welfare - 5] [Goal + 1]''',
+                            {"progress":1,"welfare":-5, "environment":5},
+                            ],
+                        "3" : [
+                            "3) Protest, we can't people be exposed to dirty garbage!",
+                            '''The protesters are met with a strong message:
+"Why are you protesting against cleaning up your own mess, 
+leaving other people to clean your mess instead!?" 
+the protesters are conflicted, leaving the operation to continue
+[Goal + 1]''',
+                            {"progress":1},
+                            ],
+                        "4" : [
+                            "4) Volunteer to sort our the landfill",
+                            '''You and a bunch of volunteers grab protective 
+equipment from the sponsoring program and are determined to
+clean out a landfill.  
+[Environment + 15] [Welfare - 15] [Goal + 2]''',
+                            {"progress":2, "environment":15, "welfare":-15},
+                            ],
+                    }
+                ),
+                Event('''The Environmentalist proposes to cut down livestock
+production down to a quarter. Livestock is known to produce
+a high amount of carbon dioxide require tons of water and 
+have a high ratio of vegatation to flesh ratio. Meat products
+are becoming more expensive and harder to acquire.''',
+                    {
+                        "1": [
+                            "1) Change your diet to less meat",
+                            '''People starting eating less meat and enjoy the benefits 
+of healthy eating. Many livestock farmers are losing
+their jobs and some people are not ready to change.
+[Economy - 5] [Reputation - 5] [Environment + 10] ''',
+                            {"progress":0, "economy":-5, "reputation":-5, "environment":10},
+                            ],
+                        "2": [
+                            "2) Protest with the farmers and meat lovers",
+                            '''You are against the change and pressure is put on the
+Environmentalist. After careful thinking, she proposes to reduce
+the production down to three-quarters. People are somewhat
+unhappy, but accept it.
+[Economy - 1] [Reputation - 2] [Environment + 5] ''',
+                            {"progress":0, "economy":-1, "reputation":-2, "environment":5},
+                            ],
+                    }
+                ),
+                Event('''The Environmentalist is making controversial move,
+they are making a law to prevent littering and employing
+enforcement agents to oversee them, as well as agents to
+enforce the sorting of garbage sorting into the proper bins.''',
+                    {
+                        "1": [
+                            "1) Protest against a law for something this simple",
+                            '''People band together and protest against laws against 
+the enforcement of littering. The citizens feel that this
+is restricting their civil freedoms. The proposed alternative
+is to allow people to enforce themselves.
+[Law Enforcement + 5] [Education + 2] [Environment + 5] ''',
+                            {"progress":0, "law":5, "education":2, "environment":5},
+                            ],
+                        "2": [
+                            "2) Become a law-abiding citizen",
+                            '''The step forward is to be active, people hold
+each other accountable for their actions and a clean
+society is becoming closer to reality.
+[Law Enforcement + 10] [Reputation - 5] [Environment + 5] [Goal + 1]''',
+                            {"progress":1, "reputation":-5, "environment":5, "law":10},
+                            ],
+                    }
+                ),
+                Event('''There is now a proposal to install vegetation and planters
+on the sides of buildings. This would help improve air quality,
+regulate temperatures and manage stormwater. As well as create
+jobs for their construction. But has high installation and 
+maintenance costs, as well as needing a complex watering system.''',
+                    {
+                        "1": [
+                            "1) Companies should not be forced to have green walls!",
+                            '''A critique has been given to the Environmentalist 
+to review. The response was that the government will reimburse
+companies who implement green walls, thereby rewarding those
+who commit to the cause.
+[Infrastructure + 5] [Economy - 7] [Environment + 5] [Goal + 1]''',
+                            {"progress":1, "infrastructure":5, "economy":-7, "environment":5},
+                            ],
+                        "2": [
+                            "2) Protest against this thing!",
+                            '''Plants do not belong on walls and we don't want
+creatures burrowing into our buildings either. The
+pockets of companies lives another day.
+[Economy + 7] [Reputation - 3] ''',
+                            {"progress":0, "economy":7, "reputation":-3},
+                            ],
+                        "3": [
+                            "3) Hire someone to make green walls on your house",
+                            '''The proposal stated it was buildings and
+not houses? Someone could argue that a house is a
+building. Anyways your enthusiasm is embodied
+and people take notice and want to do the same.  
+[Environment + 15] [Infrastructure + 10] [Economy - 15] [Goal + 2]''',
+                            {"progress":2, "environment":15, "infrastructure":10, "economy":-15},
+                            ],
+                    }
+                ),
+                Event('''There is now a proposal to install solar panels on buildings.
+This would increase the amount of clean energy and reduce
+electricity bills. As well as increase jobs for installation.
+But has high maintenance and cleaning costs, as well as
+installation may causes problems on older buildings. ''',
+                    {
+                        "1": [
+                            "1) Protest against installing solar panels!",
+                            '''Solar panels are expensive and not worth it!
+Some people may not have enough space either and it takes 
+time to maintain and clean them. The protest does not 
+attract much attention as solar panels are still quite
+reasonable.
+[Infrastructure + 2] [Economy - 3] [Environment + 5] [Goal + 1]''',
+                            {"progress":1, "infrastructure":5, "economy":-3, "environment":2},
+                            ],
+                        "2": [
+                            "2) Get someone to install solar panels",
+                            '''You got some solar panels installed and saw that 
+your electricity bills got cut in half! You also decide
+to spread the good news.
+[Environment + 7] [Reputation + 2] [Infrastructure + 3] [Economy + 2] [Goal + 2]''',
+                            {"progress":2, "economy":2, "reputation":2, "infrastructure":3, "environment":7},
+                            ],
+                        "3": [
+                            "3) I am too broke to install them.",
+                            '''Eventually you will be afford them one day.
+But while you sulk, people are installing them and saving
+on energy costs.
+[Environment + 7] [Infrastructure + 4] [Economy - 1] [Goal + 2]''',
+                            {"progress":2, "environment":7, "infrastructure":4, "economy":-1},
+                            ],
+                    }
+                ),
+                Event('''A huge proposal is declared, the Environmentalist
+plans to redesign the city such that roads are moved underground
+many people are conflicted and some are excited.
+                      ''',
+                    {
+                        "1": [
+                            "1) Go for it!!! [Consume 30 Economy]",
+                            '''Seeing the amount of support from the people,
+the Environmentalist initiates the most ambitious project. 
+This creates many jobs but requires an immense amount of 
+time and capitial. 
+[Infrastructure + 15] [Economy - 30] [Environment + 25] [Goal + 4]''',
+                            {"progress":4, "infrastructure":15, "economy":-30, "environment":25},
+                            ],
+                        "2": [
+                            "2) Do it slowly and carefully [Consume 15 Economy]",
+                            ''' The Environmentalist makes note of the expenses
+requirements and attempts to roll out the project
+while keeping expenses as low as possible and 
+maintaining a reasonable working pace.
+
+[Infrastructure + 7] [Economy - 15] [Environment + 10] [Goal + 2]''',
+                            {"progress":2, "infrastructure":7, "economy":-15, "environment":10},
+                            ],
+                        "3": [
+                            "3) Wait we don't have that much money! [Consume 5 Economy]",
+                            '''The project will start extremely slowly,
+chipping away at a project is the better way than
+to do nothing at all.
+[Infrastructure + 2] [Economy - 5] [Environment + 2] [Goal + 1]''',
+                            {"progress":1, "infrastructure":2, "economy":-5, "environment":2},
+                            ],
+                    }
+                ),
+
+            ],
             
         )
     )
@@ -970,13 +1231,13 @@ def get_semi_random_candidates(current_candidate, candidate_list):
     candidate_list[first_lowest_appearance[1]].times_appeared += 1
     candidate_list[second_lowest_appearance[1]].times_appeared += 1
 
-    list_of_ids = [current_candidate.id, first_lowest_appearance[1], second_lowest_appearance[2]]
+    list_of_ids = [current_candidate.id, first_lowest_appearance[1], second_lowest_appearance[1]]
     running_candidates = []
     # randomize order
     while len(list_of_ids) > 0:
         index = random.randint(0, len(list_of_ids) - 1)
         id = list_of_ids[index]
-        running_candidates.append[candidate_list[id]]
+        running_candidates.append(candidate_list[id])
         list_of_ids.pop(index)
 
     return running_candidates
@@ -1001,9 +1262,14 @@ def candidate_vote(*candidates):
     return votes
 
 
-def doElection(candidate_list):
+def doElection(current_candidate, candidate_list):
     print("*************************** VOTE YOUR LEADER *****************************")
-    display_list = get_three_random_candidates(candidate_list)
+    display_list = []
+    if(year == 1):
+        display_list = get_three_random_candidates(candidate_list)
+    else:
+        display_list = get_semi_random_candidates(current_candidate, candidate_list)
+    
     display_candidates(display_list[0], display_list[1], display_list[2])
     votes = candidate_vote(display_list[0], display_list[1], display_list[2])
     for candidate, vote_count in votes.items():
@@ -1033,17 +1299,24 @@ heart of this moment: choosing a leader.
     candidate_list = initialize_candidates()
     country = initialize_country()
 
+    game_start = True
     while game_start:
         if year % 3 == 1:
-            leader = doElection(candidate_list)
+            leader = doElection(country.current_candidate, candidate_list)
+            country.current_candidate = leader
             country.updateCountryFromLeaderStat(leader.stats)
         else:
             print("[YEAR:", year, "]")
             leader.updateStory(country)
             country.printCountryStats()
             leader.play_event(country)
+
+            if leader.check_goal():
+                game_start = False
+
         # INC YEAR
         year += 1
+        print("\n\n\n\n\n")
 
 
 main()
