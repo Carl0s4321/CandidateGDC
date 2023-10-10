@@ -51,6 +51,14 @@ class Country:
         print("Public Welfare:", self.welfare)
         print("Law Enforcement:", self.law)
 
+    #check if a stat is negative
+    def check_stat(self):
+        stats = ["education", "reputation", "infrastructure", "economy", "environment", "welfare", "law"]
+        for stat in stats:
+            if getattr(self, stat) < 0:
+                return stat
+        return ""
+
 
 def initialize_country():
     country = Country(population, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE,
@@ -73,26 +81,27 @@ class Candidate:
         self.story_on_rule = story_on_rule
         self.goals = goals
         self.all_events = all_events
-        self.events = all_events
+        self.events = all_events.copy()
 
         self.progress = 0
         self.times_appeared = 0
         self.electionsWon = 0
 
     def play_event(self, country):
+        if(len(self.events) == 0):
+            if(len(self.all_events) > 0):
+                self.events = self.all_events.copy()
         #make it somewhat random later
         if(len(self.events) > 0):
             random_index = random.randint(0,len(self.events)-1) 
-            win = self.events[random_index].display_event(self, country)
-            if win:
-                return True
+            self.events[random_index].display_event(self, country)
 
             #prevent the event from playing twice until all have been seen
             self.events.pop(random_index)
             #copy the original into the new
             if(len(self.events) == 0):
                 self.events = self.all_events.copy()
-        return False
+        
 
     def updateStory(self, country):
         if self.electionsWon < len(self.story_on_rule):
@@ -102,7 +111,7 @@ class Candidate:
         
 
     #amount (int)
-    def move_to_goal(self, amount):
+    def move_to_goal(self, amount, country):
         self.progress += amount
         goal = self.goals[0]
 
@@ -110,6 +119,7 @@ class Candidate:
         if(self.progress > goal.progress_needed):
             print_separator()
             print(goal.story_on_completion)
+            goal.add_to_country(country)
             self.goals.pop(0)
             self.progress -= goal.progress_needed
 
@@ -119,13 +129,7 @@ class Candidate:
         else:
             return False
     
-    #check if a stat is negative
-    def check_stat(self):
-        stats = ["education", "reputation", "infrastructure", "economy", "environment", "welfare", "law"]
-        for stat in stats:
-            if self.stats.get(f"{stat}_value") < 0:
-                return stat
-        return ""
+    
 
 class Goal:
 
@@ -136,7 +140,7 @@ class Goal:
         self.stats = stat_additions
 
     def add_to_country(self, country):
-        country.updateCountryFromEvent(self.stat_additions)
+        country.updateCountryFromEvent(self.stats)
 
 
 class Event:
@@ -158,11 +162,14 @@ class Event:
             choice = input(">> ")
             if choice in self.decisions:
                 decision = self.decisions.get(choice)
+                
 
+                print_whitespace()
                 print_separator()
                 print(decision[1])
 
-                candidate.move_to_goal(decision[2].get("progress"))
+                candidate.move_to_goal(decision[2].get("progress"), country)
+                country.updateCountryFromEvent(decision[2])
                 break
 
 
@@ -768,7 +775,7 @@ take care of the land and the land will take of you.
                      
 Restart for another ending?
                      ''',
-                {"ending":1, "economy":-15, "environment":25, "infrastructure":15, "welfare":10} ),
+                {"ending":1, "economy":5, "environment":25, "infrastructure":15, "welfare":10} ),
 ],
             #events
             [
@@ -1363,6 +1370,8 @@ def candidate_vote(*candidates):
             else:
                 print("Invalid input. Please enter a valid number of votes.")
 
+    print_whitespace()
+
     return votes
 
 
@@ -1382,7 +1391,8 @@ def doElection(current_candidate, candidate_list):
             candidate.electionsWon += 1
             return candidate
         
-
+def print_whitespace():
+    print("\n\n\n\n\n\n\n\n\n\n\n\n\n")
 
 def main():
     global year
@@ -1402,13 +1412,13 @@ citizen and a population of like minded people, found yourself at the
 heart of this moment: choosing a leader.
 
               The nation's destiny hinged on your decision.\n\n''')
-
+    
+    input("Press Enter to Continue")
     candidate_list = initialize_candidates()
     country = initialize_country()
 
     game_start = True
     while game_start:
-        print("\n\n\n\n\n\n\n\n")
         if year % 3 == 1:
             leader = doElection(country.current_candidate, candidate_list)
             country.current_candidate = leader
@@ -1419,11 +1429,13 @@ heart of this moment: choosing a leader.
             country.printCountryStats()
             leader.play_event(country)
 
-            negative_stat = leader.check_stats()
+            negative_stat = country.check_stat()
             if year > 18:
                 bad_ending("confusion")
+                game_start = False
             elif (negative_stat != "") and (leader.id != 6):
                 bad_ending(negative_stat)
+                game_start = False
             elif leader.check_goal():
                 game_start = False
 
