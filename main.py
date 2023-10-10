@@ -756,7 +756,7 @@ improved aesthetic, increased safety (separating  pedestratrians and
 vehicles), reduced road weathering and more space for vegatation or
 development.
 [Economy + 5] [Environment + 25] [Infrastructure + 15] [Welfare + 10]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 Under the Environmentalist's lead, the country moves towards self sustaining
 prosperity. The lost souls have found themselves living in clean air,
@@ -1097,7 +1097,119 @@ daunting challenges of rebuilding and recovery ahead.
     )
 
     return candidate_list
-    
+
+def bad_ending(stat_name):
+    if stat_name == "confusion":
+        print('''!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Citizen are unable to vote and retain a candidate's rule for a certain amount of time.
+Some developments are made, but none are able to see the goals through the end. There
+is no consistency and thus the lost souls become more lost, who contradict the candidates
+they vote for.
+                     
+                        Defeated by Indecision 
+                        [Ending 1 of 16]
+                     
+Restart for another ending?
+''')
+    elif stat_name == "education":
+        print('''!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Education is dropping below positive values, the country moves towards misinformation
+and increasing conspiracy theories with no grounds. The lost souls are fighting a war
+between each other and contemplating reality. Nobody is able to believe anymore else
+and the country can no longer be run properly.
+                     
+                        Defeated by the Uneducated 
+                        [Ending 2 of 16]
+                     
+Restart for another ending?
+''')
+    elif stat_name == "reputation":
+        print('''!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Reputation is dropping below positive values, the country moves towards lack of trust
+toward any leader in this country. Even other countries do not like the leadership
+here. One country has decided to assimilate your country into theirs to minimize chaos.
+The lost souls who wanted to adopt a new identity for themselves had to use a existing
+country's identity just to survive.
+                     
+                        Defeated by Bad Actors 
+                        [Ending 3 of 16]
+                     
+Restart for another ending?
+''')
+    elif stat_name == "infrastructure":
+        print('''!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Infrastructure is dropping below positive values, the country moves towards traffic 
+jams from endless potholes and cracking roads. Buildings are falling apart and 
+electricity and sewage systems are neglected. The lost souls who looked for a new
+place to live would be better off starting from scratch than repairing anything else.
+                     
+                        Defeated by Instability
+                        [Ending 4 of 16]
+                     
+Restart for another ending?
+''')
+    elif stat_name == "economy":
+        print('''!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Economy is dropping below positive values, the country encounters a massive economic
+depression. Nothing the government does to simulate the economy works. Nobody wants to
+hire workers and nobody wants to work. The lost souls who seeked opportunity are now
+worried about losing everything.
+                     
+                        Defeated by Depression
+                        [Ending 5 of 16]
+                     
+Restart for another ending?
+''')
+    elif stat_name == "environment":
+        print('''
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Environment is dropping below positive values, the country suffers massive heatwaves 
+in the summer and extremely frozen temperatures in the winter. Wildfires pop up like 
+cockroaches and winters destroy the power grid. The lost souls who wanted to live with
+the land are now burned/frostbitten from the results of their actions.
+
+                        Defeated by Mother Nature
+                        [Ending 6 of 16]
+                     
+Restart for another ending?
+''')
+    elif stat_name == "welfare":
+        print('''
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Public Welfare is dropping below positive values, the country caused a pandemic
+from the lack of health within the country. People may be unable to afford basic
+needs and live off trash, the healthcare is horrible or the cities are infested
+and dirty. The lost souls who wanted to live long lives and prosper are now
+contracting dieases and illness and starving.
+
+                        Defeated by the Unhealthy
+                        [Ending 7 of 16]
+                     
+Restart for another ending?
+''')
+    elif stat_name == "law":
+        print('''
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Law Enforcement is dropping below positive values, the country is plunged into
+chaos. Where crimes are being commited in broad daylight and everyone is living
+for survival of the fittest. Even powerful criminal groups, such as the mafia
+are struggling. The lost souls who wanted order and control of their lives are
+forced to be anti-social hunters and gatherers.
+
+                        Defeated by Lawlessness 
+                        [Ending 8 of 16]
+                     
+Restart for another ending?
+''')
+
 def print_separator():
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     
@@ -1271,23 +1383,6 @@ def doElection(current_candidate, candidate_list):
             return candidate
         
 
-def bad_ending(stat_name):
-    if stat_name == "education":
-        print('''~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Education is dropping below positive values, the country moves towards misinformation
-and increasing conspiracy theories with no grounds. The lost souls are fighting a war
-between each other and contemplating reality. Nobody is able to believe anymore else
-and the country can no longer be run properly.
-                     
-                        Defeated by the Uneducated 
-                        [Ending 2 of 16]
-                     
-Restart for another ending?
-''')
-    elif stat_name == "reputation":
-        print('''
-''')
 
 def main():
     global year
@@ -1325,7 +1420,9 @@ heart of this moment: choosing a leader.
             leader.play_event(country)
 
             negative_stat = leader.check_stats()
-            if (negative_stat != "") and (leader.id != 6):
+            if year > 18:
+                bad_ending("confusion")
+            elif (negative_stat != "") and (leader.id != 6):
                 bad_ending(negative_stat)
             elif leader.check_goal():
                 game_start = False
