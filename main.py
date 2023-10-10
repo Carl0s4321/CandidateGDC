@@ -6,7 +6,6 @@ STATS_BASE_VALUE = 50
 CANDIDATE_STAT_BASE_VALUE = 2
 
 # GLOBAL VARIABLES
-game_start = True
 year = 1
 population = 10000
 
@@ -114,13 +113,19 @@ class Candidate:
             self.goals.pop(0)
             self.progress -= goal.progress_needed
 
-
     def check_goal(self):
         if(len(self.goals) < 1):
             return True
         else:
             return False
-
+    
+    #check if a stat is negative
+    def check_stat(self):
+        stats = ["education", "reputation", "infrastructure", "economy", "environment", "welfare", "law"]
+        for stat in stats:
+            if self.stats.get(f"{stat}_value") < 0:
+                return stat
+        return ""
 
 class Goal:
 
@@ -250,14 +255,14 @@ for a smooth transition of power.
               {"economy": 2, "welfare": -2, "environment": -3, "reputation": 3}]], # year 5
             #goals
             [
-                Goal(1, '''The Businessman is able to successfully remove taxes entirely,
+                Goal(4, '''The Businessman is able to successfully remove taxes entirely,
 this allows people to raise and work for as much capital as they like.
 The government on the other hand is forced to operate as a business,
 borrowing capital and trading stocks in order to fund projects. City
 services are up for competition and the economy is booming!
 [Economy + 10] [Law Enforcement - 8] [Environment - 2] ''',
                 {"economy":10, "law":-8, "environment":-2} ),
-                Goal(2, '''Test''',
+                Goal(4, '''Test''',
                      {"economy":1})
             ],
 
@@ -275,8 +280,8 @@ being laid off and there is no profits to be made and nothing to sell!
                             "1) Propose a solution", 
                             '''A solution to the situation was made, people pay the waste management company
 similar to how people pay their electric and water bills. 
-[Economy + 5] [Public Welfare - 5] [Goal + 1]\n''',
-                            {"progress":1, "economy":5, "welfare":-5}
+[Economy + 10] [Public Welfare - 5] [Goal + 2]\n''',
+                            {"progress":2, "economy":5, "welfare":-5}
                             ],
 
                         "2": [
@@ -1264,10 +1269,28 @@ def doElection(current_candidate, candidate_list):
             print(f"{candidate.name} has won the election with {vote_count} votes!\n")
             candidate.electionsWon += 1
             return candidate
+        
+
+def bad_ending(stat_name):
+    if stat_name == "education":
+        print('''~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Education is dropping below positive values, the country moves towards misinformation
+and increasing conspiracy theories with no grounds. The lost souls are fighting a war
+between each other and contemplating reality. Nobody is able to believe anymore else
+and the country can no longer be run properly.
+                     
+                        Defeated by the Uneducated 
+                        [Ending 2 of 16]
+                     
+Restart for another ending?
+''')
+    elif stat_name == "reputation":
+        print('''
+''')
 
 def main():
     global year
-    global game_start
     print('''-----------------------------------------------------------------------                                                                                      
   .g8"""bgd `7MMF'MMP""MM""YMM `7MMF'MMM"""AMV `7MM"""YMM  `7MN.   `7MF'
 .dP'     `M   MM  P'   MM   `7   MM  M'   AMV    MM    `7    MMN.    M
@@ -1288,7 +1311,9 @@ heart of this moment: choosing a leader.
     candidate_list = initialize_candidates()
     country = initialize_country()
 
+    game_start = True
     while game_start:
+        print("\n\n\n\n\n\n\n\n")
         if year % 3 == 1:
             leader = doElection(country.current_candidate, candidate_list)
             country.current_candidate = leader
@@ -1299,12 +1324,15 @@ heart of this moment: choosing a leader.
             country.printCountryStats()
             leader.play_event(country)
 
-            if leader.check_goal():
+            negative_stat = leader.check_stats()
+            if (negative_stat != "") and (leader.id != 6):
+                bad_ending(negative_stat)
+            elif leader.check_goal():
                 game_start = False
 
         # INC YEAR
         year += 1
-        print("\n\n\n\n\n")
+        
 
 
 main()
