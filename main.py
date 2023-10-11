@@ -428,14 +428,16 @@ advancement and cosmic exploration.
 [Economy + 7] [Reputation + 4] [Infrastructure + 10] [Welfare + 12]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Under the Environmentalist's lead, the country moves towards self sustaining
-prosperity. The lost souls have found themselves living in clean air,
-land and water. No longer will they have to fight over money, nor food
-take care of the land and the land will take of you. 
+Under the leadership of the tech innovator, the country thrives as a symbol 
+of innovation and unwavering commitment. Citizens embrace a fully automated 
+society, where cutting-edge technology drives progress and efficiency, 
+reshaping the way they live and work. This visionary approach has transformed 
+the nation into a shining example of what can be achieved through technological 
+advancement and forward-thinking policies.
                      
                         Technology!
                         [Ending 10 of 16]''',
-                     {"economy": 7, "reputation": 4, "infrastructure": 10, "welfare": 12}),
+                     {"economy": 7, "reputation": 4, "infrastructure": 10, "welfare": 12})
             ],
             # events
             [
@@ -512,7 +514,7 @@ effective emergency responses.''',
 drone construction, but the faster response times delight the 
 populace, resulting in reduced crime rates.
 [Law Enforcement 4] [Economy - 5] [Environment - 2] [Reputation + 3] [Goal + 2]''',
-                              {"progress": 2, "law": 4, "economy": -5, "reputation": +3, "environment": -2},
+                              {"progress": 2, "law": 4, "economy": -5, "reputation": 3, "environment": -2},
                           ],
                           "2": [
                               "2) 'I'm sorry, I didn't quite catch that'",
@@ -676,9 +678,204 @@ to more immediate and substantial problems.
 [Education -10, Economy +6, infrastructure +5, Reputation +10]''',
               {"education": -10, "economy": 6, "infrastructure": 5, "reputation": 10}]], # year 5
             # goals
-            [],
+            [
+                Goal(4, '''The leader's successful campaign has resulted in a series of new 
+policies, ranging from granting dogs the right to vote, acknowledging 
+dogs as equal members of society, and extending support to stray dogs 
+and cats. These groundbreaking policies have ignited a wave of both 
+enthusiasm and debate within the community, as citizens grapple with 
+the far-reaching implications of these unique and inclusive measures. 
+The future holds great anticipation for how these policies will shape 
+the dynamics of the city and its relationship with its furry residents.
+[Reputation + 13] [Public Welfare + 10]''',
+                     {"reputation": 13, "welfare": 10}),
+                Goal(4, '''The leader's successful incorporation of new policies has resulted 
+in a country where dogs play multifaceted roles, including sniffing 
+out illegal substances and contraband, conducting medical assessments,
+and actively serving in the police force. These innovative approaches 
+have not only enhanced security and healthcare but also deepened the 
+bond between dogs and humans, creating a harmonious society where their 
+unique capabilities are celebrated and valued.
+[Reputation + 18] [Education + 11] [Public Welfare + 12]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Under the leadership of the dogs, the country transforms into a harmonious 
+haven where canines and humans coexist in perfect synergy. The policies 
+implemented by these canine leaders create a society that values and cares 
+for its four-legged companions, fostering a unique bond of trust and 
+collaboration. In this heartwarming environment, dogs and humans thrive 
+together, reflecting a model of unity and mutual support for the rest of 
+the world to admire.
+                     
+                        Bark bark!
+                        [Ending 11 of 16]''',
+                     {"reputation": 18, "education": 11, "welfare": 12})],
             # events
-            [],
+            [
+                Event('''Under the leadership of the Great Sparky, an unprecedented proposal 
+has emerged the prospect of granting dogs the right to vote. This unique 
+policy has sparked a mix of amusement and curiosity among the citizenry, 
+as questions arise about the practicality and implications of such a novel 
+idea.''',
+                      {
+                          "1": [
+                              "1) Dogs need to be heard too!",
+                              '''You were thrilled to learn about this 
+policy and so is your dog!
+[Reputation + 3] [Public Welfare +1] [Goal + 2]''',
+                              {"progress": 2, "reputation": 3, "welfare": 1},
+                          ],
+                          "2": [
+                              "2) Post in Social Media",
+                              '''Despite being a dog person yourself,
+you expressed your opinion in Twatter that open dialogue is needed
+about potential impact on the electoral process before forming a
+firm opinion.
+[Reputation + 1] [Education + 2] [Goal + 1]''',
+                              {"progress": 1, "reputation": 1, "education": 2},
+                          ],
+                          "3": [
+                              "3) Wake up sheeple!",
+                              '''You, along with a group of people strongly
+oppose the policy in public, underscoring concerns about its potential 
+exploitation solely based on Sparky's adorable appearance. Police
+are deployed to keep the peace.
+[Law Enforcement + 2] [Reputation - 3]''',
+                              {"progress": 0, "law": 2, "reputation": -5},
+                          ],
+                      }
+                      ),
+                Event('''Under the leader's latest proposal, dogs are being 
+put forward as equal members of our society, sparking a mixture 
+of enthusiasm, curiosity, and debate among the populace.''',
+                      {
+                          "1": [
+                              "1) Pop open a champagne",
+                              '''In a heartwarming moment, you and your dog 
+celebrate the day they become an equal member of society. With
+this policy in effect, budget is allocated to fund to manufacture
+dog ID cards.
+[Reputation + 2] [Economy - 3] [Goal + 2]''',
+                              {"progress": 2, "reputation": 2, "economy": -3},
+                          ],
+                          "2": [
+                              "2) Show how ridiculous this policy is",
+                              '''A group of citizens decides to stage a mock 
+"Dog Election Day" to lampoon the policy of granting dogs 
+full societal membership. With tiny voting booths and treats 
+used as ballots, dogs are encouraged to cast their "barks" in 
+this farcical event.
+[Reputation - 3] [Public Welfare + 1]''',
+                              {"progress": 0, "welfare": 1, "reputation": -3},
+                          ]}
+                      ),
+                Event('''The leader has decided to introduce a policy that supports 
+stray dogs and even extends the same assistance to cats. This 
+empathetic move is widely embraced by the community, highlighting 
+its inclusive and humane nature.''',
+                      {
+                          "1": [
+                              "1) Good boy!",
+                              '''You are happy that more stray dogs are able to be 
+taken care of.
+[Reputation + 4] [Economy - 7] [Goal + 2]''',
+                              {"progress": 2, "economy": -7, "reputation": 4},
+                          ],
+                          "2": [
+                              "2) Attend a community meeting",
+                              '''You shared your interest with the group about 
+the need for a balanced approach that considers both animal welfare and other
+pressing societal needs.
+[Economy - 3] [Reputation + 2] [Goal + 1]''',
+                              {"progress": 1, "economy": -3, "reputation": 2},
+                          ],
+                      }
+                      ),
+                Event('''A groundbreaking proposal is proposed, suggesting that dogs
+be trained to detect various medical conditions. This innovative concept 
+has ignited excitement and hope among citizens, who foresee the potential 
+life-saving benefits of these canine companions.''',
+                      {
+                          "1": [
+                              "1) I'll get better in no time!",
+                              '''You feel significantly less apprehensive about clinic 
+visits when dogs are responsible for conducting medical assessments. Their 
+comforting presence and potential to detect health issues provide a reassuring 
+and calming effect, making the experience far more manageable. However it
+required a substantial amount of budget allocated to train dogs medical
+lessons.
+[Public Welfare + 5] [Reputation + 2] [Economy - 10] [Goal +2]''',
+                              {"progress": 2, "welfare": 5, "reputation": 2, "economy": -10},
+                          ],
+                          "2": [
+                              "2) Do I have to learn dog language?",
+                              '''Concerns have emerged over the language barrier between 
+dogs and humans during medical assessments, prompting discussions on effective 
+communication protocols. To deal with the matter, dog language schools are established.
+[Public Welfare + 3] [Economy - 3] [Education + 5] [Goal + 1]''',
+                              {"progress": 1, "welfare": 3, "education": 5, "economy": -3},
+                          ],
+                          "3": [
+                              "3) Allergic to dogs!",
+                              '''Protests have arisen from dog-allergic individuals 
+concerned about their ability to access medical checkups using canine 
+assessors. The leader notices their voices and decide to keep
+human doctors.
+[Public Welfare + 1] [Reputation + 1] [Economy -2] [Goal + 1]''',
+                              {"progress": 1, "reputation": 1, "economy": -2, "welfare": 1},
+                          ],
+                      }
+                      ),
+                Event('''Dogs are trained to detect illegal drugs, alcohol, contraband, 
+explosives, and more, a measure that promises to bolster security and safety.''',
+                      {
+                          "1": [
+                              "1) I feel safer already!",
+                              '''While resources are invested in training dogs, the
+peace of mind they provide, assuring your safety during the night, is priceless.. 
+[Law enforcement + 4] [Economy - 3] [Environment - 3] [Goal + 2]''',
+                              {"progress": 2, "law": 4, "economy": -3, "environment": -3},
+                          ],
+                          "2": [
+                              "2) Protest, protest, protest!",
+                              '''Protests have erupted with strong objections to the 
+proposal, citing concerns about the inhumane treatment of dogs as they're 
+exposed to explosives, weapons, drugs, and other potential dangers.
+But now dogs are knowledgeable regarding nation's security.
+[Public Welfare - 3] [Economy - 3] [Education + 7]''',
+                              {"progress": 0, "welfare": -3, "economy": -3, "education": 7},
+                          ],
+                      }
+                      ),
+                Event('''The leader is proposing to have a sufficient number of trained 
+dogs available to assist in every police chase, an initiative aimed at enhancing
+law enforcement efforts.''',
+                      {
+                          "1": [
+                              "1) The force could use a little hand",
+                              '''You receive news that your loyal dog has applied to 
+join the forces, however the nearest academy is a 2 hour car ride, enhancing
+the need to have more academies.
+[Law Enforcement + 4] [Public Welfare - 3] [Goal + 2]''',
+                              {"progress": 2, "law": 4, "welfare": -3},
+                          ],
+                          "2": [
+                              "2) Public Speech",
+                              '''People challenged the effectiveness and ethics 
+of using dogs in this context. Aren't people enough?
+[Reputation - 2] [Education + 1]''',
+                              {"progress": 0, "reputation": -2, "education": 1},
+                          ],
+                          "3": [
+                              "3) Graffiti",
+                              '''You and some people who believe in the same cause
+spray graffiti of raising awareness to emphasize potential risks, they're 
+seen everywhere around the city.
+[Education + 4] [Reputation - 2] [Infrastructure - 1]''',
+                              {"progress": 0, "education": 4, "reputation": -2, "infrastructure": -1},
+                          ],
+                      }
+                      ), ],
         )
     )
     candidate_list.append(
@@ -1307,10 +1504,7 @@ is no consistency and thus the lost souls become more lost, who contradict the c
 they vote for.
                      
                         Defeated by Indecision 
-                        [Ending 1 of 16]
-                     
-Restart for another ending?
-''')
+                        [Ending 1 of 16]''')
     elif stat_name == "education":
         print('''!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -1320,10 +1514,7 @@ between each other and contemplating reality. Nobody is able to believe anymore 
 and the country can no longer be run properly.
                      
                         Defeated by the Uneducated 
-                        [Ending 2 of 16]
-                     
-Restart for another ending?
-''')
+                        [Ending 2 of 16]''')
     elif stat_name == "reputation":
         print('''!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -1334,10 +1525,7 @@ The lost souls who wanted to adopt a new identity for themselves had to use a ex
 country's identity just to survive.
                      
                         Defeated by Bad Actors 
-                        [Ending 3 of 16]
-                     
-Restart for another ending?
-''')
+                        [Ending 3 of 16]''')
     elif stat_name == "infrastructure":
         print('''!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -1347,10 +1535,7 @@ electricity and sewage systems are neglected. The lost souls who looked for a ne
 place to live would be better off starting from scratch than repairing anything else.
                      
                         Defeated by Instability
-                        [Ending 4 of 16]
-                     
-Restart for another ending?
-''')
+                        [Ending 4 of 16]''')
     elif stat_name == "economy":
         print('''!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -1360,10 +1545,7 @@ hire workers and nobody wants to work. The lost souls who seeked opportunity are
 worried about losing everything.
                      
                         Defeated by Depression
-                        [Ending 5 of 16]
-                     
-Restart for another ending?
-''')
+                        [Ending 5 of 16]''')
     elif stat_name == "environment":
         print('''
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1374,10 +1556,7 @@ cockroaches and winters destroy the power grid. The lost souls who wanted to liv
 the land are now burned/frostbitten from the results of their actions.
 
                         Defeated by Mother Nature
-                        [Ending 6 of 16]
-                     
-Restart for another ending?
-''')
+                        [Ending 6 of 16]''')
     elif stat_name == "welfare":
         print('''
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1389,10 +1568,7 @@ and dirty. The lost souls who wanted to live long lives and prosper are now
 contracting dieases and illness and starving.
 
                         Defeated by the Unhealthy
-                        [Ending 7 of 16]
-                     
-Restart for another ending?
-''')
+                        [Ending 7 of 16]''')
     elif stat_name == "law":
         print('''
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1404,10 +1580,7 @@ are struggling. The lost souls who wanted order and control of their lives are
 forced to be anti-social hunters and gatherers.
 
                         Defeated by Lawlessness 
-                        [Ending 8 of 16]
-                     
-Restart for another ending?
-''')
+                        [Ending 8 of 16]''')
 
 def print_separator():
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -1606,7 +1779,7 @@ heart of this moment: choosing a leader.
 
               The nation's destiny hinged on your decision.\n\n''')
 
-    input("Press Enter to Continue")
+    input("\t\t\t\t\t\tPress Any Key to Continue\n")
     candidate_list = initialize_candidates()
     country = initialize_country()
 
