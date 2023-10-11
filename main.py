@@ -875,7 +875,7 @@ seen everywhere around the city.
                               {"progress": 0, "education": 4, "reputation": -2, "infrastructure": -1},
                           ],
                       }
-                      ), ],
+                      ) ],
         )
     )
     candidate_list.append(
@@ -960,9 +960,175 @@ economic stability.
 [Education +2, Public Welfare +1, Economy -3, Infrastructure -1, Reputation +1]''',
               {"education": 2, "welfare": 1, "economy": -3, "infrastructure": -1, "reputation": 1}]],  # year 5
             # goals
-            [],
+            [
+                Goal(4, '''Under this leadership, a suite of policies has been set in motion. 
+These include bolstering education through increased school budgets 
+and higher pay for hardworking teachers, addressing income inequality 
+and housing accessibility, and equipping citizens with financial 
+knowledge through education on complex financial topics. The diverse 
+range of policies reflects a comprehensive approach to societal improvement.
+[Education 13] [Reputation + 10] [Public Welfare + 15]''',
+                     {"education": 13, "reputation": 10, "welfare": 15}),
+                Goal(4, '''TThe leader has rolled out a trio of impactful policies. Online
+healthcare services provide convenient access to medical advice and
+prescriptions, while education programs aid prisoner reintegration. 
+Furthermore, employment opportunities target the unemployed and 
+homeless, fostering societal and economic well-being.
+[Reputation + 18] [Education + 11] [Public Welfare + 12]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Under the educator's guidance, the nation thrives as a hub of education and 
+enlightenment. The policies in place ensure that every citizen is well-educated, 
+fostering a society of empowered individuals. This commitment to education 
+results in a prosperous and knowledgeable population.
+                     
+                        Genius!
+                        [Ending 12 of 16]''',
+                     {"reputation": 18, "education": 11, "welfare": 12})],
             # events
-            [],
+            [
+                Event('''The education leader suggests higher school budgets 
+and increased pay for hardworking teachers, emphasizing a commitment to education 
+and teacher recognition.''',
+                      {
+                          "1": [
+                              "1) Volunteer to help",
+                              '''With most of the budget allocated to improving 
+education, any help is accepted. You offered your time and skills to 
+assist schools or teachers, contributing to the improvement of education.
+[Reputation + 2] [Economy - 6] [Education + 4] [Goal + 2]''',
+                              {"progress": 2, "reputation": 2, "economy": -6, "education": 4},
+                          ],
+                          "2": [
+                              "2) Gather information",
+                              '''You asked your friend who is a high school 
+teacher regarding the new policy. While it is a much more improved policy,
+there are still some areas which could be improved, such as better 
+school buildings.
+[Reputation + 1] [Economy -2] [Education + 1] [Infrastructure -3] [Goal + 1]''',
+                              {"progress": 1, "economy": -2, "reputation": 1, "education": 1, "infrastructure": -3},
+                          ]
+                      }
+                      ),
+                Event('''The new policy aims to bolster income support programs 
+and increase the availability of affordable housing, addressing economic 
+disparities and housing accessibility concerns.''',
+                      {
+                          "1": [
+                              "1) Time to go to RentFester.ca!",
+                              '''With the new policy, searching for a better 
+living space becomes less of a worry.
+[Reputation + 4] [Economy + 1] [Goal + 2]''',
+                              {"progress": 2, "reputation": 2, "economy": -3},
+                          ],
+                          "2": [
+                              "2) 'I'm a landlord and I hate low rent prices!'",
+                              '''A certain group strongly objects to the policy,
+as it poses as threat to their financial interests and investments.
+[Reputation - 2] [Economy -1]''',
+                              {"progress": 0, "economy": -1, "reputation": -2},
+                          ]}
+                      ),
+                Event('''Focus on offering education on intricate subjects like 
+finance, insurance, investments, and taxes. By providing accessible 
+education, the policy aims to enhance financial literacy and help 
+individuals make informed decisions in their financial lives.''',
+                      {
+                          "1": [
+                              "1) Time to learn!",
+                              '''The policy has received widespread praise,
+but it came at a significant cost. Hiring highly qualified teachers
+from overseas was an expensive necessity to provide top-notch 
+education in complex financial subjects.
+[Reputation + 5] [Economy - 15] [Goal + 2]''',
+                              {"progress": 2, "economy": -15, "reputation": 5},
+                          ],
+                          "2": [
+                              "2) Lower the tax!",
+                              '''Due to the hiring of expensive foreign
+educators, tax becomes higher in order to cover the cost. Many people
+don't agree with this policy and decided to protest. The leader decided
+hire only some foreign teachers.
+[Economy - 6] [Reputation - 2] [Goal + 1]''',
+                              {"progress": 1, "economy": -6, "reputation": -2},
+                          ],
+                      }
+                      ),
+                Event('''Online doctors are introduced. They offer instant
+medical advice through phone calls or video chats, along with 
+prescription delivery from the nearest pharmacy, leading to
+easier access of medication''',
+                      {
+                          "1": [
+                              "1) Leave a good review of the service",
+                              '''You had a fever and didn't 
+know what to do, so you called the service and did as they say,
+you were healthy again the next day. However it did cost you money 
+to call them.
+[Public Welfare + 7] [Reputation + 5] [Economy - 2] [Goal +2]''',
+                              {"progress": 2, "welfare": 7, "reputation": 5, "economy": -2},
+                          ],
+                          "2": [
+                              "2) Protest about medication abuse",
+                              '''Some people are expressing their concerns
+due to the easy process getting a prescription. The leader stepped in
+and enforced more strict regulation.
+[Reputation + 1] [Economy - 3] [Public Welfare + 2] [Goal + 1]''',
+                              {"progress": 1, "welfare": 3, "education": 5, "economy": -3},
+                          ],
+                          "3": [
+                              "3) Do nothing",
+                              '''You lay alone in your room as you did nothing.''',
+                              {"progress": 0},
+                          ],
+                      }
+                      ),
+                Event('''Prioritizing employment opportunities creation for the unemployed 
+and homeless population. Providing individuals with a chance to regain 
+their economic stability and societal integration. A big allocation of
+budget is needed.''',
+                      {
+                          "1": [
+                              "1) Help the homeless",
+                              '''While they're learning to self-improve, you helped
+them by giving them groceries. This inspired other people to do the
+same as well. 
+[Reputation + 5] [Economy - 7] [Goal + 2]''',
+                              {"progress": 2, "reputation": 5, "economy": -7},
+                          ],
+                          "2": [
+                              "2) Protest",
+                              '''Protests have broken out with objections to the 
+policy. Critics are primarily concerned about resources allocation,
+believing it would be better used in other vital services, such as
+law enforcement. The government ignored this.
+[Law enforcement -4 ] [Economy - 3] [Goal + 1]''',
+                              {"progress": 1, "law": -4, "economy": -3},
+                          ],
+                      }
+                      ),
+                Event('''The new policy emphasizes educating prisoners who are willing
+to reintegrate into society. While this initiative costs a fortune, it aims to 
+provide inmates with educational opportunities, equipping them with skills 
+and knowledge to increase their chances of successful reintegration into 
+the community upon their release. ''',
+                      {
+                          "1": [
+                              "1) ",
+                              '''The inmates are learning their best for the new
+world they're about to enter. These programs reduces the likelihood of
+re-offending. 
+[Law Enforcement + 4] [Public Welfare + 3] [Economy -8] [Goal + 2]''',
+                              {"progress": 2, "law": 4, "welfare": 3, "economy": -8},
+                          ],
+                          "2": [
+                              "2) Protest",
+                              '''These programs costs a lot, there are more
+pressing matters at hand, such as building better roads! 
+[Reputation - 2] [Economy - 1][Goal + 1]''',
+                              {"progress": 1, "reputation": -2, "economy": -1},
+                          ]}
+                      )],
         )
     )
     candidate_list.append(
@@ -1779,7 +1945,7 @@ heart of this moment: choosing a leader.
 
               The nation's destiny hinged on your decision.\n\n''')
 
-    input("\t\t\t\t\t\tPress Any Key to Continue\n")
+    input("\t\t\t\t\t\tPress Enter to Continue\n")
     candidate_list = initialize_candidates()
     country = initialize_country()
 
