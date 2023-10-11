@@ -448,7 +448,7 @@ are forced to innovate.
                             {"progress":0, "economy":10, "reputation":-10},
                             ],
                         "3" : [
-                            "3) Do both, protecting and trading"
+                            "3) Do both, protecting and trading",
                             '''The Businessman only trades for goods that does not
 compete with small businesses and imposes tariffs (trade tax)
 on goods that do compete with businesses. 
@@ -482,7 +482,7 @@ the government must also find ways to make money.
                             {"progress":1, "economy":5, "law":-5},
                             ],
                         "3" : [
-                            "3) Protest against lowering taxes"
+                            "3) Protest against lowering taxes",
                             '''Business owners want lower taxes and several other people
 want them too. It looks like there may be stalemate between the two. 
 [Economy + 6] [Reputation - 3] [Welfare - 3] [Goal + 1]''',
