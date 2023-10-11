@@ -64,7 +64,7 @@ class Country:
     def check_stat(self):
         stats = ["education", "reputation", "infrastructure", "economy", "environment", "welfare", "law"]
         for stat in stats:
-            if getattr(self, stat) < 0:
+            if getattr(self, stat) <= 0:
                 return stat
         return ""
 
@@ -178,14 +178,7 @@ class Event:
                 print_whitespace()
                 print_separator()
                 print(decision[1])
-                '''The war is over and the dictator claims victory. Nuclear warfare
-is avoided and the last opposing country falls. The environment is
-destroyed, there is no trading to be had. Many are homeless and
-wounded. Buildings and roads are destroyed, and the citizens of 
-previous countries have a strong hatred. The military elite still
-stands strong ready to stop any rebellion. 
-[Environment - 100] [Economy - 100] [Welfare - 1000]
-[Infrastructure - 1000] [Reputation - 99999] [Law + 999]'''
+
                 #dictator story
                 
                 if "special" in decision[2]:
@@ -561,8 +554,8 @@ of tech-focused initiatives, stimulating economic growth, improvisation
 of science subjects at school, and job creation in the tech sector. 
 However, concerns arise about privacy and data security as well as 
 a growing digital divide. 
-[Economy +2, Infrastructure +2, Public Welfare -1, Education 3]''',
-              {"economy": 2, "welfare": -1, "infrastructure": 2, "education": 3}],  # year 1
+[Economy +2, Infrastructure +5, Public Welfare -1, Education 3]''',
+              {"economy": 2, "welfare": -1, "infrastructure": 5, "education": 3}],  # year 1
 
             ['''Significant technological advancements are made, 
 including the rollout of advanced smart city infrastructure. While the 
@@ -621,7 +614,7 @@ innovation, and expanding the frontiers of human exploration.
 With a comprehensive approach that spans essential sectors, 
 the leader's legacy is shaping a future marked by technological
 advancement and cosmic exploration.
-[Economy + 7] [Reputation + 4] [Infrastructure + 10] [Welfare + 12]
+[Economy + 7] [Reputation + 4] [Infrastructure + 25] [Welfare + 12]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Under the leadership of the tech innovator, the country thrives as a symbol 
@@ -633,7 +626,7 @@ advancement and forward-thinking policies.
                      
                         Solved Technology!
                         [Ending 10 of 16]''',
-                     {"economy": 7, "reputation": 4, "infrastructure": 10, "welfare": 12})
+                     {"economy": 7, "reputation": 4, "infrastructure": 25, "welfare": 12})
             ],
             # events
             [
@@ -644,16 +637,16 @@ exploration in schools.''',
                           "1": [
                               "1) Educate yourself in STEM education",
                               '''It's challenging, but interesting...
-[Economy - 4] [Reputation + 1] [Education + 5] [Goal + 2]''',
-                              {"progress": 2, "economy": -4, "reputation": 1, "education": 5},
+[Economy - 8] [Reputation + 1] [Education + 7] [Goal + 2]''',
+                              {"progress": 2, "economy": -8, "reputation": 1, "education": 7},
                           ],
                           "2": [
                               "2) Money should be used to make better roads!",
                               '''While education holds significance, 
 the general public perceives other pressing concerns. Some individuals 
 are expressing their beliefs during the board meeting.
-[Economy - 2] [Reputation - 1] [Infrastructure + 5] [Goal + 1]''',
-                              {"progress": 1, "economy": -2, "reputation": -1, "infrastructure": 5},
+[Economy - 2] [Environment - 5] [Infrastructure + 7] [Goal + 1]''',
+                              {"progress": 1, "economy": -2, "environment": -5, "infrastructure": 7},
                           ],
                           "3": [
                               "3) Boo! Science is fake!",
@@ -679,8 +672,8 @@ as a promising solution for safer and more efficient transportation.''',
                               '''You get yourself a shiny new phone with an 
 AI assistant, and guess what? It turns out to be super handy, like 
 having a buddy in your pocket.
-[Economy + 3] [Reputation + 2] [Public Welfare + 1] [Goal + 2]''',
-                              {"progress": 2, "economy": 3, "reputation": 2, "welfare": 1},
+[Economy + 3] [Reputation + 2] [Education - 7] [Goal + 2]''',
+                              {"progress": 2, "economy": 3, "reputation": 2, "education": -7},
                           ],
                           "2": [
                               "2) Skeptical",
@@ -695,7 +688,7 @@ It's got its pros and cons. We'll see how it all pans out...
 that read 'THEY TOOK OUR JOBS' is proceeding down the route to 
 city hall, with law enforcements personnel positioned along 
 the way.
-[Law Enforcement + 1] [Reputation -3] [Public Welfare -2]''',
+[Law Enforcement + 3] [Reputation -3] [Public Welfare -2]''',
                               {"progress": 0, "law": 1, "reputation": -3, "welfare": -2},
                           ]}
                       ),
@@ -709,8 +702,8 @@ effective emergency responses.''',
                               '''Considerable funds are invested in 
 drone construction, but the faster response times delight the 
 populace, resulting in reduced crime rates.
-[Law Enforcement + 4] [Economy - 5] [Environment - 2] [Reputation + 3] [Goal + 2]''',
-                              {"progress": 2, "law": 4, "economy": -5, "reputation": 3, "environment": -2},
+[Law Enforcement + 9 [Economy - 7] [Environment - 5] [Reputation + 3] [Goal + 2]''',
+                              {"progress": 2, "law": 9, "economy": -7, "reputation": 3, "environment": -5},
                           ],
                           "2": [
                               "2) 'I'm sorry, I didn't quite catch that'",
@@ -719,6 +712,14 @@ frustrated because the 911 system just can't seem to get what
 you're saying on those calls. It's seriously annoying, right?
 [Economy - 3] [Reputation - 1]''',
                               {"progress": 0, "economy": -3, "reputation": -1},
+                          ],
+                          "3": [
+                              "3) What about rainy or windy days?",
+                              '''Criminals could figure out that drones are
+bad with weather. Now considering to make stronger
+drones.
+[Law Enforcement + 3] [Economy - 3] [Reputation - 3] [Goal + 1]''',
+                              {"progress": 1, "law":3, "economy": -3, "reputation": -3},
                           ],
                       }
                       ),
@@ -734,8 +735,8 @@ some people are pretty supportive of the government's move to install
 those fiber connections in the ground. It's a bit of a hassle now, 
 but the promise of faster wireless connections is definitely worth 
 it in the long run.
-[Public Welfare - 3] [Reputation + 2] [Environment - 3] [Goal +2]''',
-                              {"progress": 2, "welfare": -3, "reputation": 2, "environment": -3},
+[Public Welfare - 7] [Reputation - 3] [Environment - 7] [Infrastructure + 5] [Goal +2]''',
+                              {"progress": 2, "welfare": -7, "reputation":-3, "environment": -7, "infrastructure":5},
                           ],
                           "2": [
                               "2) Stop disrupting our lives!",
@@ -743,9 +744,9 @@ it in the long run.
 the government causing all this traffic chaos just for faster wireless 
 connections. It feels like they could have planned it better to 
 minimize the disruption to the people's daily lives. Causing the 
-project to be done at nights and traffic is gone.
-[Public Welfare + 3] [Reputation + 2] [Environment + 3] [Goal + 1]''',
-                              {"progress": 1, "reputation": 2, "environment": 3, "welfare": 3},
+project to be done at nights while the traffic is gone.
+[Public Welfare - 3] [Reputation + 2] [Environment - 3] [Infrastructure + 2] [Goal + 1]''',
+                              {"progress": 1, "welfare": -3, "reputation":2, "environment": -3, "infrastructure":2},
                           ],
                       }
                       ),
@@ -759,8 +760,8 @@ wave has also sparked concerns as it contributes to job displacement.''',
                               '''Part of the people notice the shift in
 job market, however they applaud the government's commitment to advanced
 robotics, which will make the country as a beacon of innovation.
-[Infrastructure + 1] [Economy + 2] [Environment - 7] [Goal + 2]''',
-                              {"progress": 2, "infrastructure": 1, "economy": 2, "environment": -7},
+[Infrastructure + 10] [Economy + 5] [Environment - 10] [Welfare - 10] [Goal + 2]''',
+                              {"progress": 2, "infrastructure": 10, "economy": 5, "environment": -10,"welfare":-10},
                           ],
                           "2": [
                               "2) WHERE ARE OUR JOBS!",
@@ -769,8 +770,8 @@ layoffs occurred, instantly depriving thousands of people of
 their livelihoods. The public demands for a change. In response, 
 the government swiftly adjusted its policy to narrow its impact 
 solely to space exploration.
-[Environment + 3] [Reputation - 5] [Infrastructure - 1] [Goal + 1]''',
-                              {"progress": 1, "environment": 3, "infrastructure": -1, "reputation": -5},
+[Environment + 3] [Reputation - 5] [Infrastructure - 1] [Welfare - 3] [Goal + 1]''',
+                              {"progress": 1, "environment": 3, "infrastructure": -1, "reputation": -5, "welfare":-3},
                           ],
                       }
                       ),
@@ -784,11 +785,13 @@ reflecting the ongoing debate surrounding space
 exploration's balance with earthly needs.''',
                       {
                           "1": [
-                              "1) Soon to make alien friends!",
+                              "1) Soon to make alien friends! [Consume 15 Economy and Environment]",
                               '''The idea of extraterrestrial life utterly 
-captivates your imagination.
-[Economy - 3] [Environment - 2] [Reputation: + 2] [Goal + 2]''',
-                              {"progress": 2, "reputation": 2, "economy": -3, "environment": -2},
+captivates your imagination. Completely ignoring the pollution and
+space debris being created, we will deal with it later. Also
+don't forget about the billions of dollars for the projects!
+[Economy - 20] [Environment - 20] [Infrastructure + 20] [Goal + 2]''',
+                              {"progress": 2, "infrastructure": 20, "economy": -20, "environment": -20},
                           ],
                           "2": [
                               "2) I can see the debris from all the way down here!",
@@ -797,8 +800,8 @@ the government's efforts to send a ship to Mars, with many of these
 attempts resulting in destruction and scattering across the galaxy. 
 This has sparked concerns about the safety of potential debris 
 returning to Earth in the future.
-[Environment - 5] [Reputation + 1] [Economy - 2] [Education + 2] [Goal + 1]''',
-                              {"progress": 1, "economy": -2, "reputation": 1, "education": 2, "environment": -5},
+[Environment - 10] [Welfare - 5] [Economy - 5] [Education + 5] [Goal + 1]''',
+                              {"progress": 1, "economy": -10, "welfare":-5, "education":5, "environment": -10},
                           ],
                           "3": [
                               "3) Fix what is on earth first!",
@@ -807,8 +810,8 @@ greater concern, such as healthcare and employment. These demonstrations
 underscore the pressing societal challenges that demand attention. As 
 they voice their grievances, the public highlights the need for solutions 
 to more immediate and substantial problems.
-[Law enforcement - 3] [Reputation - 4] [Economy - 3]''',
-                              {"progress": 0, "law": -3, "reputation": -4, "economy": -3},
+[Law enforcement + 5] [Reputation - 4] [Economy + 5] [Welfare + 5]''',
+                              {"progress": 0, "law": 5, "reputation": -4, "economy": 5, "welfare":5},
                           ],
                       }
                     ),
@@ -918,7 +921,7 @@ idea.''',
                               "1) Dogs need to be heard too!",
                               '''You were thrilled to learn about this 
 policy and so is your dog!
-[Reputation + 3] [Public Welfare +1] [Goal + 2]''',
+[Reputation + 3] [Public Welfare + 1] [Goal + 2]''',
                               {"progress": 2, "reputation": 3, "welfare": 1},
                           ],
                           "2": [
@@ -936,8 +939,8 @@ firm opinion.
 oppose the policy in public, underscoring concerns about its potential 
 exploitation solely based on Sparky's adorable appearance. Police
 are deployed to keep the peace.
-[Law Enforcement + 2] [Reputation - 3]''',
-                              {"progress": 0, "law": 2, "reputation": -3},
+[Law Enforcement + 3] [Reputation - 3]''',
+                              {"progress": 0, "law": 3, "reputation": -3},
                           ],
                       }
                       ),
@@ -951,8 +954,8 @@ of enthusiasm, curiosity, and debate among the populace.''',
 celebrate the day they become an equal member of society. With
 this policy in effect, budget is allocated to fund to manufacture
 dog ID cards.
-[Reputation + 2] [Economy - 3] [Goal + 2]''',
-                              {"progress": 2, "reputation": 2, "economy": -3},
+[Reputation + 5] [Economy - 3] [Goal + 1]''',
+                              {"progress": 2, "reputation": 5, "economy": -3},
                           ],
                           "2": [
                               "2) Show how ridiculous this policy is",
@@ -961,9 +964,19 @@ dog ID cards.
 full societal membership. With tiny voting booths and treats 
 used as ballots, dogs are encouraged to cast their "barks" in 
 this farcical event.
-[Reputation - 3] [Public Welfare + 1]''',
-                              {"progress": 0, "welfare": 1, "reputation": -3},
-                          ]}
+[Reputation - 3] [Public Welfare + 5]''',
+                              {"progress": 0, "welfare": 5, "reputation": -3},
+                          ],
+                          "3": [
+                              "3) Let dogs have paying jobs too!",
+                              '''Of course, we can't let dogs work without pay!
+That work be against minimum wage polciies. People
+are giving dogs more and more rights, but it will
+be costly.
+[Economy - 10] [Public Welfare + 5] [Goal + 1]''',
+                              {"progress": 1, "welfare": 5, "economy": -10},
+                          ]
+                          }
                       ),
                 Event('''The leader has decided to introduce a policy that supports 
 stray dogs and even extends the same assistance to cats. This 
@@ -974,16 +987,16 @@ its inclusive and humane nature.''',
                               "1) Good boy!",
                               '''You are happy that more stray dogs are able to be 
 taken care of.
-[Reputation + 4] [Economy - 7] [Goal + 2]''',
-                              {"progress": 2, "economy": -7, "reputation": 4},
+[Reputation + 4] [Economy - 10] [Goal + 2]''',
+                              {"progress": 2, "economy": -10, "reputation": 4},
                           ],
                           "2": [
                               "2) Attend a community meeting",
                               '''You shared your interest with the group about 
 the need for a balanced approach that considers both animal welfare and other
 pressing societal needs.
-[Economy - 3] [Reputation + 2] [Goal + 1]''',
-                              {"progress": 1, "economy": -3, "reputation": 2},
+[Economy - 3] [Reputation + 2] [Welfare + 2] [Goal + 1]''',
+                              {"progress": 1, "economy": -3, "reputation": 2, "welfare":2},
                           ],
                       }
                       ),
@@ -1000,16 +1013,16 @@ comforting presence and potential to detect health issues provide a reassuring
 and calming effect, making the experience far more manageable. However it
 required a substantial amount of budget allocated to train dogs medical
 lessons.
-[Public Welfare + 5] [Reputation + 2] [Economy - 10] [Goal +2]''',
-                              {"progress": 2, "welfare": 5, "reputation": 2, "economy": -10},
+[Public Welfare + 5] [Reputation + 2] [Economy - 12] [Goal +2]''',
+                              {"progress": 2, "welfare": 5, "reputation": 2, "economy": -12},
                           ],
                           "2": [
                               "2) Do I have to learn dog language?",
                               '''Concerns have emerged over the language barrier between 
 dogs and humans during medical assessments, prompting discussions on effective 
 communication protocols. To deal with the matter, dog language schools are established.
-[Public Welfare + 3] [Economy - 3] [Education + 5] [Goal + 1]''',
-                              {"progress": 1, "welfare": 3, "education": 5, "economy": -3},
+[Public Welfare + 3] [Economy - 3] [Education + 7] [Goal + 1]''',
+                              {"progress": 1, "welfare": 3, "education": 7, "economy": -3},
                           ],
                           "3": [
                               "3) Allergic to dogs!",
@@ -1017,8 +1030,8 @@ communication protocols. To deal with the matter, dog language schools are estab
 concerned about their ability to access medical checkups using canine 
 assessors. The leader notices their voices and decide to keep
 human doctors.
-[Public Welfare + 1] [Reputation + 1] [Economy -2] [Goal + 1]''',
-                              {"progress": 1, "reputation": 1, "economy": -2, "welfare": 1},
+[Public Welfare + 3] [Reputation + 1] [Economy -2] [Goal + 1]''',
+                              {"progress": 1, "reputation": 2, "economy": -2, "welfare": 1},
                           ],
                       }
                       ),
@@ -1029,8 +1042,8 @@ explosives, and more, a measure that promises to bolster security and safety.'''
                               "1) I feel safer already!",
                               '''While resources are invested in training dogs, the
 peace of mind they provide, assuring your safety during the night, is priceless.. 
-[Law enforcement + 4] [Economy - 3] [Environment - 3] [Goal + 2]''',
-                              {"progress": 2, "law": 4, "economy": -3, "environment": -3},
+[Law enforcement + 7] [Economy - 7] [Environment - 5] [Goal + 2]''',
+                              {"progress": 2, "law": 7, "economy": -7, "environment": -5},
                           ],
                           "2": [
                               "2) Protest, protest, protest!",
@@ -1052,8 +1065,8 @@ law enforcement efforts.''',
                               '''You receive news that your loyal dog has applied to 
 join the forces, however the nearest academy is a 2 hour car ride, enhancing
 the need to have more academies.
-[Law Enforcement + 4] [Public Welfare - 3] [Goal + 2]''',
-                              {"progress": 2, "law": 4, "welfare": -3},
+[Law Enforcement + 7] [Public Welfare - 3] [Goal + 1]''',
+                              {"progress": 1, "law": 7, "welfare": -3},
                           ],
                           "2": [
                               "2) Public Speech",
@@ -1067,8 +1080,8 @@ of using dogs in this context. Aren't people enough?
                               '''You and some people who believe in the same cause
 spray graffiti of raising awareness to emphasize potential risks, they're 
 seen everywhere around the city.
-[Education + 4] [Reputation - 2] [Infrastructure - 1]''',
-                              {"progress": 0, "education": 4, "reputation": -2, "infrastructure": -1},
+[Education + 4] [Reputation - 4] [Infrastructure - 1]''',
+                              {"progress": 0, "education": 4, "reputation": -4, "infrastructure": -1},
                           ],
                       }
                       ) ],
@@ -1192,8 +1205,8 @@ and teacher recognition.''',
                               '''With most of the budget allocated to improving 
 education, any help is accepted. You offered your time and skills to 
 assist schools or teachers, contributing to the improvement of education.
-[Reputation + 2] [Economy - 6] [Education + 4] [Goal + 2]''',
-                              {"progress": 2, "reputation": 2, "economy": -6, "education": 4},
+[Reputation + 4] [Economy - 8] [Education + 8] [Goal + 2]''',
+                              {"progress": 2, "reputation": 4, "economy": -8, "education": 8},
                           ],
                           "2": [
                               "2) Gather information",
@@ -1201,9 +1214,18 @@ assist schools or teachers, contributing to the improvement of education.
 teacher regarding the new policy. While it is a much more improved policy,
 there are still some areas which could be improved, such as better 
 school buildings.
-[Reputation + 1] [Economy -2] [Education + 1] [Infrastructure -3] [Goal + 1]''',
-                              {"progress": 1, "economy": -2, "reputation": 1, "education": 1, "infrastructure": -3},
-                          ]
+[Reputation + 3] [Economy -4] [Education + 3] [Infrastructure -3] [Goal + 1]''',
+                              {"progress": 1, "economy": -4, "reputation": 3, "education": 3, "infrastructure": -3},
+                          ],
+                          "3": [
+                              "3) But the taxes will increase!",
+                              '''It would definitely be counterinitutive if the
+the taxes increased for teachers as well. So teachers will
+pay less tax in general. But normal people will have to
+more tax anyways.
+[Economy - 2] [Education + 5] [Goal + 1]''',
+                              {"progress": 1, "economy": -2,  "education":5, },
+                          ],
                       }
                       ),
                 Event('''The new policy aims to bolster income support programs 
@@ -1214,17 +1236,26 @@ disparities and housing accessibility concerns.''',
                               "1) Time to go to RentFester.ca!",
                               '''With the new policy, searching for a better 
 living space becomes less of a worry.
-[Reputation + 4] [Economy + 1] [Goal + 2]''',
-                              {"progress": 2, "reputation": 4, "economy": 1},
+[Reputation + 4] [Economy - 6] [Welfare + 5] [Goal + 1]''',
+                              {"progress": 1, "reputation": 4, "economy":-6, "welfare":5},
                           ],
                           "2": [
                               "2) 'I'm a landlord and I hate low rent prices!'",
                               '''A certain group strongly objects to the policy,
 as it poses as threat to their financial interests and investments.
-[Reputation - 2] [Economy -1]''',
-                              {"progress": 0, "economy": -1, "reputation": -2},
-                          ]}
-                      ),
+[Reputation - 2] [Economy -2] [Welfare - 1]''',
+                              {"progress": 0, "economy": -2, "reputation": -2, "welfare":-1},
+                          ],
+                           "3": [
+                              "3) Ban the landlords from this opportunity!",
+                              '''Life is not a game of monopoly but rich people
+do it anyways. The government will only allow people to
+purchase property to live in and not rent out.
+[Reputation - 2] [Economy - 3] [Welfare + 7] [Infrastructure + 5]''',
+                              {"progress": 0, "economy": -3, "reputation": -2, "welfare":7, "infrastructure":5},
+                          ],
+                          }
+                      ),    
                 Event('''Focus on offering education on intricate subjects like 
 finance, insurance, investments, and taxes. By providing accessible 
 education, the policy aims to enhance financial literacy and help 
@@ -1236,8 +1267,8 @@ individuals make informed decisions in their financial lives.''',
 but it came at a significant cost. Hiring highly qualified teachers
 from overseas was an expensive necessity to provide top-notch 
 education in complex financial subjects.
-[Reputation + 5] [Economy - 15] [Goal + 2]''',
-                              {"progress": 2, "economy": -15, "reputation": 5},
+[Reputation + 5] [Economy - 15] [Education + 15] [Goal + 2]''',
+                              {"progress": 2, "economy": -15, "reputation": 5, "education":15},
                           ],
                           "2": [
                               "2) Lower the tax!",
@@ -1245,8 +1276,16 @@ education in complex financial subjects.
 educators, tax becomes higher in order to cover the cost. Many people
 don't agree with this policy and decided to protest. The leader decided
 hire only some foreign teachers.
-[Economy - 6] [Reputation - 2] [Goal + 1]''',
-                              {"progress": 1, "economy": -6, "reputation": -2},
+[Economy - 6] [Reputation - 2] [Education + 6] [Goal + 1]''',
+                              {"progress": 1, "economy": -6, "reputation": -2, "education":6},
+                          ],
+                          "3": [
+                              "3) Why not create local educators?",
+                              '''This requires the training of qualified individuals to
+create a new team of financial educators. It may take time to
+develop, but the costs for lower than highering foreign educators.
+[Economy + 2] [Education + 10]''',
+                              {"progress": 0, "economy": 2, "education":10},
                           ],
                       }
                       ),
@@ -1269,12 +1308,13 @@ to call them.
                               '''Some people are expressing their concerns
 due to the easy process getting a prescription. The leader stepped in
 and enforced more strict regulation.
-[Reputation + 1] [Economy - 3] [Public Welfare + 2] [Goal + 1]''',
-                              {"progress": 1, "welfare": 2, "reputation": 1, "economy": -3},
+[Law Enforcement + 3] [Economy - 3] [Public Welfare + 2] [Goal + 1]''',
+                              {"progress": 1, "welfare": 2, "law": 3, "economy": -3},
                           ],
                           "3": [
                               "3) Do nothing",
-                              '''You lay alone in your room as you did nothing.''',
+                              '''You lay alone in your room as you did nothing.
+There are probably better things to do in life.''',
                               {"progress": 0},
                           ],
                       }
@@ -1289,8 +1329,8 @@ budget is needed.''',
                               '''While they're learning to self-improve, you helped
 them by giving them groceries. This inspired other people to do the
 same as well. 
-[Reputation + 5] [Economy - 7] [Goal + 2]''',
-                              {"progress": 2, "reputation": 5, "economy": -7},
+[Reputation + 5] [Economy - 10] [Education + 5] [Goal + 2]''',
+                              {"progress": 2, "reputation": 5, "economy": -10, "education":5},
                           ],
                           "2": [
                               "2) Protest",
@@ -1298,7 +1338,7 @@ same as well.
 policy. Critics are primarily concerned about resources allocation,
 believing it would be better used in other vital services, such as
 law enforcement. The government ignored this.
-[Law enforcement -4 ] [Economy - 3] [Goal + 1]''',
+[Law enforcement - 4] [Economy - 3] [Goal + 1]''',
                               {"progress": 1, "law": -4, "economy": -3},
                           ],
                       }
@@ -1310,19 +1350,19 @@ and knowledge to increase their chances of successful reintegration into
 the community upon their release. ''',
                       {
                           "1": [
-                              "1) ",
+                              "1) They should know how to be a memeber of society!",
                               '''The inmates are learning their best for the new
 world they're about to enter. These programs reduces the likelihood of
 re-offending. 
-[Law Enforcement + 4] [Public Welfare + 3] [Economy -8] [Goal + 2]''',
-                              {"progress": 2, "law": 4, "welfare": 3, "economy": -8},
+[Law Enforcement + 4] [Public Welfare + 3] [Economy - 10] [Education + 5] [Goal + 2]''',
+                              {"progress": 2, "law": 4, "welfare": 3, "economy": -10, "education":5},
                           ],
                           "2": [
                               "2) Protest",
                               '''These programs costs a lot, there are more
 pressing matters at hand, such as building better roads! 
-[Reputation - 2] [Economy - 1][Goal + 1]''',
-                              {"progress": 1, "reputation": -2, "economy": -1},
+[Reputation - 2] [Economy - 5][Goal + 1]''',
+                              {"progress": 1, "reputation": -2, "economy": -5},
                           ]}
                       )],
         )
@@ -2115,8 +2155,8 @@ on a piece of paper.
                             "4) Use it as toilet paper",
                             '''It's great that you don't have to
 pay for toilet paper anymore.
-[Environment + 2]''',
-                            {"progress": 0, "environment": 2}
+[Environment + 3]''',
+                            {"progress": 0, "environment": 3}
                         ]
                     }
                 ),#2
@@ -2854,17 +2894,18 @@ heart of this moment: choosing a leader.
 
             leader.play_event(country)
 
-            
 
             negative_stat = country.check_stat()
-            if year > 18:
+            
+            if leader.check_goal():
+                game_start = False
+            elif year > 18:
                 bad_ending("confusion")
                 game_start = False
             elif (negative_stat != "") and (leader.id != 6):
                 bad_ending(negative_stat)
                 game_start = False
-            elif leader.check_goal():
-                game_start = False
+            
 
         # INC YEAR
         year += 1
