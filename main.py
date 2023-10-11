@@ -68,6 +68,9 @@ class Country:
                 return stat
         return ""
 
+    def decPopulation(self):
+        deathPerYear = int(self.population / 253)
+        self.population -= deathPerYear
 
 def initialize_country():
     country = Country(population, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE, STATS_BASE_VALUE,
@@ -278,8 +281,8 @@ and natural resources are exploited to the point where water becomes
 scarce. Environmental activists organize protests, demanding stricter 
 regulations. The Business Tycoon must balance environmental concerns 
 with the desire for economic growth. 
-[Economy +4, Public Welfare -4, Environment -8, Reputation -4]''',
-              {"economy": 4, "welfare": -4, "environment": -8, "reputation": -4}],  # year 3
+[Population -500] [Economy +4, Public Welfare -4, Environment -8, Reputation -4]''',
+              {"population": -500, "economy": 4, "welfare": -4, "environment": -8, "reputation": -4}],  # year 3
 
              ['''Economic challenges hit the nation in the fourth year as global 
 market fluctuations lead to a recession. Unemployment rises, and 
@@ -1160,8 +1163,8 @@ overwhelmed, and unemployment rises as businesses shut down to
 mitigate the spread. Social programs are stretched thin,
 and economic challenges mount as a result of the pandemic's impact. 
 Balancing public health, economic stability, and social support becomes a complex and urgent challenge.
-[Economy -10, Public Welfare -4, Law Enforcement: -3, Reputation -3]''',
-              {"economy": -10, "welfare": -4, "reputation": -3, "law": -3}], # year 4
+[Population -3206 Economy -10, Public Welfare -4, Law Enforcement: -3, Reputation -3]''',
+              {"population": -3206,"economy": -10, "welfare": -4, "reputation": -3, "law": -3}], # year 4
 
              ['''As the Visionary Leader's term comes to an end in year five, 
 the nation reflects on their legacy. While education, healthcare, 
@@ -1436,8 +1439,8 @@ answers from their government. Trust in leadership wanes,
 and social tensions rise as some blame immigration policies.
 The leader must navigate a deeply divided nation, where
 security concerns compete with the need for unity.
-[Law Enforcement -10, Infrastructure -5, Public Welfare -5, Economy -3, Reputation -7]''',
-              {"law": -10, "infrastructure": -5, "welfare": -5, "economy": -3, "reputation": -7}],  # year 3
+[Population -1300, -Law Enforcement -10, Infrastructure -5, Public Welfare -5, Economy -3, Reputation -7]''',
+              {"population": -1300, "law": -10, "infrastructure": -5, "welfare": -5, "economy": -3, "reputation": -7}],  # year 3
 
              ['''In the wake of the devastating terrorist attack,
 year five is marked by a collective effort to rebuild and heal. 
@@ -2452,7 +2455,7 @@ plowed down until there are none left. If only you could have brought more.
                      ''')
         elif ending_name == "prepared":
             print('''You call in your comrades and enter the battle. The dictator
-snaps his fingers and several elite soliders appear from the
+snaps his fingers and several elite soldiers appear from the
 furniture and structure and even behind you. It looks he knew 
 you were attacking, if only you attracted less suspicion. The
 fight is one-sided. 
@@ -2461,14 +2464,14 @@ fight is one-sided.
                      ''')
         elif ending_name == "fake":
             print('''You shout that you have a nuclear bomb. But you didn't
-have one. This is embarassing...
-Might as well put you out of your embarassment.
+have one. This is embarrassing...
+Might as well put you out of your embarrassment.
 [Population - 1]
                   
                      ''')
         
         elif ending_name == "skillisue":
-            print('''You dash forward, the dictator calls forth his elite soliders
+            print('''You dash forward, the dictator calls forth his elite soldiers
 hiding between the furniture and walls. Your motives waiver in
 your mind even though you have had rock solid training. Your
 mind slips for even 0.001 second and you missed the dodge 
@@ -2490,7 +2493,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 Under the Dictator's lead, there are no more conflicting views on politics.
 All of the defeated countries will unite as one to form one and only one
-country. The lost souls have everything to theirselves and nothing to
+country. The lost souls have everything to themselves and nothing to
 lose anymore.
                      
                         Defeated Politics
@@ -2859,7 +2862,6 @@ def doElection(current_candidate, candidate_list):
 def print_whitespace():
     print("\n\n\n\n\n\n\n\n\n\n\n\n\n")
 
-
 def main():
     global year
     print('''-----------------------------------------------------------------------                                                                                      
@@ -2885,6 +2887,7 @@ heart of this moment: choosing a leader.
 
     game_start = True
     while game_start:
+        country.decPopulation()
         if year % 3 == 1:
             if country.current_candidate == -1 or not (country.current_candidate.id == 6 and len(country.current_candidate.events) < 5):
                 leader = doElection(country.current_candidate, candidate_list)
