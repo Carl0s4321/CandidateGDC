@@ -340,7 +340,7 @@ Restart for another ending?
             [
                 Event('''There is competition in the waste management sector, workers are
 being laid off and there is no profits to be made and nothing to sell!
-People are worried about what will happen about the santiation of the
+People are worried about what will happen about the sanitation of the
 country.
               ''',
                     {
@@ -453,7 +453,7 @@ are forced to innovate.
 compete with small businesses and imposes tariffs (trade tax)
 on goods that do compete with businesses. 
 [Economy + 10] [Environment - 5] [Reputation - 5]''',
-                            {"progress":0, "economy":10, "law":5, "reputation":-5, "environment":-5},
+                            {"progress":0, "economy":10, "reputation":-5, "environment":-5},
                             ]
                     }
                 ),
@@ -508,7 +508,7 @@ here in the country anyways. Some were persuaded too.
                             '''The immigrants are happy to see that people are
 happy. This makes them wanting to work even harder.
 [Population + 1000] [Economy + 10] [Environment - 10] [Goal + 1] ''',
-                            {"progress":1, "economy":5, "law":-5},
+                            {"progress":1, "population": 1000, "economy":10, "environment":-10},
                             ],
                     }
                 ),
@@ -582,7 +582,7 @@ demanded, and protests intensify. The leader must navigate the
 fallout of the breach while ensuring the nation's security and 
 maintaining public trust. 
 [Law Enforcement +3, Public Welfare -5, Economy -3, Reputation -8]''',
-              {"economy": 3, "environment": -6, "welfare": -3, "reputation": -8}], # year 3
+              {"economy": -3, "law": 3, "welfare": -5, "reputation": -8}], # year 3
 
              ['''Public trust in the government erodes further due 
 to the fallout from the previous year's data breach. 
@@ -611,7 +611,7 @@ and public safety. The innovator's vision is reshaping the
 landscape, embracing change, and driving progress across
 these critical domains.
 [Economy + 5] [Education + 7] [Reputation + 8] [Law enforcement + 6]''',
-                     {"economy": 5, "environment": 7, "reputation": 8, "law": 6}),
+                     {"economy": 5, "education": 7, "reputation": 8, "law": 6}),
                 Goal(4, '''The leader's achievements encompass the establishment of faster
 and more reliable wireless connections, the integration of 
 advanced robotics across critical industries, and ambitious 
@@ -710,7 +710,7 @@ effective emergency responses.''',
 drone construction, but the faster response times delight the 
 populace, resulting in reduced crime rates.
 [Law Enforcement + 4] [Economy - 5] [Environment - 2] [Reputation + 3] [Goal + 2]''',
-                              {"progress": 2, "law": 4, "economy": -5, "reputation": +3, "environment": -2},
+                              {"progress": 2, "law": 4, "economy": -5, "reputation": 3, "environment": -2},
                           ],
                           "2": [
                               "2) 'I'm sorry, I didn't quite catch that'",
@@ -734,7 +734,7 @@ some people are pretty supportive of the government's move to install
 those fiber connections in the ground. It's a bit of a hassle now, 
 but the promise of faster wireless connections is definitely worth 
 it in the long run.
-  [Public Welfare - 3] [Reputation + 2] [Environment - 3] [Goal +2]''',
+[Public Welfare - 3] [Reputation + 2] [Environment - 3] [Goal +2]''',
                               {"progress": 2, "welfare": -3, "reputation": 2, "environment": -3},
                           ],
                           "2": [
@@ -743,9 +743,9 @@ it in the long run.
 the government causing all this traffic chaos just for faster wireless 
 connections. It feels like they could have planned it better to 
 minimize the disruption to the people's daily lives. Causing the 
-project to be put on hold and traffic is gone.
-[Public Welfare + 3] [Reputation + 2] [Environment + 3]''',
-                              {"progress": 0, "reputation": 2, "environment": 3, "welfare": 3},
+project to be done at nights and traffic is gone.
+[Public Welfare + 3] [Reputation + 2] [Environment + 3] [Goal + 1]''',
+                              {"progress": 1, "reputation": 2, "environment": 3, "welfare": 3},
                           ],
                       }
                       ),
@@ -937,7 +937,7 @@ oppose the policy in public, underscoring concerns about its potential
 exploitation solely based on Sparky's adorable appearance. Police
 are deployed to keep the peace.
 [Law Enforcement + 2] [Reputation - 3]''',
-                              {"progress": 0, "law": 2, "reputation": -5},
+                              {"progress": 0, "law": 2, "reputation": -3},
                           ],
                       }
                       ),
@@ -1215,7 +1215,7 @@ disparities and housing accessibility concerns.''',
                               '''With the new policy, searching for a better 
 living space becomes less of a worry.
 [Reputation + 4] [Economy + 1] [Goal + 2]''',
-                              {"progress": 2, "reputation": 2, "economy": -3},
+                              {"progress": 2, "reputation": 4, "economy": 1},
                           ],
                           "2": [
                               "2) 'I'm a landlord and I hate low rent prices!'",
@@ -1270,7 +1270,7 @@ to call them.
 due to the easy process getting a prescription. The leader stepped in
 and enforced more strict regulation.
 [Reputation + 1] [Economy - 3] [Public Welfare + 2] [Goal + 1]''',
-                              {"progress": 1, "welfare": 3, "education": 5, "economy": -3},
+                              {"progress": 1, "welfare": 2, "reputation": 1, "economy": -3},
                           ],
                           "3": [
                               "3) Do nothing",
@@ -1426,7 +1426,7 @@ willing to provide support whenever possible.
                 {"law":10, "reputation":7, "environment":-2} ),
                 Goal(4, '''The goal of banning all weapons and drugs within the country
 is a hefty one. This required an inspection of all incoming people,
-luggages and packages. As well as an inspection of all buildings
+luggage and packages. As well as an inspection of all buildings
 for hidden contraband. With the help of dogs who can smell even the
 tiniest traces of any drug and gunpowder from bullets. As for knives,
 they have metal detectors of course.
@@ -1436,7 +1436,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 Under the Advocate for Law and Order, held firm under protests and national
 emergencies. Able to use his willpower and execute his plan calm and collected.
 Initially produced tons of mistrust and proven to be everyone's guardian. The
-lost souls who seeked safety from the outside now had safety everywhere.
+lost souls who sought safety from the outside now had safety everywhere.
                      
                         Defeated Malice
                         [Ending 13 of 16]
@@ -1503,7 +1503,7 @@ feeling of being watched."
                             '''Now have criminals have a harder time hiding themselves
 physically and it is now easier to trace their paths.
 [Law Enforcement + 10] [Economy - 7] [Welfare - 9] [Goal + 1]''',
-                            {"progress":1, "law":10,"reputation":-7,"welfare":-9},
+                            {"progress":1, "law":10,"economy":-7,"welfare":-9},
                             ],
                         "3": [
                             "3) Protest against public surveillance",
@@ -1629,7 +1629,7 @@ of some.
                         "1": [
                             "1) Of course!",
                             '''People are now inclined to commit stuff in
-the night due to the amount of suveilance. But humans
+the night due to the amount of surveillance. But humans
 function the best during the day.
 [Law Enforcement + 10] [Welfare - 10] [Goal + 1]''',
                             {"progress":1, "law":10,"welfare":-10},
@@ -1727,7 +1727,7 @@ recognition, but it comes with expectations of global leadership in environmenta
 matters. Balancing international obligations with domestic priorities becomes 
 a challenge. The Environmentalist faces pressure to allocate resources to global 
 initiatives, which sparks debate and dissent at home. 
-[Country's Reputation +5, Economy -3, Public Welfare -2]''', 
+[Reputation +5, Economy -3, Public Welfare -2]''',
 {"reputation":5, "economy":-3, "welfare":-2}]], #year 5
             #goals
             [
@@ -1753,7 +1753,7 @@ Take care of the land and the land will take of you.
                      
                         Defeated Climate Change
                         [Ending 14 of 16]''',
-                {"ending":1, "economy":5, "environment":25, "infrastructure":15, "welfare":10} ),
+                {"economy":5, "environment":25, "infrastructure":15, "welfare":10} ),
 ],
             #events
             [
@@ -1766,7 +1766,7 @@ are trying to live normally.''',
                               '''People will be upset in the short run, but it will pay
   off in the long run.
   [Economy - 5] [Reputation - 7] [Environment + 2] [Goal + 2]''',
-                              {"progress": 2, "economy": -5, "reputation": -5, "environment": 2},
+                              {"progress": 2, "economy": -5, "reputation": -7, "environment": 2},
                           ],
                           "2": [
                               "2) Criticize for a lower tax",
@@ -1923,7 +1923,7 @@ time to maintain and clean them. The protest does not
 attract much attention as solar panels are still quite
 reasonable.
 [Infrastructure + 2] [Economy - 3] [Environment + 5] [Goal + 1]''',
-                            {"progress":1, "infrastructure":5, "economy":-3, "environment":2},
+                            {"progress":1, "infrastructure": 2, "economy":-3, "environment":5},
                             ],
                         "2": [
                             "2) Get someone to install solar panels",
@@ -2094,7 +2094,7 @@ ups who drafted us into this country? Is this a test
 experiment? If the world is testing us, then I 
 declare that our country be named Siege
 [Reputation + 5] ''',
-                            {"progress":0, "reputation":5,},
+                            {"progress":0, "reputation":5},
                             ],
                         "2": [
                             "2) Protest, this is outrageous! ",
@@ -2111,6 +2111,13 @@ on a piece of paper.
 [Environment - 1] ''',
                             {"progress":0, "environment":-1},
                             ],
+                        "4": [
+                            "4) Use it as toilet paper",
+                            '''It's great that you don't have to
+pay for toilet paper anymore.
+[Environment + 2]''',
+                            {"progress": 0, "environment": 2}
+                        ]
                     }
                 ),#2
                 Event('''The dictator is now drafting citizens to be part
@@ -2144,7 +2151,7 @@ skills have people worried.
 have to face a harsh decision one day and won't
 have the skills to defend anything."
 [Population - 3] [Law Enforcement + 15] ''',
-                            {"progress":0, "population":-5,"law":15,},
+                            {"progress":0, "population":-3,"law":15,},
                         ],
                     }
                 ),#3
@@ -2159,7 +2166,7 @@ scared and restless.''',
 merely test subjects in the eyes of other countries.
 Why did they pick exactly 10000 people to move here?
 Why are there only 7 candidates, each with a specific
-skillset?" None of you dispute that, but you still
+skill set?" None of you dispute that, but you still
 don't want to go to war.
 [Economy + 25] [Reputation - 25] [Law Enforcement + 5]''',
                             {"progress":0, "economy":25,"reputation":-25,"law":5,},
@@ -2207,13 +2214,13 @@ Your cause must be worth more than your life.
                             {"progress":0, "reputation":-25,"law":50,"suspicion":1,"motive":1,"spy":1},
                             ],
                         "3": [
-                            "3) Reulctantly train",
+                            "3) Reluctantly train",
                             '''You have a pure heart and do not wish to
 dirty your hands in the future. There is understanding
 in the air, but as you turn to leave, you imagine the dictator
 eliminating you on the spot. That gave you shivers
 and you made it home with sleepless nights.
-[Reputation - 25] [Law Enforcement + 50] ''',
+[Reputation - 25] [Law Enforcement + 50] [??? + 1]''',
                             {"progress":0, "reputation":-25,"law":50,"spy":1},
                         ],
                     }
@@ -2242,7 +2249,7 @@ who are loyal to the dictator are struggling to put
 up a fight. Eventually, they reach the dictator's
 office. The dictator appear on front of the window
 carrying something. In the next instant, the dictator 
-pulls out a railgun and annhilates the entire front
+pulls out a rail-gun and annihilates the entire front
 row of the rioters. The rioters instantly retreated.
 [Population - 200] [Reputation - 100] [Law Enforcement + 50] [??? + 1]''',
                             {"progress":0, "population":-200,"law":50,"reputation":-100,"suspicion":1},
@@ -2272,7 +2279,7 @@ are playing a game about electing, ironic.
                         "2": [
                             "2) Anything works for me at this point.",
                             '''If you have been through hell, then this is expected.
-[Reputation - 100] [Economy + 5]''',
+[Reputation - 25] [Law Enforcement + 50] [??? + 1] [??? + 1] [??? + 1]''',
                             {"progress":0, "reputation":-25,"law":50,"suspicion":1,"motive":1,"spy":1},
                             ],
                         "3": [
@@ -2321,9 +2328,9 @@ the dictator declares on the entire world in self defense.
                             "1) I love violence",
                             '''No amount of training could have prepared you
 for this. Nevertheless, it is either you
-get annhilated or they get annhilated.
+ or they get annihilated.
 [Reputation - 25] [Infrastructure - 50] [Environment - 25] [Kill Count + 100]''',
-                            {"progress":0, "reputation":-25, "infrastructure":-50,"environment":-25, "motive":1},
+                            {"progress":0, "population": -100, "reputation":-25, "infrastructure":-50,"environment":-25, "motive":1},
                             ],
                         "2": [
                             "2) I just need to survive to get revenge",
@@ -2341,7 +2348,7 @@ in the air, but as you turn to leave, you imagine the dictator
 eliminating you on the spot. That gave you shivers
 and you made it home with sleepless nights.
 [Reputation - 25] [Law Enforcement + 50] [Environment - 25] [??? + 50]''',
-                            {"progress":0, "reputation":-25, "infrastructure":-50,"environment":-25,"comrades":50},
+                            {"progress":0, "reputation":-25, "law": 50,"environment":-25,"comrades":50},
                         ],
                     }
                 ),#9
@@ -2441,10 +2448,7 @@ country. The lost souls have everything to theirselves and nothing to
 lose anymore.
                      
                         Defeated Politics
-                        [Ending 15 of 16]
-
-Restart for another ending?
-''')
+                        [Ending 15 of 16]''')
         
     elif ending_name == "ambush" or ending_name == "assassin":
 
@@ -2457,12 +2461,12 @@ blasts through his bullet proof armor.
                   
                      ''')
         elif ending_name == "assassin":
-            print('''You dash forward, the dictator calls forth his elite soliders
+            print('''You dash forward, the dictator calls forth his elite soldiers
 hiding between the furniture and walls. All your training and 
 revenge has prepared you for this very moment. You have studied
 the boss's attack patterns and dodge everyone's bullet hell in
 a mere 2 seconds. You stab through the dictator's bullet proof
-and stab proof armor with ease and dash out of there. The soliders
+and stab proof armor with ease and dash out of there. The soldiers
 are speechless and have no leader to follow anymore.
 [Population - 1]
 ''')
@@ -2482,10 +2486,7 @@ rebuild. The lost souls who were being controlled by the dictator are now
 freed from his reign.
                      
                         Defeated Dictator
-                        [Ending 16 of 16]
-
-Restart for another ending?
-''')
+                        [Ending 16 of 16]''')
     elif ending_name == "loyal":
         print('''You kneel down and the dictator approaches you with an
 award in his hand. You are bestowed the highest medal ever.
@@ -2533,7 +2534,7 @@ and the world disappears.
                         Defeated by ???????
                         [Ending -1 of 16]
 
-An error occured, please restart the simulation for a statisfactory ending...
+An error occurred, please restart the simulation for a satisfactory ending...
 ''')
 
 
@@ -2587,7 +2588,7 @@ place to live would be better off starting from scratch than repairing anything 
 
 Economy is dropping below positive values, the country encounters a massive economic
 depression. Nothing the government does to simulate the economy works. Nobody wants to
-hire workers and nobody wants to work. The lost souls who seeked opportunity are now
+hire workers and nobody wants to work. The lost souls who sought opportunity are now
 worried about losing everything.
                      
                         Defeated by Depression
@@ -2611,7 +2612,7 @@ Public Welfare is dropping below positive values, the country caused a pandemic
 from the lack of health within the country. People may be unable to afford basic
 needs and live off trash, the healthcare is horrible or the cities are infested
 and dirty. The lost souls who wanted to live long lives and prosper are now
-contracting dieases and illness and starving.
+contracting disease and illness and starving.
 
                         Defeated by the Unhealthy
                         [Ending 7 of 16]''')
@@ -2620,7 +2621,7 @@ contracting dieases and illness and starving.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 Law Enforcement is dropping below positive values, the country is plunged into
-chaos. Where crimes are being commited in broad daylight and everyone is living
+chaos. Where crimes are being committed in broad daylight and everyone is living
 for survival of the fittest. Even powerful criminal groups, such as the mafia
 are struggling. Additionally, terrorists groups are terrified to step foot in
 the country. The lost souls who wanted order and control of their lives are
@@ -2845,7 +2846,7 @@ heart of this moment: choosing a leader.
             leader.updateStory(country)
             country.updateCountryFromLeaderStat(leader.stats)
         else:
-            print("[YEAR:", year, "]")
+            print("\n\n[YEAR:", year, "]")
             country.printCountryStats()
             #dictator
             if(len(leader.events) == 1 and leader.id == 6):
