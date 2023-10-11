@@ -24,13 +24,19 @@ class Country:
         self.law = law
         self.current_candidate = -1
 
+        self.suspicion = 0
+        self.motive = 0
+        self.bomb = 0
+        self.comrades = 0
+        self.spy = 0
+
     def updateCountryFromLeaderStat(self, added_stat):
         stats = ["education", "reputation", "infrastructure", "economy", "environment", "welfare", "law"]
         for stat in stats:
             setattr(self, stat, getattr(self, stat) + added_stat.get(f"{stat}_value"))
 
     def updateCountryFromEvent(self, added_stat):
-        stats = ["education", "reputation", "infrastructure", "economy", "environment", "welfare", "law"]
+        stats = ["education", "reputation", "infrastructure", "economy", "environment", "welfare", "law", "population", "suspicion", "motive", "bomb", "comrades", "spy"]
         for stat in stats:
             if stat in added_stat:
                 setattr(self, stat, getattr(self, stat) + added_stat.get(stat))
@@ -46,6 +52,13 @@ class Country:
         print("Environment:", self.environment)
         print("Public Welfare:", self.welfare)
         print("Law Enforcement:", self.law)
+
+    def printSecretStats(self):
+        print()
+        print("Motives:", self.motive)
+        print("Suspicion:", self.suspicion)
+        print("Comrades:", self.comrades)
+        print("Nuclear Bomb:", self.bomb)
 
     #check if a stat is negative
     def check_stat(self):
@@ -83,20 +96,26 @@ class Candidate:
         self.electionsWon = 0
 
     def play_event(self, country):
-        if(len(self.events) == 0):
-            if(len(self.all_events) > 0):
-                self.events = self.all_events.copy()
-        #make it somewhat random later
-        if(len(self.events) > 0):
-            random_index = random.randint(0,len(self.events)-1)
-            self.events[random_index].display_event(self, country)
+        if(self.id == 6): #dictator
+            if len(self.events) == 3 and country.spy == 0:
+                self.events.pop(0)
+            self.events[0].display_event(self, country)
+            self.events.pop(0)
+        else:
+            if(len(self.events) == 0):
+                if(len(self.all_events) > 0):
+                    self.events = self.all_events.copy()
+            #make it somewhat random later
+            if(len(self.events) > 0):
+                random_index = random.randint(0,len(self.events)-1) 
+                self.events[random_index].display_event(self, country)
 
-            # prevent the event from playing twice until all have been seen
-            self.events.pop(random_index)
-            # copy the original into the new
-            if len(self.events) == 0:
-                self.events = self.all_events.copy()
-
+                #prevent the event from playing twice until all have been seen
+                self.events.pop(random_index)
+                #copy the original into the new
+                if(len(self.events) == 0):
+                    self.events = self.all_events.copy()
+        
 
     def updateStory(self, country):
         if self.electionsWon < len(self.story_on_rule):
@@ -159,9 +178,47 @@ class Event:
                 print_whitespace()
                 print_separator()
                 print(decision[1])
+                '''The war is over and the dictator claims victory. Nuclear warfare
+is avoided and the last opposing country falls. The environment is
+destroyed, there is no trading to be had. Many are homeless and
+wounded. Buildings and roads are destroyed, and the citizens of 
+previous countries have a strong hatred. The military elite still
+stands strong ready to stop any rebellion. 
+[Environment - 100] [Economy - 100] [Welfare - 1000]
+[Infrastructure - 1000] [Reputation - 99999] [Law + 999]'''
+                #dictator story
+                
+                if "special" in decision[2]:
+                    ending_name = ""
+                    if(decision[2].get("special") == 0):
+                        if(country.suspicion == 0):
+                            ending_name = "loyal"
+                        else:
+                            ending_name = "smelly"
+                    elif(decision[2].get("special") == 1):
+                        if(country.motive >= 5):
+                            ending_name = "assassin"
+                        else:
+                            ending_name = "skillissue"
+                    elif(decision[2].get("special") == 2):
+                        if(country.comrades >= 100):
+                            if(country.suspicion <= 3):
+                                ending_name = "ambush"
+                            else:
+                                ending_name = "prepared"
+                        else:
+                            ending_name = "weaklings"
+                    elif(decision[2].get("special") == 3):
+                        if(country.bomb == 1):
+                            ending_name = "nuclear"
+                        else:
+                            ending_name = "fake"
 
-                candidate.move_to_goal(decision[2].get("progress"), country)
-                country.updateCountryFromEvent(decision[2])
+                    candidate.goals = []
+                    dictator_endings(ending_name)
+                else:
+                    candidate.move_to_goal(decision[2].get("progress"), country)
+                    country.updateCountryFromEvent(decision[2])
                 break
 
 
@@ -254,8 +311,25 @@ borrowing capital and trading stocks in order to fund projects. City
 services are up for competition and the economy is booming!
 [Economy + 10] [Law Enforcement - 8] [Environment - 2] ''',
                 {"economy":10, "law":-8, "environment":-2} ),
-                Goal(4, '''Test''',
-                     {"economy":1})
+                Goal(4, '''The controversial goal of the leaving the market to sustain 
+themselves works out in everyone's favor. Business owners are hiring the 
+homeless to work for them. The previously poor learned to innovate and 
+properly spend their money. It is now harder for criminals to live a life of 
+crime, due to the amount money flying over their heads.
+[Economy + 25] [Infrastructure + 15] [Welfare + 10] [Law Enforcement + 5]
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+Under the Business Tycoon's lead, the country moves towards self sustaining
+capitalism. Never again will anyone have to worry about missing rent or living
+paycheck to paycheck. The lost souls have found themselves being financially 
+independent.
+                     
+                        Defeated Poverty
+                        [Ending 9 of 16]
+                     
+Restart for another ending?
+                     ''',
+                    {"economy":25, "law":5, "infrastructure":15, "welfare":10} ),
             ],
 
             # events
@@ -265,7 +339,9 @@ services are up for competition and the economy is booming!
             #           dict{progress:int, stat1:int, ... , statx:int} ]})
             [
                 Event('''There is competition in the waste management sector, workers are
-being laid off and there is no profits to be made and nothing to sell!  
+being laid off and there is no profits to be made and nothing to sell!
+People are worried about what will happen about the santiation of the
+country.
               ''',
                     {
                         "1": [
@@ -293,19 +369,21 @@ similar to electricity and hydro bills. People found this acceptable.
                     }
                 ),
 
-            Event('''You spot a police officer accepting bribes from a criminal!''',
+            Event('''You spot a police officer accepting bribes from a criminal!
+You hide around the corner of the building and weigh your decisions.''',
                     {
                         "1": [
                             "1) Report the transaction",
                             '''The report was made to the government and was handled internally.
+No public information was released and the dust settles.
 [Law Enforcement - 1]''',
                             {"progress":0, "law":-1},
                             ],
                         "2": [
                             "2) Police officers need money too!",
-                            '''Yes, so why don't you become a police officer too?
-[Law Enforcement - 5] [Public Welfare - 2] [Economy + 3]''',
-                            {"progress":0, "law":-5, "welfare":-2, "economy":3},
+                            '''Sure, so why don't you become a police officer too?
+[Law Enforcement - 5] [Public Welfare - 2] [Economy + 4]''',
+                            {"progress":0, "law":-5, "welfare":-2, "economy":4},
                             ],
                         "3" : [
                             "3) Spread on the internet and protest",
@@ -317,9 +395,127 @@ People are now wary of police actions and are taking safety in their own hands.
                             ]
                     }
                 ),
+                Event('''The Economist is launching "Rail Week" during which,
+a majority of businesses close and the entire population comes 
+together to build a train/subway line  and finishes it within a 
+week. They will receive food and pay during the work.''',
+                    {
+                        "1": [
+                            "1) Count me in! [Consume 20 Environment and 10 Education]",
+                            '''You work all the way to the final day, where the project is
+finally complete. You hear cheers of accomplishment and collapse 
+of exhaustion.
+[Economy + 15] [Infrastructure + 10] [Education - 10] [Environment - 20] [Goal + 2]''',
+                            {"progress":2, "economy":15, "infrastructure":10, "education":-10, "environment":-20},
+                            ],
+                        "2": [
+                            "2) Free Holiday!",
+                            '''You relax at home and find out the internet does not
+work. You decide to go somewhere for recreation, but even the parks
+and places that usually never close are closed. The streets are
+empty and the project will continue without you.
+[Economy + 10] [Infrastructure + 5] [Education - 5] [Environment - 10] [Goal + 2]''',
+                            {"progress":2, "economy":10, "infrastructure":5, "education":-5, "environment":-10},
+                            ],
+                        "3" : [
+                            "3) Protest, hard labour is not for me!",
+                            '''People see the resistance being put up and law enforcement
+arrives to disperse the commotion. There is unrest within the
+workers and the project is completed without celebration.
+[Economy + 10] [[Law Enforcement + 5] [Environment - 5] [Reputation - 10] [Goal + 1]''',
+                            {"progress":1, "economy":10, "law":5, "reputation":-10, "environment":-5},
+                            ]
+                    }
+                ),
+                Event('''The Businessman wants the hear the public opinion
+on trading with foreign companies. Trading will allow consumers to 
+consume more but may harm domestic producers''',
+                    {
+                        "1": [
+                            "1) Protect the domestic producers",
+                            '''The citizens remind the Businessman that he is here to 
+promote the support of small businesses and introducing large
+foreign companies will squish any who wish to compete with them.
+[Economy + 10] [Environment - 10] [Goal + 1]''',
+                            {"progress":1, "economy":10, "environment":-10},
+                            ],
+                        "2": [
+                            "2) Trading is good for economic simulation",
+                            '''The citizens want to consume more and keep money moving
+around. The small businesses will have trouble competing and
+are forced to innovate.
+[Economy + 10] [Reputation - 10] ''',
+                            {"progress":0, "economy":10, "reputation":-10},
+                            ],
+                        "3" : [
+                            "3) Do both, protecting and trading"
+                            '''The Businessman only trades for goods that does not
+compete with small businesses and imposes tariffs (trade tax)
+on goods that do compete with businesses. 
+[Economy + 10] [Environment - 5] [Reputation - 5]''',
+                            {"progress":0, "economy":10, "law":5, "reputation":-5, "environment":-5},
+                            ]
+                    }
+                ),
+                Event('''The Capitalist is lowering taxes so that businesses and
+individuals have more to spend on development. As result,
+city provided programs are being underpaid and massive
+layoffs are made. 
+cons''',
+                    {
+                        "1": [
+                            "1) The market will provide jobs for city programs",
+                            '''This does not work well for jobs such as
+law enforcement, there is no money to gained and subscription like
+services does not work as people can freeload off those who pay.
+The government is now moving some off the city programs under their
+supervision.
+[Economy + 7] [Law Enforcement - 4] [Welfare - 3]''',
+                            {"progress":0, "economy":7, "law":-4,"welfare":-3},
+                            ],
+                        "2": [
+                            "2) The government must find ways to support city programs",
+                            '''The government realizes that certain jobs have no
+profits to make and people and leech off each other. It looks like
+the government must also find ways to make money. 
+[Economy + 5] [Law Enforcement - 5] [Goal + 1] ''',
+                            {"progress":1, "economy":5, "law":-5},
+                            ],
+                        "3" : [
+                            "3) Protest against lowering taxes"
+                            '''Business owners want lower taxes and several other people
+want them too. It looks like there may be stalemate between the two. 
+[Economy + 6] [Reputation - 3] [Welfare - 3] [Goal + 1]''',
+                            {"progress":1, "economy":6, "reputation":-3, "welfare":-3},
+                            ]
+                    }
+                ),
+                Event('''Eager immigrants are arriving to find new opportunities
+and ways to make income. This will increase economic activity
+and promote change.''',
+                    {
+                        "1": [
+                            "1) Convince them to leave",
+                            '''"It's a trap! You will become a slave to money!"
+Some ignored you as they saved up tons of money to travel
+here. Others think you are crazy because you are still
+here in the country anyways. Some were persuaded too.
+[Population + 200] [Economy + 3] [Reputation - 5]''',
+                            {"progress":0, "population":200, "economy":3,"reputation":-5},
+                            ],
+                        "2": [
+                            "2) Welcome them with open arms",
+                            '''The immigrants are happy to see that people are
+happy. This makes them wanting to work even harder.
+[Population + 1000] [Economy + 10] [Environment - 10] [Goal + 1] ''',
+                            {"progress":1, "economy":5, "law":-5},
+                            ],
+                    }
+                ),
             ]
         )
     )
+
 
     candidate_list.append(
         Candidate(
@@ -429,13 +625,13 @@ advancement and cosmic exploration.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Under the leadership of the tech innovator, the country thrives as a symbol 
-of innovation and unwavering commitment. Citizens embrace a fully automated 
+of innovation and unwavering commitment. The lost souls embrace a fully automated 
 society, where cutting-edge technology drives progress and efficiency, 
 reshaping the way they live and work. This visionary approach has transformed 
 the nation into a shining example of what can be achieved through technological 
 advancement and forward-thinking policies.
                      
-                        Technology!
+                        Solved Technology!
                         [Ending 10 of 16]''',
                      {"economy": 7, "reputation": 4, "infrastructure": 10, "welfare": 12})
             ],
@@ -448,16 +644,16 @@ exploration in schools.''',
                           "1": [
                               "1) Educate yourself in STEM education",
                               '''It's challenging, but interesting...
-[Economy - 2] [Reputation + 1] [Education + 2] [Goal + 2]''',
-                              {"progress": 2, "economy": -2, "reputation": 1, "education": 2},
+[Economy - 4] [Reputation + 1] [Education + 5] [Goal + 2]''',
+                              {"progress": 2, "economy": -4, "reputation": 1, "education": 5},
                           ],
                           "2": [
                               "2) Money should be used to make better roads!",
                               '''While education holds significance, 
 the general public perceives other pressing concerns. Some individuals 
 are expressing their beliefs during the board meeting.
-[Economy - 2] [Reputation - 1] [Education + 2] [Goal + 1]''',
-                              {"progress": 1, "economy": -2, "reputation": -1, "education": -2},
+[Economy - 2] [Reputation - 1] [Infrastructure + 5] [Goal + 1]''',
+                              {"progress": 1, "economy": -2, "reputation": -1, "infrastructure": 5},
                           ],
                           "3": [
                               "3) Boo! Science is fake!",
@@ -465,8 +661,8 @@ are expressing their beliefs during the board meeting.
 believe the new policy is a covert means of promoting political agendas 
 to their children in schools, prompting the deployment of Law enforcement
 to maintain public safety.
-[Law Enforcement + 1] [Reputation - 5] [Economy - 1]''',
-                              {"progress": 0, "law": 1, "reputation": -5, "economy": -1},
+[Law Enforcement + 2] [Reputation - 5] [Economy - 1]''',
+                              {"progress": 0, "law": 2, "reputation": -5, "economy": -1},
                           ],
                       }
                       ),
@@ -499,7 +695,7 @@ It's got its pros and cons. We'll see how it all pans out...
 that read 'THEY TOOK OUR JOBS' is proceeding down the route to 
 city hall, with law enforcements personnel positioned along 
 the way.
-[Law Enforcement + 1] [Reputation -3] [Public Welfare -2] [Goal + 0]''',
+[Law Enforcement + 1] [Reputation -3] [Public Welfare -2]''',
                               {"progress": 0, "law": 1, "reputation": -3, "welfare": -2},
                           ]}
                       ),
@@ -513,8 +709,8 @@ effective emergency responses.''',
                               '''Considerable funds are invested in 
 drone construction, but the faster response times delight the 
 populace, resulting in reduced crime rates.
-[Law Enforcement 4] [Economy - 5] [Environment - 2] [Reputation + 3] [Goal + 2]''',
-                              {"progress": 2, "law": 4, "economy": -5, "reputation": 3, "environment": -2},
+[Law Enforcement + 4] [Economy - 5] [Environment - 2] [Reputation + 3] [Goal + 2]''',
+                              {"progress": 2, "law": 4, "economy": -5, "reputation": +3, "environment": -2},
                           ],
                           "2": [
                               "2) 'I'm sorry, I didn't quite catch that'",
@@ -542,7 +738,7 @@ it in the long run.
                               {"progress": 2, "welfare": -3, "reputation": 2, "environment": -3},
                           ],
                           "2": [
-                              "2) Become a law-abiding citizen",
+                              "2) Stop disrupting our lives!",
                               '''Plenty of people are pretty fed up with 
 the government causing all this traffic chaos just for faster wireless 
 connections. It feels like they could have planned it better to 
@@ -605,7 +801,7 @@ returning to Earth in the future.
                               {"progress": 1, "economy": -2, "reputation": 1, "education": 2, "environment": -5},
                           ],
                           "3": [
-                              "3) Fix whats on earth first!",
+                              "3) Fix what is on earth first!",
                               '''The public directs their protests toward issues of 
 greater concern, such as healthcare and employment. These demonstrations 
 underscore the pressing societal challenges that demand attention. As 
@@ -615,7 +811,7 @@ to more immediate and substantial problems.
                               {"progress": 0, "law": -3, "reputation": -4, "economy": -3},
                           ],
                       }
-                      ),
+                    ),
             ],
 
         )
@@ -1216,12 +1412,242 @@ can come together to overcome challenges. As the leader's term
 concludes, the nation looks to the future with hope and a 
 renewed commitment to a better tomorrow.
 [Public Welfare +4, Economy +1, Infrastructure +3, Reputation +15, Law Enforcement +8]''',
-              {"welfare": 4, "economy": 1, "infrastructure": 3, "reputation": 15, "law": 8}]],  # year 5
-            # goals
-            [],
-            # events
-            [],
+              {"welfare": 4, "economy": 1, "infrastructure": 3, "reputation": 15, "law": 8}]], # year 5
+            #goals
+            [
+                Goal(4, '''With the leader's background in law, judge, policing
+and the community. He understands the every ounce of the of the
+human mind. With high level of on every public and private property 
+surveillance and monitoring across the country. Criminals are able 
+to be tracked down in an instant. Rulings in court are significantly
+less ambiguous. People feel completely safe under his rule and 
+willing to provide support whenever possible. 
+[Law Enforcement + 10] [Reputation + 7] [Environment - 2] ''',
+                {"law":10, "reputation":7, "environment":-2} ),
+                Goal(4, '''The goal of banning all weapons and drugs within the country
+is a hefty one. This required an inspection of all incoming people,
+luggages and packages. As well as an inspection of all buildings
+for hidden contraband. With the help of dogs who can smell even the
+tiniest traces of any drug and gunpowder from bullets. As for knives,
+they have metal detectors of course.
+[Law Enforcement + 50] [Reputation + 25] [Public Welfare + 10]
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
+Under the Advocate for Law and Order, held firm under protests and national
+emergencies. Able to use his willpower and execute his plan calm and collected.
+Initially produced tons of mistrust and proven to be everyone's guardian. The
+lost souls who seeked safety from the outside now had safety everywhere.
+                     
+                        Defeated Malice
+                        [Ending 13 of 16]
+                     
+Restart for another ending?
+                     ''',
+                    {"reputation":25, "law":50,"welfare":10} ),],
+            #events
+            [
+                Event('''The Advocate is preventing gun and weapon control.
+Citizens do not need to protect each other from each other. 
+Even the police will not need weapons to protect people.
+''',
+                    {
+                        "1": [
+                            "1) We need weapons to defend ourselves!",
+                            '''The Advocate states "DEFEND YOURSELF FROM WHAT? YOURSELF?
+That is how you build a lack of trust, if you believe that people are
+bad, you will naturally find reasons to support the belief. If you believe
+that people are good, you will also naturally find reasons to support the 
+belief. Only criminals want to defend themselves from other criminals"
+[Law Enforcement + 7] [Reputation + 2] [Welfare - 4] [Goal + 1]''',
+                            {"progress":1, "law":7,"reputation":2,"welfare":-4},
+                            ],
+                        "2": [
+                            "2) I understand, it is for public safety.",
+                            '''Airport searches are now more secure and packages
+and cargo entering the country are thoroughly examined
+[Law Enforcement + 10] [Reputation - 3] [Welfare - 5] [Goal + 1]''',
+                            {"progress":1, "law":10,"reputation":-3,"welfare":-5},
+                            ],
+                        "3": [
+                            "3) Protest for weapons for self-defense.",
+                            '''People show up at the protest bringing weapons for "self-defense."
+The protest is peaceful at first, until one person accidentally pulled
+a trigger against a mafia member. This caused the criminals disguised 
+as citizens to start blasting, causing the protest to become a riot.  
+The law enforcement anticipated this and dispatched riot guards as well
+as spraying a very strong sleeping gas. Most of the protester and
+criminals are knocked out or sleeping, their weapons are confiscated
+and now there are less weapons in circulation. The knocked out criminals
+are being interrogated to reveal the rest of the criminals.  
+[Population - 25] [Law Enforcement + 20] [Welfare - 20] [Reputation - 10] [Goal + 2]''',
+                            {"progress":2, "law":20,"reputation":-10,"welfare":-20,"population":-25},
+                            ],
+                    }
+                ),#1
+                Event('''The Advocate is installing public surveillance on every
+street and public property. This makes tracing criminal activity
+easier, but citizens are worried about their privacy.
+''',
+                    {
+                        "1": [
+                            "1) You are restricting our privacy",
+                            '''Advocate says "Which one do you care more about?
+Restricting the privacy of the criminals or your privacy?
+One could lead to a terrorist attack and the other is the 
+feeling of being watched."
+[Law Enforcement + 7] [Reputation - 2] [Welfare - 3] [Goal + 1]''',
+                            {"progress":1, "law":7,"reputation":-2,"welfare":-3},
+                            ],
+                        "2": [
+                            "2) I understand, it is for public safety.",
+                            '''Now have criminals have a harder time hiding themselves
+physically and it is now easier to trace their paths.
+[Law Enforcement + 10] [Economy - 7] [Welfare - 9] [Goal + 1]''',
+                            {"progress":1, "law":10,"reputation":-7,"welfare":-9},
+                            ],
+                        "3": [
+                            "3) Protest against public surveillance",
+                            '''The advocate does not buckle against this action,
+finding and tracking criminals is the hardest part of law enforcement.
+[Law Enforcement + 5] [Welfare - 5] [Reputation - 5] [Goal + 1]''',
+                            {"progress":1, "law":5,"reputation":-5,"welfare":-5},
+                            ],
+                    }
+                ),#2
+                Event('''Host police training for the public. Allow people
+to learn hand to hand self-defense techniques. This allows
+bystanders to intervene during violent situations and
+provide security until law enforcement arrives. 
+''',
+                    {
+                        "1": [
+                            "1) Learn self defense",
+                            '''You learn to become sufficient in protecting
+others and yourself. Others are eager to protect each other
+without weapons too.
+[Law Enforcement + 10] [Economy - 5] [Welfare - 5] [Goal + 1]''',
+                            {"progress":1, "law":10,"economy":-5,"welfare":-5},
+                            ],
+                        "2": [
+                            "2) What if criminals learn it for bad?",
+                            '''All things in life can be misused. A pen is meant
+for writing and not for graffiti. A hammer is meant for
+building nails and not as a weapon. Additionally, people
+still need to sign up for the training with their personal
+information that can be verified.
+[Law Enforcement + 7] [Economy - 5] [Welfare - 5] [Reputation - 5]''',
+                            {"progress":0, "law":7,"reputation":-5,"welfare":-5,"economy":-5},
+                            ],
+                        "3": [
+                            "3) Watch the training from afar.",
+                            '''You watch the training from afar, but you also spot
+other people watching the training from afar. Are they also
+being weird or being criminals? You report this to the
+authorities and they are in fact criminals spying on the
+operation. They ask how you knew this information, you say
+you were kinda doing the exact same thing.
+[Law Enforcement + 10] [Economy - 5] [Goal + 1]''',
+                            {"progress":1, "law":10,"economy":-5},
+                            ],
+                    }
+                ),#3
+                Event('''The Enforcer is now monitoring the internet for
+suspicious activity and cyberbullying. This will help prevent
+or track toxic targeting, blackmail, scamming and other crimes.
+Of course, people worry about their private online actions. 
+''',
+                    {
+                        "1": [
+                            "1) Use a VPN to protect your activity.",
+                            '''There is now legal pressure on VPN companies. After 
+some legal conflicts, the Advocate installs a law that forces
+the VPN companies in this country to reveal the information
+only to the government. 
+[Law Enforcement + 10] [Reputation - 5] [Welfare - 7] [Goal + 1]''',
+                            {"progress":1, "law":10,"reputation":-5,"welfare":-7},
+                            ],
+                        "2": [
+                            "2) Help the cause by reporting the bad actors.",
+                            '''The internet is now a slightly safer place to
+express yourself and communicate as normal people. The 
+criminal activity is moving away from the internet. But
+it requires way too many people too monitor it.
+[Law Enforcement + 15] [Economy - 15] [Goal + 1]''',
+                            {"progress":1, "law":15,"economy":-15},
+                            ],
+                        "3": [
+                            "3) I am indifferent",
+                            '''Whether or not you support the cause, the
+Advocate will execute his thorough plan.
+[Law Enforcement + 5] [Economy - 5] [Goal + 1]''',
+                            {"progress":1, "law":5,"economy":-5},
+                            ],
+                        "4": [
+                            "4) Protest for your privacy",
+                            '''Your privacy does not matter to the government
+they only care about revealing the privacy of criminals.
+"The government has millions of data to sort through, do
+you think they will care about yours?"
+[Law Enforcement + 5] [Welfare - 5] [Goal + 1]''',
+                            {"progress":1, "law":5,"welfare":-5},
+                            ],
+                    }
+                ),#4
+                Event('''Punishment for criminals to increased and prison is
+restructured as a rehabilitation site. This is deter more
+people from breaking laws and make sure that people learn
+to be active members of society.
+''',
+                    {
+                        "1": [
+                            "1) More punishment is bad!",
+                            '''"People learn best from mistakes, and if the mistakes
+are known and hit hard. Then something simple like getting
+slapped on wrist for speeding is not enough. They will just
+do it again, but if the punishment outweighs the benefits,
+then there is no reason to do it." 
+[Law Enforcement + 5] [Reputation - 5] [Goal + 1]''',
+                            {"progress":1, "law":5,"reputation":-5},
+                            ],
+                        "2": [
+                            "2) Punishment is healthy",
+                            '''More prison time, is more time to learn from your
+mistakes.
+[Law Enforcement + 5] [Education + 10] [Goal + 1]''',
+                            {"progress":1, "law":5,"economy":10},
+                            ],
+                    }
+                ),#5
+                Event('''Increased night patrols and watches. Most crimes occur
+during the veil of darkness. Drunk driving is an issue
+during the night and robbery happens in the night. This 
+increases the amount of jobs and to create incentives,
+the pay will be tripled but sacrifices the wellbeing 
+of some.
+''',
+                    {
+                        "1": [
+                            "1) Of course!",
+                            '''People are now inclined to commit stuff in
+the night due to the amount of suveilance. But humans
+function the best during the day.
+[Law Enforcement + 10] [Welfare - 10] [Goal + 1]''',
+                            {"progress":1, "law":10,"welfare":-10},
+                            ],
+                        "2": [
+                            "2) Protest for those poor guards who can't see the sun!",
+                            '''During the day off of some guards, what will they do?
+their sleep schedule will be messed up and there is nothing
+to do at the night. Your feedback will be considered, but
+those who apply for night shifts know exactly what they
+sign up for.
+[Law Enforcement + 10] [Welfare - 5] [Economy - 5] [Goal + 1]''',
+                            {"progress":1, "law":10,"economy":-5,"welfare":-5},
+                            ],
+                    }
+                ),#6
+            ],
+            
         )
     )
     candidate_list.append(
@@ -1322,8 +1748,8 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 Under the Environmentalist's lead, the country moves towards self sustaining
 prosperity. The lost souls have found themselves living in clean air,
-land and water. No longer will they have to fight over money, nor food
-take care of the land and the land will take of you. 
+land and water. No longer will they have to fight over money, nor food.
+Take care of the land and the land will take of you. 
                      
                         Defeated Climate Change
                         [Ending 14 of 16]''',
@@ -1648,17 +2074,471 @@ one of turmoil, isolation, and the profound toll of war,
 casting a long shadow over the nation's future and the 
 daunting challenges of rebuilding and recovery ahead.
 [Law Enforcement +9, Public Welfare -9, Economy -10, Reputation -10, Infrastructure -7, Environment -7]''',
-              {"law": 9, "welfare": -9, "economy": -10, "reputation": -10, "infrastructure": -7, "environment": -7}]],
-            # year 5
-            # goals
-            [],
-            # events
-            [],
-            
+              {"law": 9, "welfare": -9, "economy": -10, "reputation": -10, "infrastructure": -7, "environment": -7}]], # year 5
+            #goals
+            [Goal(100, '''
+                     ''',
+                {} ),],
+            #events
+            [#1
+                Event('''Propaganda has started immediately falling out of the 
+sky. Giant cargo planes are flying dropping advertisements
+as far as the eye can see. It is almost like it is snowing.
+
+                      ''',
+                    {
+                        "1": [
+                            "1) Read what it says.",
+                            '''Why is the country unnamed? Is it the higher
+ups who drafted us into this country? Is this a test
+experiment? If the world is testing us, then I 
+declare that our country be named Siege
+[Reputation + 5] ''',
+                            {"progress":0, "reputation":5,},
+                            ],
+                        "2": [
+                            "2) Protest, this is outrageous! ",
+                            ''' People don't know what you are protesting
+against? Is the flyers or the message on the flyer?
+[Reputation + 1]''',
+                            {"progress":0, "reputation":1},
+                            ],
+                        "3": [
+                            "3) Start collecting and burning propaganda",
+                            '''People are seeing your actions and
+they think you look ridiculous, it is just a message
+on a piece of paper.
+[Environment - 1] ''',
+                            {"progress":0, "environment":-1},
+                            ],
+                    }
+                ),#2
+                Event('''The dictator is now drafting citizens to be part
+and sending them to boot camp to teach them military tactics.
+People have not fought a war in way too long, so some
+are conflicted, and some apparently want to experience war.
+
+                      ''',
+                    {
+                        "1": [
+                            "1) Be part of the movement",
+                            '''The training is brutal and nothing like
+ordinary military training. This training is built for 
+only the best, you almost died during the training
+because it was that brutal. But now you know how close
+it feels to death and gained vicious skills.
+[Population - 5] [Law Enforcement + 15] [Reputation - 5]''',
+                            {"progress":0, "reputation":-5,"population":-5,"law":15,},
+                            ],
+                        "2": [
+                            "2) Learn military tactics for your own motives",
+                            ''' You breeze through the brutal training, as you
+have some sort of goal to initiate yourself. Your vicious
+skills have people worried. 
+[Population - 5] [Law Enforcement + 15] [??? + 1]''',
+                            {"progress":0, "population":-5,"law":15,"motive":1},
+                            ],
+                        "3": [
+                            "3) I want nothing to do with this!",
+                            '''Dictator: "Those who do not participate will
+have to face a harsh decision one day and won't
+have the skills to defend anything."
+[Population - 3] [Law Enforcement + 15] ''',
+                            {"progress":0, "population":-5,"law":15,},
+                        ],
+                    }
+                ),#3
+                Event('''The dictator is now developing weapons and military
+vehicles as well as the navy and air force. The economy
+in this sector is booming, but people are growing more
+scared and restless.''',
+                    {
+                        "1": [
+                            "1) Protest against war",
+                            '''"We are fighting for our country, we are
+merely test subjects in the eyes of other countries.
+Why did they pick exactly 10000 people to move here?
+Why are there only 7 candidates, each with a specific
+skillset?" None of you dispute that, but you still
+don't want to go to war.
+[Economy + 25] [Reputation - 25] [Law Enforcement + 5]''',
+                            {"progress":0, "economy":25,"reputation":-25,"law":5,},
+                            ],
+                        "2": [
+                            "2) Work to help develop the military.",
+                            ''' The country continues to rapidly develop
+with an military forces exceeding the all countries
+combined. But this information is confidential.
+[Economy + 50] [Reputation - 25] [Law Enforcement + 25]''',
+                            {"progress":0, "economy":50,"reputation":-25,"law":25,},
+                            ],
+                        "3": [
+                            "3) Take the time to gather comrades against the dictator",
+                            '''You gather the people to who are unhappy with
+his rule and you find the other 6 candidates who are
+also plotting against his rule. 
+[Economy + 25] [Reputation - 25] [??? + 10] [??? + 1] [??? + 1]''',
+                            {"progress":0, "economy":25,"reputation":-25,"comrades":10,"motive":1,"suspicion":1},
+                        ],
+                    }
+                ),#4
+                Event('''The dictator is selecting only a few couple
+elite citizens to train as spies and they select you
+because of the amount of influence you have on
+others.''',
+                    {
+                        "1": [
+                            "1) Work under his full command",
+                            '''You have no intention of betraying him
+in this moment. The training as spies is ten times
+more deadly than the military, you have been
+presumed dead for 30 seconds multiple times.
+[Population - 1] [Reputation - 25] [Law Enforcement + 50] [??? + 1]''',
+                            {"progress":0, "population":-1,"reputation":-25,"law":50,"spy":1},
+                            ],
+                        "2": [
+                            "2) Train with ulterior motives",
+                            '''You have some intention of betraying him
+later. The training as spies is ten times
+more deadly than the military, you have been
+presumed dead for 30 seconds multiple times.
+Your cause must be worth more than your life.
+[Reputation - 25] [Law Enforcement + 50] [??? + 1] [??? + 1] [??? + 1]''',
+                            {"progress":0, "reputation":-25,"law":50,"suspicion":1,"motive":1,"spy":1},
+                            ],
+                        "3": [
+                            "3) Reulctantly train",
+                            '''You have a pure heart and do not wish to
+dirty your hands in the future. There is understanding
+in the air, but as you turn to leave, you imagine the dictator
+eliminating you on the spot. That gave you shivers
+and you made it home with sleepless nights.
+[Reputation - 25] [Law Enforcement + 50] ''',
+                            {"progress":0, "reputation":-25,"law":50,"spy":1},
+                        ],
+                    }
+                ),#5 left
+                Event('''There is outrage right now that the dictator
+rigged the election so that he always wins. The
+people do not trust the dictator. But tons of
+development has been made and no one wants to 
+throw away development away either.
+''',
+                    {
+                        "1": [
+                            "1) Don't we always need a powerful leader like him?",
+                            '''We don't need weak leaders who listen to
+the minority. It shows that they are not
+firm in their beliefs.
+[Reputation - 25]''',
+                            {"progress":0, "reputation":-25},
+                            ],
+                        "2": [
+                            "2) Protest, no it is time to Riot!",
+                            '''The angry people are tearing down propaganda
+and destroying military objects. Due to some of the
+military training of many of citizens, the ones
+who are loyal to the dictator are struggling to put
+up a fight. Eventually, they reach the dictator's
+office. The dictator appear on front of the window
+carrying something. In the next instant, the dictator 
+pulls out a railgun and annhilates the entire front
+row of the rioters. The rioters instantly retreated.
+[Population - 200] [Reputation - 100] [Law Enforcement + 50] [??? + 1]''',
+                            {"progress":0, "population":-200,"law":50,"reputation":-100,"suspicion":1},
+                            ],
+                        "3": [
+                            "3) Gather up angry comrades",
+                            '''You gather up many more angry comrades
+they are ready to go to war... against the
+dictator.
+[Reputation - 100] [??? + 40] [??? + 1] ''',
+                            {"progress":0, "reputation":-100,"comrades":40,"suspicion":1},
+                        ],
+                    }
+                ),#6
+                Event('''The dictator is removing elections as they are
+a waste of time and provide no use anymore.
+Following the rigged election, there continues
+to have unrest lingering.''',
+                    {
+                        "1": [
+                            "1) Elections are overrated anyways",
+                            '''A little tadpole reminds you that you
+are playing a game about electing, ironic.
+[Reputation - 100] [Economy + 5]''',
+                            {"progress":0, "reputation":-100,"economy":5},
+                            ],
+                        "2": [
+                            "2) Anything works for me at this point.",
+                            '''If you have been through hell, then this is expected.
+[Reputation - 100] [Economy + 5]''',
+                            {"progress":0, "reputation":-25,"law":50,"suspicion":1,"motive":1,"spy":1},
+                            ],
+                        "3": [
+                            "3) Riot",
+                            '''Some of the previous rioters saw flashbacks of a
+scary weapon and don't want to riot. They don't even
+want to elaborate.
+[Reputation - 100] [Welfare - 10] ''',
+                            {"progress":0, "reputation":-100,"welfare":-10},
+                        ],
+                    }
+                ),#7
+                #spy only
+                Event('''The spies are given a special task. To infiltrate the enemy
+countries and disable their nuclear weaponry. The dictator
+does not resort to cowardly tactics such as nuclear bombs
+and will not allow their opponents to resort to cowardly
+tactics either.''',
+                    {
+                        "1": [
+                            "1) Execute his plan loyally",
+                            '''All the spies have successfully removed nuclear weapons
+from the game. The only thing standing between victory is
+the military might of the other countries.
+[Environment + 100] [Law Enforcement + 50] ''',
+                            {"progress":0, "environment":100,"law":50},
+                            ],
+                        "2": [
+                            "2) Pretend to disable the bomb with a secret motive",
+                            '''You notify the country that owns the bomb
+to use it on his command and report back to
+the dictator that the bomb has disabled
+[Environment + 75] [Law Enforcement + 50] [??? + 1] [??? + 1] [??? + 1]''',
+                            {"progress":0, "environment":75,"law":50,"suspicion":1,"motive":1,"bomb":1},
+                            ],
+                    }
+                ),#8
+                Event('''War has been on declared on the dictator due to
+tampering within another country. Since the reputation is
+extremely, all the countries in the world make an effort
+to attack the dictator's country all at once. As a result, 
+the dictator declares on the entire world in self defense.
+''',
+                    {
+                        "1": [
+                            "1) I love violence",
+                            '''No amount of training could have prepared you
+for this. Nevertheless, it is either you
+get annhilated or they get annhilated.
+[Reputation - 25] [Infrastructure - 50] [Environment - 25] [Kill Count + 100]''',
+                            {"progress":0, "reputation":-25, "infrastructure":-50,"environment":-25, "motive":1},
+                            ],
+                        "2": [
+                            "2) I just need to survive to get revenge",
+                            '''You cower under the deepest part of the trenches,
+waiting for the battle to be over and waiting for the
+chance to strike. 
+[Reputation - 25] [Infrastructure - 50] [Environment - 25] [??? + 2] [??? + 1]''',
+                            {"progress":0, "reputation":-25, "infrastructure":-50,"environment":-25, "suspicion":1, "motive":2},
+                            ],
+                        "3": [
+                            "3) Gather many comrades who are against war.",
+                            '''You have a pure heart and do not wish to
+dirty your hands in the future. There is understanding
+in the air, but as you turn to leave, you imagine the dictator
+eliminating you on the spot. That gave you shivers
+and you made it home with sleepless nights.
+[Reputation - 25] [Law Enforcement + 50] [Environment - 25] [??? + 50]''',
+                            {"progress":0, "reputation":-25, "infrastructure":-50,"environment":-25,"comrades":50},
+                        ],
+                    }
+                ),#9
+                Event('''Nearly all the countries have been eliminated, the
+dictator calls for you to be awarded and to discuss
+plans after the war is over.
+''',
+                    {
+                        "1": [
+                            "1) I will swear loyalty as your right hand [Suspicion = 0]",
+                            '''''',
+                            {"special":0},
+                            ],
+                        "2": [
+                            "2) Assassinate [Motive >= 5]",
+                            '''''',
+                            {"special":1},
+                            ],
+                        "3": [
+                            "3) You are going down [Comrades >= 100] [Suspicion <= 3]",
+                            '''''',
+                            {"special":2},
+                        ],
+                        "4": [
+                            "4) I have a nuclear bomb [Nuclear Bomb > 0]",
+                            '''''',
+                            {"special":3},
+                        ],
+                    }
+                ),
+            ],
         )
     )
 
     return candidate_list
+
+def dictator_endings(ending_name):
+    if ending_name == "smelly" or ending_name == "weaklings" or ending_name == "prepared" or ending_name == "fake" or ending_name == "skillissue":
+
+        if ending_name == "smelly":
+            print('''As the dictator approaches you to bestow your 
+shiny award, he smells hints of suspicion and betrayal on you. You
+attempt to try your best to explain yourself, but now you are leaking
+out emotions everywhere. The dictator decides it is best to put you 
+out of your misery.
+[Population - 1]
+              
+                     ''')
+        elif ending_name == "weaklings":
+            print('''You call in your comrades and go in with your comrades 
+and fight with all your might, but there is not enough to fight him. Each get 
+plowed down until there are none left. If only you could have brought more.
+[Population - 50]
+                  
+                     ''')
+        elif ending_name == "prepared":
+            print('''You call in your comrades and enter the battle. The dictator
+snaps his fingers and several elite soliders appear from the
+furniture and structure and even behind you. It looks he knew 
+you were attacking, if only you attracted less suspicion. The
+fight is one-sided. 
+[Population - 100]
+                  
+                     ''')
+        elif ending_name == "fake":
+            print('''You shout that you have a nuclear bomb. But you didn't
+have one. This is embarassing...
+Might as well put you out of your embarassment.
+[Population - 1]
+                  
+                     ''')
+        
+        elif ending_name == "skillisue":
+            print('''You dash forward, the dictator calls forth his elite soliders
+hiding between the furniture and walls. Your motives waiver in
+your mind even though you have had rock solid training. Your
+mind slips for even 0.001 second and you missed the dodge 
+of one bullet, proving to be fatal. You will need a stronger
+mental conviction and motives to push yourself.
+
+[Population - 1]
+''')
+
+        print('''The war is over and the dictator claims victory. Nuclear warfare
+is avoided and the last opposing country falls. The environment is
+destroyed, there is no trading to be had. Many are homeless and
+wounded. Buildings and roads are destroyed, and the citizens of 
+previous countries have a strong hatred. The military elite still
+stands strong ready to stop any rebellion. 
+[Environment - 100] [Economy - 100] [Welfare - 1000]
+[Infrastructure - 1000] [Reputation - 99999] [Law + 9999]
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+Under the Dictator's lead, there are no more conflicting views on politics.
+All of the defeated countries will unite as one to form one and only one
+country. The lost souls have everything to theirselves and nothing to
+lose anymore.
+                     
+                        Defeated Politics
+                        [Ending 15 of 16]
+
+Restart for another ending?
+''')
+        
+    elif ending_name == "ambush" or ending_name == "assassin":
+
+        if ending_name == "ambush":
+             print('''You call in your comrades and go in with your comrades 
+and fight with all your might. All of you rush forward, with weapons and
+firearms. Every second, a comrade falls, until one reaches melee range and
+blasts through his bullet proof armor.
+[Population - 99]
+                  
+                     ''')
+        elif ending_name == "assassin":
+            print('''You dash forward, the dictator calls forth his elite soliders
+hiding between the furniture and walls. All your training and 
+revenge has prepared you for this very moment. You have studied
+the boss's attack patterns and dodge everyone's bullet hell in
+a mere 2 seconds. You stab through the dictator's bullet proof
+and stab proof armor with ease and dash out of there. The soliders
+are speechless and have no leader to follow anymore.
+[Population - 1]
+''')
+             
+        print('''The war is over and the dictator is defeated by your hands.
+There is only a couple countries that will help rebuild. Many
+buildings are destroyed, the economy can be rebuilt and the 
+environment will heal. Nobody is enemies with each other and
+the country is disbanded. 
+[Environment - 100] [Economy - 100] [Welfare - 100]
+[Infrastructure - 100] [Reputation + 0] [Law + 0]
+##############################################################################
+
+Under the rule of nobody, there are no more extremists who want to rule the
+world for themselves. All of the remaining countries banded to help society
+rebuild. The lost souls who were being controlled by the dictator are now 
+freed from his reign.
+                     
+                        Defeated Dictator
+                        [Ending 16 of 16]
+
+Restart for another ending?
+''')
+    elif ending_name == "loyal":
+        print('''You kneel down and the dictator approaches you with an
+award in his hand. You are bestowed the highest medal ever.
+He tells you a story that has been told to nobody.
+
+******************************************************************************
+
+There was once an experiment. An experiment to determine how well a country
+will run if a candidate was specialized on a special sector. 
+They chose a "Good Boy" to represent high amounts of reputation.
+They chose The Educator Elite to represent the development of education. 
+They chose The Technology Innovator to represent the development of infrastructure.
+They chose The Business Tycoon to represent the development of the economy.
+They chose The Avid Environmentalist to represent the environment.
+They chose The Law and Order Advocate to represent the law.
+They chose The People Person to represent public welfare.
+              
+    Who is the People Person? They acknowledged that it is cruel and unfair
+to subject 10000 people to a test experiment to vote for candidates that
+affect various stats. Why are they not in the experiment? They wanted me to
+fake their death and have me replace them, so that I can declare war on the
+countries that will run this experiment over and over again. To stop the
+loop, I will represent "welfare." Why don't I work with the other candidates?
+They don't understand public welfare and do anything it takes to make their
+goals come true. Why do I act like a bad guy? I have to convince the spies to
+"disable their nuclear weapons" and force the other countries to attack me first.
+But enough of that- 
+              
+    Now watch as the final country goes down. Our lost souls won't have to
+go through this ever again. (In this universe at least.)
+                     
+                        Defeated the Loop
+                        [Ending 0 of 16]
+
+DO NOT restart for another ending.
+''')
+        
+    elif ending_name == "nuclear":
+        print('''You call the country to launch the nuclear bomb. The Dictator's
+eyes widen, as if saying, what have you done? The area flashes white
+and the world disappears.
+
+?????????????????????????????????????????????????????????????????????????????????
+                     
+                        Defeated by ???????
+                        [Ending -1 of 16]
+
+An error occured, please restart the simulation for a statisfactory ending...
+''')
+
+
+        
+
 
 def bad_ending(stat_name):
     if stat_name == "confusion":
@@ -1742,7 +2622,8 @@ contracting dieases and illness and starving.
 Law Enforcement is dropping below positive values, the country is plunged into
 chaos. Where crimes are being commited in broad daylight and everyone is living
 for survival of the fittest. Even powerful criminal groups, such as the mafia
-are struggling. The lost souls who wanted order and control of their lives are
+are struggling. Additionally, terrorists groups are terrified to step foot in
+the country. The lost souls who wanted order and control of their lives are
 forced to be anti-social hunters and gatherers.
 
                         Defeated by Lawlessness 
@@ -1825,6 +2706,9 @@ def display_candidates(candidate1, candidate2, candidate3):
 
     print(display_text)
 
+
+def rig_candidates(candidate):
+    return [candidate, candidate, candidate]
 
 # used at the start of the game
 def get_three_random_candidates(candidate_list):
@@ -1912,7 +2796,10 @@ def doElection(current_candidate, candidate_list):
     if year == 1:
         display_list = get_three_random_candidates(candidate_list)
     else:
-        display_list = get_semi_random_candidates(current_candidate, candidate_list)
+        if(current_candidate.id == 6 and len(current_candidate.events) == 5):
+            display_list = rig_candidates(current_candidate)
+        else:
+            display_list = get_semi_random_candidates(current_candidate, candidate_list)
     
     display_candidates(display_list[0], display_list[1], display_list[2])
     votes = candidate_vote(display_list[0], display_list[1], display_list[2])
@@ -1952,14 +2839,21 @@ heart of this moment: choosing a leader.
     game_start = True
     while game_start:
         if year % 3 == 1:
-            leader = doElection(country.current_candidate, candidate_list)
+            if country.current_candidate == -1 or not (country.current_candidate.id == 6 and len(country.current_candidate.events) < 5):
+                leader = doElection(country.current_candidate, candidate_list)
             country.current_candidate = leader
             leader.updateStory(country)
             country.updateCountryFromLeaderStat(leader.stats)
         else:
             print("[YEAR:", year, "]")
             country.printCountryStats()
+            #dictator
+            if(len(leader.events) == 1 and leader.id == 6):
+                country.printSecretStats()
+
             leader.play_event(country)
+
+            
 
             negative_stat = country.check_stat()
             if year > 18:
