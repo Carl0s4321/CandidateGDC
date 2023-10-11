@@ -243,7 +243,7 @@ def initialize_candidates():
                 "education_value":      CANDIDATE_STAT_BASE_VALUE*(-3),
                 "reputation_value":     0,
                 "infrastructure_value": CANDIDATE_STAT_BASE_VALUE,
-                "economy_value":        CANDIDATE_STAT_BASE_VALUE*(4),
+                "economy_value":        CANDIDATE_STAT_BASE_VALUE*(5),
                 "environment_value":    CANDIDATE_STAT_BASE_VALUE*(-2),
                 "welfare_value":        CANDIDATE_STAT_BASE_VALUE*(-1),
                 "law_value":            CANDIDATE_STAT_BASE_VALUE*(2),
@@ -251,7 +251,7 @@ def initialize_candidates():
                 "education_text":       CANDIDATE_STAT_BASE_VALUE*(-3),
                 "reputation_text":      0,
                 "infrastructure_text":  CANDIDATE_STAT_BASE_VALUE,
-                "economy_text":         CANDIDATE_STAT_BASE_VALUE*(4),
+                "economy_text":         CANDIDATE_STAT_BASE_VALUE*(5),
                 "environment_text":     CANDIDATE_STAT_BASE_VALUE*(-2),
                 "welfare_text":         CANDIDATE_STAT_BASE_VALUE*(-1),
                 "law_text":             CANDIDATE_STAT_BASE_VALUE*(2),
@@ -533,7 +533,7 @@ happy. This makes them wanting to work even harder.
             {
                 "education_value":      CANDIDATE_STAT_BASE_VALUE*2,
                 "reputation_value":     CANDIDATE_STAT_BASE_VALUE*(-2),
-                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(4),
+                "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(5),
                 "economy_value":        CANDIDATE_STAT_BASE_VALUE,
                 "environment_value":    CANDIDATE_STAT_BASE_VALUE*(-3),
                 "welfare_value":        CANDIDATE_STAT_BASE_VALUE*(-1),
@@ -541,7 +541,7 @@ happy. This makes them wanting to work even harder.
 
                 "education_text":      CANDIDATE_STAT_BASE_VALUE*2,
                 "reputation_text":     CANDIDATE_STAT_BASE_VALUE*(-2),
-                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*(4),
+                "infrastructure_text": CANDIDATE_STAT_BASE_VALUE*(5),
                 "economy_text":        CANDIDATE_STAT_BASE_VALUE,
                 "environment_text":    CANDIDATE_STAT_BASE_VALUE*(-3),
                 "welfare_text":        CANDIDATE_STAT_BASE_VALUE*(-1),
@@ -625,7 +625,9 @@ the nation into a shining example of what can be achieved through technological
 advancement and forward-thinking policies.
                      
                         Solved Technology!
-                        [Ending 10 of 16]''',
+                        [Ending 10 of 16]
+                                    
+Restart for another ending?''',
                      {"economy": 7, "reputation": 4, "infrastructure": 25, "welfare": 12})
             ],
             # events
@@ -841,7 +843,7 @@ to more immediate and substantial problems.
             ],
             {
                 "education_value":      CANDIDATE_STAT_BASE_VALUE*(-2),
-                "reputation_value":     CANDIDATE_STAT_BASE_VALUE*4,
+                "reputation_value":     CANDIDATE_STAT_BASE_VALUE*5,
                 "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(-1),
                 "economy_value":        CANDIDATE_STAT_BASE_VALUE*(-1),
                 "environment_value":    CANDIDATE_STAT_BASE_VALUE*(-1),
@@ -849,7 +851,7 @@ to more immediate and substantial problems.
                 "law_value":            CANDIDATE_STAT_BASE_VALUE*2,
 
                 "education_text":       CANDIDATE_STAT_BASE_VALUE*(-2),
-                "reputation_text":      CANDIDATE_STAT_BASE_VALUE*4,
+                "reputation_text":      CANDIDATE_STAT_BASE_VALUE*5,
                 "infrastructure_text":  CANDIDATE_STAT_BASE_VALUE*(-1),
                 "economy_text":         CANDIDATE_STAT_BASE_VALUE*(-1),
                 "environment_text":     CANDIDATE_STAT_BASE_VALUE*(-1),
@@ -907,7 +909,9 @@ together, reflecting a model of unity and mutual support for the rest of
 the world to admire.
                      
                         Bark bark!
-                        [Ending 11 of 16]''',
+                        [Ending 11 of 16]    
+                                      
+Restart for another ending?''',
                      {"reputation": 18, "education": 11, "welfare": 12})],
             # events
             [
@@ -1108,7 +1112,7 @@ seen everywhere around the city.
                 r"      /   \      ",
             ],
             {
-                "education_value":      CANDIDATE_STAT_BASE_VALUE*4,
+                "education_value":      CANDIDATE_STAT_BASE_VALUE*5,
                 "reputation_value":     CANDIDATE_STAT_BASE_VALUE,
                 "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*(-2),
                 "economy_value":        CANDIDATE_STAT_BASE_VALUE*(-3),
@@ -1116,7 +1120,7 @@ seen everywhere around the city.
                 "welfare_value":        CANDIDATE_STAT_BASE_VALUE*2,
                 "law_value":            CANDIDATE_STAT_BASE_VALUE*(-1),
 
-                "education_text":       CANDIDATE_STAT_BASE_VALUE*4,
+                "education_text":       CANDIDATE_STAT_BASE_VALUE*5,
                 "reputation_text":      CANDIDATE_STAT_BASE_VALUE,
                 "infrastructure_text":  CANDIDATE_STAT_BASE_VALUE*(-2),
                 "economy_text":         CANDIDATE_STAT_BASE_VALUE*(-3),
@@ -1192,7 +1196,9 @@ fostering a society of empowered individuals. This commitment to education
 results in a prosperous and knowledgeable population.
                      
                         Genius!
-                        [Ending 12 of 16]''',
+                        [Ending 12 of 16]
+                     
+Restart for another ending?''',
                      {"reputation": 18, "education": 11, "welfare": 12})],
             # events
             [
@@ -1394,15 +1400,15 @@ pressing matters at hand, such as building better roads!
                 "economy_value":        CANDIDATE_STAT_BASE_VALUE*(-2),
                 "environment_value": -  CANDIDATE_STAT_BASE_VALUE*(-1),
                 "welfare_value":        CANDIDATE_STAT_BASE_VALUE*(-3),
-                "law_value":            CANDIDATE_STAT_BASE_VALUE*4,
+                "law_value":            CANDIDATE_STAT_BASE_VALUE*5,
 
                 "education_text":       CANDIDATE_STAT_BASE_VALUE,
-                "reputation_text":      "?",
+                "reputation_text":      CANDIDATE_STAT_BASE_VALUE*(-1),
                 "infrastructure_text":  CANDIDATE_STAT_BASE_VALUE*2,
                 "economy_text":         CANDIDATE_STAT_BASE_VALUE*(-2),
                 "environment_text":     CANDIDATE_STAT_BASE_VALUE*(-1),
                 "welfare_text":         CANDIDATE_STAT_BASE_VALUE*(-3),
-                "law_text":             CANDIDATE_STAT_BASE_VALUE*4,
+                "law_text":             CANDIDATE_STAT_BASE_VALUE*5,
             },
             # story on rule
             [['''With the Law and Order Advocate elected as the leader, the 
@@ -1715,7 +1721,7 @@ sign up for.
                 "reputation_value":     CANDIDATE_STAT_BASE_VALUE*(-2),
                 "infrastructure_value": CANDIDATE_STAT_BASE_VALUE*2,
                 "economy_value":        CANDIDATE_STAT_BASE_VALUE*(-3),
-                "environment_value":    CANDIDATE_STAT_BASE_VALUE*4,
+                "environment_value":    CANDIDATE_STAT_BASE_VALUE*5,
                 "welfare_value":        CANDIDATE_STAT_BASE_VALUE,
                 "law_value":            CANDIDATE_STAT_BASE_VALUE*(-1),
 
@@ -1723,7 +1729,7 @@ sign up for.
                 "reputation_text":      CANDIDATE_STAT_BASE_VALUE*(-2),
                 "infrastructure_text":  CANDIDATE_STAT_BASE_VALUE*2,
                 "economy_text":         CANDIDATE_STAT_BASE_VALUE*(-3),
-                "environment_text":     CANDIDATE_STAT_BASE_VALUE*4,
+                "environment_text":     CANDIDATE_STAT_BASE_VALUE*5,
                 "welfare_text":         CANDIDATE_STAT_BASE_VALUE,
                 "law_text":             CANDIDATE_STAT_BASE_VALUE*(-1),
             },
@@ -2319,8 +2325,8 @@ are playing a game about electing, ironic.
                         "2": [
                             "2) Anything works for me at this point.",
                             '''If you have been through hell, then this is expected.
-[Reputation - 25] [Law Enforcement + 50] [??? + 1] [??? + 1] [??? + 1]''',
-                            {"progress":0, "reputation":-25,"law":50,"suspicion":1,"motive":1,"spy":1},
+[Reputation - 25] [Law Enforcement + 50]''',
+                            {"progress":0, "reputation":-25,"law":50},
                             ],
                         "3": [
                             "3) Riot",
@@ -2896,7 +2902,7 @@ heart of this moment: choosing a leader.
 
 
             negative_stat = country.check_stat()
-            
+
             if leader.check_goal():
                 game_start = False
             elif year > 18:
